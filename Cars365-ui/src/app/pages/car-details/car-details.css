@@ -1,0 +1,129 @@
+.car-details-page {
+  margin-top: 20px;
+}
+
+/* Image section */
+.image-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+}
+
+.car-hero-img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+}
+
+/* Trust badge */
+.trust-badge {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  background: linear-gradient(90deg, #0d6efd, #6610f2);
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+/* Right card */
+.details-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+.car-title {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+/* Price */
+.price-box {
+  font-size: 26px;
+  font-weight: 700;
+  color: #198754;
+}
+
+/* Specs */
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.spec-item {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.spec-item i {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 6px;
+  color: #0d6efd;
+}
+
+/* Description */
+.description-box h6 {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.description-box p {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+/* Buttons */
+.action-buttons button {
+  border-radius: 10px;
+}
+.emi-box {
+  font-size: 14px;
+  color: #495057;
+  margin-bottom: 16px;
+}
+.sticky-price-card {
+  position: sticky;
+  top: 20px;
+  z-index: 10;
+  background: #fff;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+}
+.why-buy-card {
+  background: #f8f9fa;
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.why-buy-card h6 {
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.why-buy-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.why-buy-card li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.why-buy-card i {
+  color: #0d6efd;
+  font-size: 16px;
+}

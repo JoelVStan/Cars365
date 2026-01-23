@@ -1,0 +1,77 @@
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+
+        <h4 class="mb-4">
+          <i class="bi bi-person-circle"></i> My Profile
+        </h4>
+
+        <!-- EMAIL -->
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            [value]="email"
+            disabled
+          />
+        </div>
+
+        <!-- TOGGLE BUTTON -->
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-sm mb-3"
+          (click)="toggleChangePassword()"
+        >
+          <i class="bi bi-key"></i>
+          {{ showChangePassword ? 'Cancel Password Change' : 'Change Password' }}
+        </button>
+
+        <!-- MESSAGES -->
+        @if (message) {
+          <div class="alert alert-success">{{ message }}</div>
+        }
+
+        @if (error) {
+          <div class="alert alert-danger">{{ error }}</div>
+        }
+
+        <!-- CHANGE PASSWORD FORM -->
+        @if (showChangePassword) {
+          <form
+            [formGroup]="passwordForm"
+            (ngSubmit)="changePassword()"
+          >
+
+            <div class="mb-3">
+              <label class="form-label">Current Password</label>
+              <input
+                type="password"
+                class="form-control"
+                formControlName="currentPassword"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">New Password</label>
+              <input
+                type="password"
+                class="form-control"
+                formControlName="newPassword"
+              />
+            </div>
+
+            <button class="btn btn-primary w-100">
+              Update Password
+            </button>
+
+          </form>
+        }
+
+      </div>
+    </div>
+
+  </div>
+</div>

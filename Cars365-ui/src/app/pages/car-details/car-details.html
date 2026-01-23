@@ -1,0 +1,134 @@
+@if (loading) {
+  <div class="text-center mt-5">
+    <div class="spinner-border text-primary"></div>
+  </div>
+}
+
+@if (!loading && car) {
+  <div class="car-details-page">
+
+    <div class="row g-4">
+
+      <!-- LEFT: IMAGE + BADGES -->
+      <div class="col-lg-7">
+
+        <div class="image-card position-relative">
+          <img
+            [src]="car.imageUrl"
+            class="img-fluid car-hero-img"
+            alt="Car image"
+          />
+
+          <!-- Trust badge -->
+          <span class="badge trust-badge">
+            Cars365 Guaranteed
+          </span>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: DETAILS -->
+      <div class="col-lg-5">
+
+        <div class="details-card">
+
+          <!-- Title -->
+          <h3 class="car-title">
+            {{ car.year }} {{ car.brand }} {{ car.model }}
+          </h3>
+
+          <p class="text-muted mb-3">
+            {{ car.type }}
+          </p>
+
+            <div class="sticky-price-card">
+
+                <div class="price-box mb-2">
+                    ₹ {{ formatPriceToLakhs(car.price) }}
+                </div>
+
+                @if (car.price > 300000) {
+                <div class="emi-box">
+                    EMI starts at
+                    <strong>
+                    ₹ {{ calculateEmi(car.price) | number }}
+                    </strong>
+                    / month*
+                </div>
+                }
+
+            </div>
+
+
+          <!-- Specs -->
+          <div class="spec-grid mb-4">
+            <div class="spec-item">
+              <i class="bi bi-fuel-pump"></i>
+              <span>{{ car.fuelType }}</span>
+            </div>
+
+            <div class="spec-item">
+              <i class="bi bi-gear"></i>
+              <span>{{ car.transmission }}</span>
+            </div>
+
+            <div class="spec-item">
+              <i class="bi bi-car-front"></i>
+              <span>{{ car.type }}</span>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="description-box mb-4">
+            <h6>About the vehicle</h6>
+            <p>
+              {{ car.description || 'Well maintained car with a smooth driving experience.' }}
+            </p>
+          </div>
+
+          <!-- WHY BUY -->
+            <div class="why-buy-card mt-4">
+            <h6>Why buy from Cars365?</h6>
+
+            <ul>
+                <li>
+                <i class="bi bi-shield-check"></i>
+                Verified & quality-checked cars
+                </li>
+                <li>
+                <i class="bi bi-currency-rupee"></i>
+                Transparent pricing & no hidden charges
+                </li>
+                <li>
+                <i class="bi bi-arrow-repeat"></i>
+                Hassle-free ownership transfer
+                </li>
+                <li>
+                <i class="bi bi-headset"></i>
+                Dedicated customer support
+                </li>
+            </ul>
+            </div>
+
+
+          <!-- Actions -->
+          <div class="action-buttons">
+            <button class="btn btn-dark w-100 mb-2">
+              Contact Seller
+            </button>
+
+            <button
+              class="btn btn-outline-secondary w-100"
+              routerLink="/cars"
+            >
+              ← Back to Cars
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+}

@@ -1,0 +1,181 @@
+.add-car-wrapper {
+  max-width: 900px;
+  margin: auto;
+}
+
+.add-car-header {
+  margin-bottom: 20px;
+}
+
+.add-car-card {
+  background: linear-gradient(180deg, #ffffff, #f8f9fa);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+/* Image Upload */
+.image-upload-box {
+  border: 2px dashed #dee2e6;
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+  margin-bottom: 25px;
+  position: relative;
+  background: #fafafa;
+}
+
+.upload-placeholder {
+  cursor: pointer;
+}
+
+.upload-placeholder i {
+  font-size: 32px;
+  color: #0d6efd;
+}
+
+.upload-placeholder span {
+  display: block;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.upload-placeholder input {
+  display: none;
+}
+
+/* Image Preview */
+.image-preview-wrapper {
+  position: relative;
+}
+
+.image-preview-wrapper img {
+  max-height: 380px;
+  border-radius: 14px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #dc3545;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+}
+
+/* Sections */
+.form-section {
+  margin-bottom: 25px;
+}
+
+.form-section h5 {
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+/* Inputs */
+.fancy-input {
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.price-box {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+}
+
+.price-box span {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.price-input {
+  border: none;
+  border-bottom: 2px solid #0d6efd;
+  outline: none;
+  font-size: 20px;
+  width: 100%;
+}
+
+/* Submit */
+.publish-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(90deg, #0d6efd, #6610f2);
+  color: white;
+}
+.year-input {
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.price-preview {
+  margin-top: 6px;
+  margin-left: 24px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #198754; /* bootstrap green */
+}
+
+.form-section h5 button {
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.stepper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.step {
+  text-align: center;
+  flex: 1;
+  position: relative;
+}
+
+.step span {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #dee2e6;
+  color: #6c757d;
+  font-weight: 600;
+}
+
+.step.active span {
+  background: linear-gradient(90deg, #0d6efd, #6610f2);
+  color: white;
+}
+
+.step label {
+  display: block;
+  font-size: 12px;
+  margin-top: 6px;
+  color: #6c757d;
+}
+
+.step.active label {
+  color: #0d6efd;
+}
+
+.step-actions {
+  display: flex;
+  gap: 12px;
+}
+
+

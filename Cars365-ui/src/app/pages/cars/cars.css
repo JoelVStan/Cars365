@@ -1,0 +1,144 @@
+.car-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 12px;
+}
+
+.car-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-top {
+  height: 220px;
+  object-fit: cover;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+/* Small pill badges */
+.badge.rounded-pill {
+  font-size: 12px;
+  padding: 6px 12px;
+}
+
+/* Skeleton base */
+.skeleton-card {
+  overflow: hidden;
+}
+
+.skeleton-image {
+  height: 220px;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e6e6e6 37%,
+    #f0f0f0 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.skeleton-text {
+  height: 16px;
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e6e6e6 37%,
+    #f0f0f0 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+.skeleton-text.title {
+  width: 60%;
+}
+
+.skeleton-text.price {
+  width: 25%;
+}
+
+.skeleton-pill {
+  width: 70px;
+  height: 22px;
+  border-radius: 50px;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e6e6e6 37%,
+    #f0f0f0 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+.skeleton-button {
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e6e6e6 37%,
+    #f0f0f0 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.filter-bar {
+  padding: 16px;
+  border-radius: 16px;
+}
+
+/* Primary row */
+.filter-row-primary .form-select,
+.filter-row-primary .form-control {
+  height: 44px;
+}
+
+/* Search box */
+.search-box {
+  position: relative;
+}
+
+.search-box i {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  color: #6c757d;
+}
+
+.search-box input {
+  padding-left: 40px;
+  border-radius: 24px;
+}
+
+/* Secondary row */
+.filter-row-secondary .form-select {
+  border-radius: 12px;
+}
+
+.filter-row-secondary label {
+  font-weight: 600;
+}
+
+/* Clear button */
+.filter-row-secondary button {
+  border-radius: 20px;
+}
+
+

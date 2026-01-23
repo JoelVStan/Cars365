@@ -1,0 +1,57 @@
+<div class="row justify-content-center">
+  <div class="col-md-5 col-lg-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+
+        <h4 class="text-center mb-4">
+          <i class="bi bi-person-plus"></i> Register
+        </h4>
+
+        @if (errorMessage) {
+          <div class="alert alert-danger">
+            {{ errorMessage }}
+          </div>
+        }
+
+        @if (successMessage) {
+          <div class="alert alert-success">
+            {{ successMessage }}
+          </div>
+        }
+
+        <form [formGroup]="registerForm" (ngSubmit)="submit()">
+
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              formControlName="email"
+              placeholder="user@cars365.com"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="password"
+              placeholder="Minimum 6 characters"
+            />
+          </div>
+
+          <button class="btn btn-dark w-100">
+            <i class="bi bi-person-check"></i> Register
+          </button>
+
+        </form>
+        <div class="text-center mt-3">
+          <span class="text-muted">Already have an account?</span>
+          <a routerLink="/login" class="fw-semibold ms-1">Login</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

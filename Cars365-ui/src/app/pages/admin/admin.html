@@ -1,0 +1,217 @@
+<div class="add-car-wrapper">
+
+  <!-- Header -->
+  <div class="add-car-header">
+    <h3>
+      <i class="bi" [class.bi-pencil]="isEditMode" [class.bi-car-front-fill]="!isEditMode"></i> {{ isEditMode ? 'Edit Car Listing' : 'Create Car Listing' }}
+    </h3>
+    <p class="text-muted">Add a premium used car to Cars365 inventory</p>
+  </div>
+
+  <!-- STEPPER -->
+  <div class="stepper mb-4">
+    <div class="step" [class.active]="currentStep >= 1">
+      <span>1</span>
+      <label>Basics</label>
+    </div>
+    <div class="step" [class.active]="currentStep >= 2">
+      <span>2</span>
+      <label>Specs</label>
+    </div>
+    <div class="step" [class.active]="currentStep >= 3">
+      <span>3</span>
+      <label>Publish</label>
+    </div>
+  </div>
+
+
+  <form
+    [formGroup]="carForm"
+    (ngSubmit)="submit()"
+    class="add-car-card"
+  >
+    @if (currentStep === 1) {
+      <!-- IMAGE UPLOAD HERO -->
+      <div class="image-upload-box">
+
+        @if (!imagePreview && !isImageLoading) {
+          <label class="upload-placeholder">
+            <i class="bi bi-cloud-arrow-up"></i>
+            <span>Upload Car Image</span>
+            <small>JPEG / PNG</small>
+
+            <input
+              #fileInput
+              type="file"
+              accept="image/*"
+              (change)="onImageSelected($event)"
+            />
+          </label>
+        }
+
+        @if (isImageLoading) {
+          <div class="image-loading">
+            <div class="spinner-border text-primary"></div>
+            <p>Processing image...</p>
+          </div>
+        }
+
+        @if (imagePreview && !isImageLoading) {
+          <div class="image-preview-wrapper">
+            <img [src]="imagePreview" />
+            <button
+              type="button"
+              class="remove-image-btn"
+              (click)="removeImage()"
+            >
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+        }
+
+      </div>
+
+      <!-- CAR BASICS -->
+      <div class="form-section">
+        <h5>Car Basics</h5>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <input
+              class="form-control fancy-input"
+              placeholder="Brand"
+              formControlName="brand"
+            >
+          </div>
+
+          <div class="col-md-4">
+            <input
+              class="form-control fancy-input"
+              placeholder="Model"
+              formControlName="model"
+            >
+          </div>
+
+          <div class="col-md-4">
+            <input
+              type="number"
+              class="form-control fancy-input year-input"
+              placeholder="Year"
+              formControlName="year"
+              min="1990"
+              max="2099"
+            >
+          </div>
+        </div>
+      </div>
+    }
+    @if (currentStep === 2) {
+      <!-- SPECS -->
+      <div class="form-section">
+        <h5>Specifications</h5>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <select class="form-select fancy-input" formControlName="type">
+              <option value="">Car Type</option>
+              @for (type of carTypes; track type) {
+                <option [value]="type">{{ type }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <select class="form-select fancy-input" formControlName="fuelType">
+              <option value="">Fuel</option>
+              @for (fuel of fuelTypes; track fuel) {
+                <option [value]="fuel">{{ fuel }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <select class="form-select fancy-input" formControlName="transmission">
+              <option value="">Transmission</option>
+              @for (t of transmissions; track t) {
+                <option [value]="t">{{ t }}</option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRICE -->
+      <div class="form-section">
+        <h5>Pricing</h5>
+
+        <div class="price-box">
+          <span>₹</span>
+          <input
+            type="number"
+            class="price-input"
+            placeholder="Enter price"
+            formControlName="price"
+          />
+        </div>
+
+        <!-- Live formatted price -->
+        @if (carForm.get('price')?.value) {
+          <div class="price-preview">
+            {{ formatPriceToLakhs(carForm.get('price')?.value) }}
+          </div>
+        }
+      </div>
+
+    }
+
+    @if (currentStep === 3) {
+          <!-- DESCRIPTION -->
+      <div class="form-section">
+        <h5>
+          Description
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-primary ms-2"
+            (click)="generateDescription()"
+          >
+            ✨ Generate
+          </button>
+        </h5>
+
+        <textarea
+          class="form-control fancy-input"
+          rows="3"
+          placeholder="Condition, ownership, highlights..."
+          formControlName="description"
+        ></textarea>
+      </div>
+
+
+      <!-- SUBMIT -->
+      <button class="publish-btn">
+        <i class="bi bi-check-circle"></i> Publish Car
+      </button>
+    }
+    
+    <div class="step-actions mt-4">
+    @if (currentStep > 1) {
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="prevStep()"
+      >
+        ← Back
+      </button>
+    }
+
+    @if (currentStep < 3) {
+      <button
+        type="button"
+        class="btn btn-primary ms-auto"
+        (click)="nextStep()"
+      >
+        Next →
+      </button>
+    }
+  </div>
+
+  </form>
+</div>
