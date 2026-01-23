@@ -161,3 +161,5 @@ C:\Users\joelk\Documents\My Projects\Cars365\Cars365.API\Cars365.API\bin\Debug\n
 C:\Users\joelk\Documents\My Projects\Cars365\Cars365.API\Cars365.API\bin\Debug\net10.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\joelk\Documents\My Projects\Cars365\Cars365.API\Cars365.API\bin\Debug\net10.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\joelk\Documents\My Projects\Cars365\Cars365.API\Cars365.API\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\joelk\Documents\My Projects\Cars365\Cars365.API\Cars365.API\obj\Debug\net10.0\Cars365.API.sourcelink.json
+C:\Users\joelk\Documents\My Projects\Cars365\Cars365.API\Cars365.API\bin\Debug\net10.0\Cars365.API.staticwebassets.runtime.json

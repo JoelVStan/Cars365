@@ -1,4 +1,5 @@
 ﻿using Cars365.API.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -46,7 +47,7 @@ namespace Cars365.API.Controllers
             // Assign User role
             await _userManager.AddToRoleAsync(user, "User");
 
-            return Ok("User registered successfully");
+            return Ok(new { message = "User registered successfully" });
         }
 
         // ---------------- LOGIN ----------------
@@ -70,6 +71,29 @@ namespace Cars365.API.Controllers
                 token
             });
         }
+
+        [Authorize]
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDto dto)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return Unauthorized();
+
+            var result = await _userManager.ChangePasswordAsync(
+                user,
+                dto.CurrentPassword,
+                dto.NewPassword
+            );
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors.Select(e => e.Description));
+            }
+
+            return Ok(new { message = "Password changed successfully" });
+        }
+
 
         // ---------------- JWT TOKEN ----------------
         private string GenerateJwtToken(IdentityUser user, IList<string> roles)

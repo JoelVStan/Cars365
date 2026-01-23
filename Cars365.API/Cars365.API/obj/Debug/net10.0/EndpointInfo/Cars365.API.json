@@ -67,6 +67,49 @@
         }
       }
     },
+    "/api/Auth/change-password": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Cars/dashboard-stats": {
+      "get": {
+        "tags": [
+          "Cars"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Cars": {
       "get": {
         "tags": [
@@ -84,19 +127,91 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/CreateCarDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCarDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCarDto"
+                "required": [
+                  "Brand",
+                  "FuelType",
+                  "Model",
+                  "Transmission",
+                  "Type"
+                ],
+                "type": "object",
+                "properties": {
+                  "Brand": {
+                    "maxLength": 50,
+                    "type": "string"
+                  },
+                  "Model": {
+                    "maxLength": 50,
+                    "type": "string"
+                  },
+                  "Type": {
+                    "maxLength": 30,
+                    "type": "string"
+                  },
+                  "Year": {
+                    "maximum": 2100,
+                    "minimum": 1990,
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "FuelType": {
+                    "type": "string"
+                  },
+                  "Transmission": {
+                    "type": "string"
+                  },
+                  "Price": {
+                    "maximum": 1.7976931348623157E+308,
+                    "minimum": 1,
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "Description": {
+                    "maxLength": 500,
+                    "type": "string"
+                  },
+                  "Image": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "IsActive": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "encoding": {
+                "Brand": {
+                  "style": "form"
+                },
+                "Model": {
+                  "style": "form"
+                },
+                "Type": {
+                  "style": "form"
+                },
+                "Year": {
+                  "style": "form"
+                },
+                "FuelType": {
+                  "style": "form"
+                },
+                "Transmission": {
+                  "style": "form"
+                },
+                "Price": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Image": {
+                  "style": "form"
+                },
+                "IsActive": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -147,19 +262,91 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/Car"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Car"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Car"
+                "required": [
+                  "Brand",
+                  "FuelType",
+                  "Model",
+                  "Transmission",
+                  "Type"
+                ],
+                "type": "object",
+                "properties": {
+                  "Brand": {
+                    "maxLength": 50,
+                    "type": "string"
+                  },
+                  "Model": {
+                    "maxLength": 50,
+                    "type": "string"
+                  },
+                  "Type": {
+                    "maxLength": 30,
+                    "type": "string"
+                  },
+                  "Year": {
+                    "maximum": 2100,
+                    "minimum": 1990,
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "FuelType": {
+                    "type": "string"
+                  },
+                  "Transmission": {
+                    "type": "string"
+                  },
+                  "Price": {
+                    "maximum": 1.7976931348623157E+308,
+                    "minimum": 1,
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "Description": {
+                    "maxLength": 500,
+                    "type": "string"
+                  },
+                  "Image": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "IsActive": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "encoding": {
+                "Brand": {
+                  "style": "form"
+                },
+                "Model": {
+                  "style": "form"
+                },
+                "Type": {
+                  "style": "form"
+                },
+                "Year": {
+                  "style": "form"
+                },
+                "FuelType": {
+                  "style": "form"
+                },
+                "Transmission": {
+                  "style": "form"
+                },
+                "Price": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Image": {
+                  "style": "form"
+                },
+                "IsActive": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -195,124 +382,16 @@
   },
   "components": {
     "schemas": {
-      "Car": {
-        "required": [
-          "brand",
-          "model",
-          "type"
-        ],
+      "ChangePasswordDto": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "brand": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "model": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "type": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "year": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "fuelType": {
+          "currentPassword": {
             "type": "string",
             "nullable": true
           },
-          "transmission": {
+          "newPassword": {
             "type": "string",
             "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "imageUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "isActive": {
-            "type": "boolean"
-          },
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CreateCarDto": {
-        "required": [
-          "brand",
-          "fuelType",
-          "model",
-          "transmission",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "brand": {
-            "maxLength": 50,
-            "minLength": 1,
-            "type": "string"
-          },
-          "model": {
-            "maxLength": 50,
-            "minLength": 1,
-            "type": "string"
-          },
-          "type": {
-            "maxLength": 30,
-            "minLength": 1,
-            "type": "string"
-          },
-          "year": {
-            "maximum": 2100,
-            "minimum": 1990,
-            "type": "integer",
-            "format": "int32"
-          },
-          "fuelType": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "transmission": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "price": {
-            "maximum": 1.7976931348623157E+308,
-            "minimum": 1,
-            "type": "number",
-            "format": "double"
-          },
-          "description": {
-            "maxLength": 500,
-            "type": "string",
-            "nullable": true
-          },
-          "imageUrl": {
-            "type": "string",
-            "format": "uri",
-            "nullable": true
-          },
-          "isActive": {
-            "type": "boolean"
           }
         },
         "additionalProperties": false

@@ -31,8 +31,7 @@ namespace Cars365.API.DTOs
         [MaxLength(500)]
         public string? Description { get; set; }
 
-        [Url]
-        public string? ImageUrl { get; set; }
+        public IFormFile? Image { get; set; } = null!;
 
         public bool IsActive { get; set; } = true;
     }
