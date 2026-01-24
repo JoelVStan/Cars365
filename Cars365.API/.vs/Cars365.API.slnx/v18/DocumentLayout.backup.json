@@ -22,8 +22,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -34,8 +38,7 @@
               "RelativeToolTip": "Cars365.API\\Controllers\\AuthController.cs",
               "ViewState": "AgIAAEMAAAAAAAAAAAAYwFMAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-22T05:52:36.867Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-22T05:52:36.867Z"
             },
             {
               "$type": "Document",
@@ -47,8 +50,7 @@
               "RelativeToolTip": "Cars365.API\\Program.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAAEEAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-21T06:08:21.316Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-21T06:08:21.316Z"
             },
             {
               "$type": "Document",
@@ -58,7 +60,7 @@
               "RelativeDocumentMoniker": "Cars365.API\\Controllers\\CarsController.cs",
               "ToolTip": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Controllers\\CarsController.cs",
               "RelativeToolTip": "Cars365.API\\Controllers\\CarsController.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAwCYAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAswBMAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-21T06:07:19.622Z",
               "EditorCaption": ""

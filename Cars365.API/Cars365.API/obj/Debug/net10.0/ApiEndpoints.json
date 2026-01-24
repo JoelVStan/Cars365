@@ -218,6 +218,32 @@
   },
   {
     "ContainingType": "Cars365.API.Controllers.CarsController",
+    "Method": "ToggleCarActive",
+    "RelativePath": "api/Cars/{id}/toggle-active",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cars365.API.Controllers.CarsController",
+    "Method": "GetAllCarsForAdmin",
+    "RelativePath": "api/Cars/admin",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cars365.API.Controllers.CarsController",
     "Method": "GetDashboardStats",
     "RelativePath": "api/Cars/dashboard-stats",
     "HttpMethod": "GET",

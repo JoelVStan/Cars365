@@ -43,3 +43,57 @@
 
   </div>
 }
+
+<hr class="my-4" />
+
+<h5 class="mb-3">Manage Cars</h5>
+
+<table class="table table-hover align-middle">
+  <thead>
+    <tr>
+      <th>Car</th>
+      <th>Price</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    @for (car of cars; track car.id) {
+      <tr>
+        <td>
+          {{ car.brand }} {{ car.model }} ({{ car.year }})
+        </td>
+
+        <td>
+          ₹ {{ (car.price / 100000).toFixed(2) }} L
+        </td>
+
+        <td>
+          @if (car.isActive) {
+            <span class="badge bg-success">Active</span>
+          } @else {
+            <span class="badge bg-secondary">Hidden</span>
+          }
+        </td>
+
+        <td>
+          <button
+            class="btn btn-sm"
+            [class.btn-outline-danger]="car.isActive"
+            [class.btn-outline-success]="!car.isActive"
+            (click)="toggleActive(car)"
+          >
+            <i
+              class="bi"
+              [class.bi-eye-slash]="car.isActive"
+              [class.bi-eye]="!car.isActive"
+            ></i>
+            {{ car.isActive ? 'Hide' : 'Unhide' }}
+          </button>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+

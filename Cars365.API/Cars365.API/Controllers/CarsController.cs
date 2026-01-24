@@ -25,9 +25,9 @@ namespace Cars365.API.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetDashboardStats()
         {
-            var totalCars = await _context.Cars.CountAsync();
-            var activeCars = await _context.Cars.CountAsync(c => c.IsActive);
-            var inactiveCars = await _context.Cars.CountAsync(c => !c.IsActive);
+            var totalCars = await _context.Cars.CountAsync(c => !c.IsDeleted);
+            var activeCars = await _context.Cars.CountAsync(c => !c.IsDeleted && c.IsActive);
+            var inactiveCars = await _context.Cars.CountAsync(c => !c.IsDeleted && !c.IsActive);
 
             return Ok(new
             {
@@ -169,6 +169,39 @@ namespace Cars365.API.Controllers
 
             return Ok("Car deleted successfully");
         }
+
+        [HttpPatch("{id}/toggle-active")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ToggleCarActive(int id)
+        {
+            var car = await _context.Cars.FindAsync(id);
+
+            if (car == null)
+                return NotFound();
+
+            car.IsActive = !car.IsActive;
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                car.Id,
+                car.IsActive
+            });
+        }
+
+        [HttpGet("admin")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllCarsForAdmin()
+        {
+            var cars = await _context.Cars
+                .Where(c => !c.IsDeleted) // 👈 IMPORTANT
+                .OrderByDescending(c => c.CreatedAt)
+                .ToListAsync();
+
+            return Ok(cars);
+        }
+
+
 
     }
 }

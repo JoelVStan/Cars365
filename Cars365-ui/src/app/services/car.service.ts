@@ -34,5 +34,17 @@ export class CarsService {
     return this.http.get<any>(`${this.apiUrl}/dashboard-stats`);
   }
 
+  toggleCarActive(id: number) {
+    return this.http.patch(
+      `${this.apiUrl}/${id}/toggle-active`,
+      {}
+    );
+  }
+
+  getAllCarsForAdmin() {
+    return this.http.get<any[]>(`${this.apiUrl}/admin`);
+  }
+
+
 
 }

@@ -15,7 +15,16 @@ export class AdminDashboard {
 
   constructor(private carsService: CarsService) {}
 
+  cars: any[] = [];
+
   ngOnInit(): void {
+    this.loadStats();
+    this.loadCars();
+  }
+
+  loadStats() {
+    this.loading = true;
+
     this.carsService.getDashboardStats().subscribe({
       next: (res) => {
         this.stats = res;
@@ -26,4 +35,25 @@ export class AdminDashboard {
       }
     });
   }
+
+  loadCars() {
+    this.carsService.getAllCarsForAdmin().subscribe({
+      next: (res) => {
+        this.cars = res;
+      },
+      error: () => {}
+    });
+  }
+
+
+
+  toggleActive(car: any) {
+    this.carsService.toggleCarActive(car.id).subscribe(() => {
+      car.isActive = !car.isActive;
+      this.loadStats(); // refresh counts
+    });
+  }
+
+
+
 }
