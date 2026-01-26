@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Cars365.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3dd7fb7d9fc9a203b4107928e27d4adfb51deda5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+14e0310054b78acb13c39899f6e4fee0d21684d9")]
 [assembly: System.Reflection.AssemblyProductAttribute("Cars365.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Cars365.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

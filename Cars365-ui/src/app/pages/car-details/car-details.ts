@@ -13,6 +13,9 @@ export class CarDetails {
 
   car: any;
   loading = true;
+  selectedImage: string | null = null;
+  galleryImages: any[] = [];
+  currentIndex = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,25 +24,67 @@ export class CarDetails {
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+    const idSlug = this.route.snapshot.paramMap.get('idSlug');
 
-    if (!id) {
+    if (!idSlug) {
+      this.router.navigate(['/cars']);
+      return;
+    }
+
+    const id = Number(idSlug.split('-')[0]);
+
+    if (isNaN(id)) {
       this.router.navigate(['/cars']);
       return;
     }
 
     this.carsService.getCarById(+id).subscribe({
       next: (res) => {
+        const baseUrl = 'https://localhost:7193';
+        const fallbackImage =
+          res.imageUrl
+            ? `${baseUrl}${res.imageUrl}?t=${Date.now()}`
+            : 'https://via.placeholder.com/800x500?text=No+Image';
+
+        this.galleryImages = (res.images && res.images.length > 0)
+          ? [...res.images]
+              .sort((a: any, b: any) => a.sortOrder - b.sortOrder)
+              .map((img: any) => ({
+                ...img,
+                fullUrl: `${baseUrl}${img.imageUrl}?t=${Date.now()}`
+              }))
+          : [];
+
+        // ✅ Selected image logic (bulletproof)
+        if (this.galleryImages.length > 0) {
+          this.selectedImage =
+            this.galleryImages.find(i => i.isPrimary)?.fullUrl ||
+            this.galleryImages[0].fullUrl;
+        } else {
+          // 🔹 Fallback to main image
+          this.selectedImage = fallbackImage;
+        }
+
+        this.currentIndex = this.galleryImages.findIndex(
+          i => i.fullUrl === this.selectedImage
+        );
+
+        // Safety
+        if (this.currentIndex === -1) {
+          this.currentIndex = 0;
+        }
+
         this.car = {
-          ...res,
-          imageUrl: `https://localhost:7193${res.imageUrl}?t=${Date.now()}`
+          ...res
         };
+
         this.loading = false;
       },
       error: () => {
         this.router.navigate(['/cars']);
       }
     });
+    
   }
 
   formatPriceToLakhs(price: number): string {
@@ -58,5 +103,42 @@ export class CarDetails {
 
     return Math.round(emi);
   }
+
+  getOwnershipSuffix(value: number): string {
+    if (value === 1) return 'st';
+    if (value === 2) return 'nd';
+    if (value === 3) return 'rd';
+    return 'th';
+  }
+
+  insuranceDisplay(insuranceTill: any): string {
+    if (!insuranceTill) return 'Expired';
+
+    const d = new Date(insuranceTill);
+    if (isNaN(d.getTime())) return 'Expired';
+
+    const now = new Date();
+    if (d < now) return 'Expired';
+
+    return new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric' }).format(d);
+  }
+
+  selectImage(index: number) {
+    this.currentIndex = index;
+    this.selectedImage = this.galleryImages[index].fullUrl;
+  }
+
+  prevImage() {
+    if (this.currentIndex > 0) {
+      this.selectImage(this.currentIndex - 1);
+    }
+  }
+
+  nextImage() {
+    if (this.currentIndex < this.galleryImages.length - 1) {
+      this.selectImage(this.currentIndex + 1);
+    }
+  }
+
 
 }

@@ -13,6 +13,7 @@ namespace Cars365.API.Data
 
         public DbSet<Car> Cars => Set<Car>();
         public DbSet<Wishlist> Wishlists => Set<Wishlist>();
+        public DbSet<CarImage> CarImages => Set<CarImage>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -21,6 +22,12 @@ namespace Cars365.API.Data
             builder.Entity<Wishlist>()
                 .HasIndex(w => new { w.UserId, w.CarId })
                 .IsUnique();
+
+            builder.Entity<CarImage>()
+                .HasOne(ci => ci.Car)
+                .WithMany(c => c.Images)
+                .HasForeignKey(ci => ci.CarId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

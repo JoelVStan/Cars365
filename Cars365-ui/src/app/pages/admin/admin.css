@@ -177,5 +177,116 @@
   display: flex;
   gap: 12px;
 }
+.gallery-upload-box {
+  border: 2px dashed #dee2e6;
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  background: #fafafa;
+}
+
+.gallery-upload-box i {
+  font-size: 28px;
+  color: #0d6efd;
+}
+
+.gallery-upload-box span {
+  display: block;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.gallery-upload-box input {
+  display: none;
+}
+
+.gallery-preview {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.gallery-preview img {
+  width: 90px;
+  height: 65px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #dee2e6;
+}
+
+.admin-gallery {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-thumb {
+  position: relative;
+  width: 100px;
+  height: 70px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid #dee2e6;
+  cursor: move;
+  background: #fff;
+}
+
+.admin-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.order-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: #0d6efd;
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 12px;
+}
+.thumb-actions {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  display: flex;
+  gap: 6px;
+}
+
+.btn-icon {
+  border: none;
+  background: rgba(0,0,0,0.65);
+  color: white;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.btn-icon.star.active {
+  background: #ffc107;
+  color: #000;
+}
+
+.btn-icon.delete {
+  background: #dc3545;
+}
+
+.primary-badge {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: #ffc107;
+  color: #000;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 12px;
+}
 
 

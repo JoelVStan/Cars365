@@ -3,10 +3,11 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CarsService } from '../../services/car.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
+import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-admin',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,DragDropModule],
   templateUrl: './admin.html',
   styleUrl: './admin.css',
 })
@@ -19,6 +20,11 @@ export class Admin {
   imagePreview: string | null = null;
   isImageLoading = false;
   hasExistingImage = false;
+
+  galleryFiles: File[] = [];
+  galleryPreviews: string[] = [];
+  isGalleryUploading = false;
+  existingImages: any[] = [];
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
@@ -50,8 +56,19 @@ export class Admin {
       model: ['', Validators.required],
       type: ['', Validators.required],
       year: ['', [Validators.required, Validators.min(1990)]],
+
       fuelType: ['', Validators.required],
       transmission: ['', Validators.required],
+
+      // 🔹 NEW FIELDS
+      kmsDriven: [0, Validators.required],
+      ownership: [1, Validators.required],
+      registrationCode: ['', Validators.required],
+      registrationYear: ['', Validators.required],
+      engineCC: ['', Validators.required],
+      insuranceTill: [''],
+      hasSpareKey: ['', Validators.required],
+
       price: ['', [Validators.required, Validators.min(10000)]],
       description: ['']
     });
@@ -67,6 +84,22 @@ export class Admin {
     }
   }
 
+  onReorder(event: CdkDragDrop<any[]>) {
+    moveItemInArray(
+      this.existingImages,
+      event.previousIndex,
+      event.currentIndex
+    );
+
+    const orderedIds = this.existingImages.map(img => img.id);
+
+    this.carsService
+      .reorderCarImages(this.carId!, orderedIds)
+      .subscribe(() => {
+        this.toast.success('Image order updated');
+      });
+  }
+
   loadCarForEdit(id: number) {
     this.carsService.getCarById(id).subscribe(car => {
 
@@ -78,13 +111,31 @@ export class Admin {
         fuelType: car.fuelType,
         transmission: car.transmission,
         price: car.price,
-        description: car.description
+        description: car.description,
+        kmsDriven: car.kmsDriven,
+        ownership: car.ownership,
+        registrationCode: car.registrationCode,
+        registrationYear: car.registrationYear?.substring(0, 7),
+        engineCC: car.engineCC,
+        insuranceTill: car.insuranceTill?.substring(0, 7),
+        hasSpareKey: car.hasSpareKey
       });
+
+      this.carsService.getCarImages(id).subscribe(images => {
+        this.existingImages = images.map(img => ({
+          ...img,
+          fullUrl: `https://localhost:7193${img.imageUrl}`
+        }));
+      });
+
 
       this.imagePreview = `https://localhost:7193${car.imageUrl}?t=${Date.now()}`;
       this.hasExistingImage = true; // 👈 IMPORTANT
       this.currentStep = 1;
+      this.loadGalleryImages(this.carId!);
+
     });
+    
   }
 
 
@@ -129,8 +180,23 @@ export class Admin {
     }
 
     const formData = new FormData();
+
     Object.entries(this.carForm.value).forEach(([key, value]) => {
-      formData.append(key, value as string);
+
+      // ✅ FIX for month fields
+      if (
+        (key === 'registrationYear' || key === 'insuranceTill') &&
+        value
+      ) {
+        formData.append(key, `${value}-01`);
+      }
+      // ✅ FIX for boolean select
+      else if (key === 'hasSpareKey') {
+        formData.append(key, String(value));
+      }
+      else {
+        formData.append(key, value as string);
+      }
     });
 
     if (this.selectedImageFile) {
@@ -138,18 +204,17 @@ export class Admin {
     }
 
     if (this.isEditMode && this.carId) {
-      // ✅ UPDATE
       this.carsService.updateCar(this.carId, formData).subscribe(() => {
         this.toast.warning('Car updated successfully');
         this.router.navigate(['/cars']);
       });
     } else {
-      // ✅ ADD
       this.carsService.addCar(formData).subscribe(() => {
         this.toast.success('Car added successfully');
         this.router.navigate(['/cars']);
       });
     }
+    console.log('Form submitted', this.carForm.value);
   }
 
 
@@ -235,9 +300,15 @@ export class Admin {
         this.carForm.get('type')?.invalid ||
         this.carForm.get('fuelType')?.invalid ||
         this.carForm.get('transmission')?.invalid ||
-        this.carForm.get('price')?.invalid
+        this.carForm.get('price')?.invalid ||
+        this.carForm.get('kmsDriven')?.invalid ||
+        this.carForm.get('ownership')?.invalid ||
+        this.carForm.get('registrationCode')?.invalid ||
+        this.carForm.get('registrationYear')?.invalid ||
+        this.carForm.get('engineCC')?.invalid ||
+        this.carForm.get('hasSpareKey')?.invalid
       ) {
-        this.toast.error('Please complete specifications and pricing');
+        this.toast.error('Please complete all vehicle specifications');
         return;
       }
     }
@@ -248,6 +319,87 @@ export class Admin {
 
   prevStep() {
     this.currentStep--;
+  }
+
+  onGallerySelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    // ✅ Convert FileList to array (IMPORTANT)
+    const files = Array.from(input.files);
+
+    // ✅ Append instead of replace (supports re-selection)
+    files.forEach(file => {
+      this.galleryFiles.push(file);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.galleryPreviews.push(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // ✅ Reset input so user can re-select same files if needed
+    input.value = '';
+  }
+
+
+
+  uploadGallery() {
+    if (!this.carId || this.galleryFiles.length === 0) return;
+
+    this.isGalleryUploading = true;
+
+    this.carsService.uploadCarImages(this.carId, this.galleryFiles).subscribe({
+      next: () => {
+        this.toast.success('Gallery images uploaded');
+        this.galleryFiles = [];
+        this.galleryPreviews = [];
+        this.isGalleryUploading = false;
+      },
+      error: () => {
+        this.toast.error('Failed to upload images');
+        this.isGalleryUploading = false;
+      }
+    });
+    this.loadGalleryImages(this.carId);
+  }
+
+
+  deleteImage(imageId: number) {
+    if (!confirm('Delete this image?')) return;
+
+    this.carsService.deleteCarImage(imageId).subscribe(() => {
+      this.toast.success('Image deleted');
+      this.existingImages = this.existingImages.filter(i => i.id !== imageId);
+    });
+  }
+
+  setPrimary(imageId: number) {
+    this.carsService.setPrimaryImage(imageId).subscribe(() => {
+      this.toast.success('Primary image updated');
+
+      this.existingImages.forEach(img =>
+        img.isPrimary = img.id === imageId
+      );
+    });
+  }
+
+  loadGalleryImages(carId: number) {
+    this.carsService.getCarImages(carId).subscribe(images => {
+      const baseUrl = 'https://localhost:7193';
+
+      this.existingImages = images
+        .sort((a: any, b: any) => {
+          if (a.isPrimary && !b.isPrimary) return -1;
+          if (!a.isPrimary && b.isPrimary) return 1;
+          return a.sortOrder - b.sortOrder;
+        })
+        .map((img: any) => ({
+          ...img,
+          fullUrl: `${baseUrl}${img.imageUrl}?t=${Date.now()}`
+        }));
+    });
   }
 
 

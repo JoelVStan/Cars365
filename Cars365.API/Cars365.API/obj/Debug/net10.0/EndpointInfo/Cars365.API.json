@@ -131,9 +131,7 @@
               "schema": {
                 "required": [
                   "Brand",
-                  "FuelType",
                   "Model",
-                  "Transmission",
                   "Type"
                 ],
                 "type": "object",
@@ -156,11 +154,42 @@
                     "type": "integer",
                     "format": "int32"
                   },
+                  "RegistrationYear": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
                   "FuelType": {
                     "type": "string"
                   },
                   "Transmission": {
                     "type": "string"
+                  },
+                  "KmsDriven": {
+                    "maximum": 2147483647,
+                    "minimum": 0,
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Ownership": {
+                    "maximum": 10,
+                    "minimum": 1,
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "RegistrationCode": {
+                    "maxLength": 10,
+                    "type": "string"
+                  },
+                  "EngineCC": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "InsuranceTill": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "HasSpareKey": {
+                    "type": "boolean"
                   },
                   "Price": {
                     "maximum": 1.7976931348623157E+308,
@@ -194,10 +223,31 @@
                 "Year": {
                   "style": "form"
                 },
+                "RegistrationYear": {
+                  "style": "form"
+                },
                 "FuelType": {
                   "style": "form"
                 },
                 "Transmission": {
+                  "style": "form"
+                },
+                "KmsDriven": {
+                  "style": "form"
+                },
+                "Ownership": {
+                  "style": "form"
+                },
+                "RegistrationCode": {
+                  "style": "form"
+                },
+                "EngineCC": {
+                  "style": "form"
+                },
+                "InsuranceTill": {
+                  "style": "form"
+                },
+                "HasSpareKey": {
                   "style": "form"
                 },
                 "Price": {
@@ -266,9 +316,7 @@
               "schema": {
                 "required": [
                   "Brand",
-                  "FuelType",
                   "Model",
-                  "Transmission",
                   "Type"
                 ],
                 "type": "object",
@@ -291,11 +339,42 @@
                     "type": "integer",
                     "format": "int32"
                   },
+                  "RegistrationYear": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
                   "FuelType": {
                     "type": "string"
                   },
                   "Transmission": {
                     "type": "string"
+                  },
+                  "KmsDriven": {
+                    "maximum": 2147483647,
+                    "minimum": 0,
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Ownership": {
+                    "maximum": 10,
+                    "minimum": 1,
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "RegistrationCode": {
+                    "maxLength": 10,
+                    "type": "string"
+                  },
+                  "EngineCC": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "InsuranceTill": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "HasSpareKey": {
+                    "type": "boolean"
                   },
                   "Price": {
                     "maximum": 1.7976931348623157E+308,
@@ -329,10 +408,31 @@
                 "Year": {
                   "style": "form"
                 },
+                "RegistrationYear": {
+                  "style": "form"
+                },
                 "FuelType": {
                   "style": "form"
                 },
                 "Transmission": {
+                  "style": "form"
+                },
+                "KmsDriven": {
+                  "style": "form"
+                },
+                "Ownership": {
+                  "style": "form"
+                },
+                "RegistrationCode": {
+                  "style": "form"
+                },
+                "EngineCC": {
+                  "style": "form"
+                },
+                "InsuranceTill": {
+                  "style": "form"
+                },
+                "HasSpareKey": {
                   "style": "form"
                 },
                 "Price": {
@@ -406,6 +506,173 @@
       "get": {
         "tags": [
           "Cars"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Cars/{carId}/images": {
+      "post": {
+        "tags": [
+          "Cars"
+        ],
+        "parameters": [
+          {
+            "name": "carId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              },
+              "encoding": {
+                "images": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Cars"
+        ],
+        "parameters": [
+          {
+            "name": "carId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Cars/{carId}/images/reorder": {
+      "put": {
+        "tags": [
+          "Cars"
+        ],
+        "parameters": [
+          {
+            "name": "carId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Cars/images/{imageId}": {
+      "delete": {
+        "tags": [
+          "Cars"
+        ],
+        "parameters": [
+          {
+            "name": "imageId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Cars/images/{imageId}/primary": {
+      "put": {
+        "tags": [
+          "Cars"
+        ],
+        "parameters": [
+          {
+            "name": "imageId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
         ],
         "responses": {
           "200": {

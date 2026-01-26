@@ -86,6 +86,11 @@
         "IsRequired": false
       },
       {
+        "Name": "RegistrationYear",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
         "Name": "FuelType",
         "Type": "System.String",
         "IsRequired": false
@@ -93,6 +98,36 @@
       {
         "Name": "Transmission",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "KmsDriven",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Ownership",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "RegistrationCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EngineCC",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "InsuranceTill",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "HasSpareKey",
+        "Type": "System.Nullable\u00601[[System.Boolean, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       },
       {
@@ -114,6 +149,64 @@
         "Name": "IsActive",
         "Type": "System.Boolean",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cars365.API.Controllers.CarsController",
+    "Method": "UploadCarImages",
+    "RelativePath": "api/Cars/{carId}/images",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "carId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "images",
+        "Type": "System.Collections.Generic.List\u00601[[Microsoft.AspNetCore.Http.IFormFile, Microsoft.AspNetCore.Http.Features, Version=10.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cars365.API.Controllers.CarsController",
+    "Method": "GetCarImages",
+    "RelativePath": "api/Cars/{carId}/images",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "carId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cars365.API.Controllers.CarsController",
+    "Method": "ReorderCarImages",
+    "RelativePath": "api/Cars/{carId}/images/reorder",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "carId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "imageIds",
+        "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -168,6 +261,11 @@
         "IsRequired": false
       },
       {
+        "Name": "RegistrationYear",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
         "Name": "FuelType",
         "Type": "System.String",
         "IsRequired": false
@@ -175,6 +273,36 @@
       {
         "Name": "Transmission",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "KmsDriven",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Ownership",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "RegistrationCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EngineCC",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "InsuranceTill",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "HasSpareKey",
+        "Type": "System.Nullable\u00601[[System.Boolean, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       },
       {
@@ -250,6 +378,38 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cars365.API.Controllers.CarsController",
+    "Method": "DeleteCarImage",
+    "RelativePath": "api/Cars/images/{imageId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "imageId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cars365.API.Controllers.CarsController",
+    "Method": "SetPrimaryImage",
+    "RelativePath": "api/Cars/images/{imageId}/primary",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "imageId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {

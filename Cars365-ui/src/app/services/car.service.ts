@@ -45,6 +45,42 @@ export class CarsService {
     return this.http.get<any[]>(`${this.apiUrl}/admin`);
   }
 
+  uploadCarImages(carId: number, files: File[]) {
+    const formData = new FormData();
+    files.forEach(file => formData.append('images', file));
+
+    return this.http.post(
+      `${this.apiUrl}/${carId}/images`,
+      formData
+    );
+  }
+
+  getCarImages(carId: number) {
+    return this.http.get<any[]>(
+      `${this.apiUrl}/${carId}/images`
+    );
+  }
+
+  reorderCarImages(carId: number, imageIds: number[]) {
+    return this.http.put(
+      `${this.apiUrl}/${carId}/images/reorder`,
+      imageIds
+    );
+  }
+
+  deleteCarImage(imageId: number) {
+  return this.http.delete(
+    `${this.apiUrl}/images/${imageId}`
+  );
+}
+
+  setPrimaryImage(imageId: number) {
+    return this.http.put(
+      `${this.apiUrl}/images/${imageId}/primary`,
+      {}
+    );
+  }
+
 
 
 }

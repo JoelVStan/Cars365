@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { WishlistService } from '../../services/wishlist.service';
 import { ToastService } from '../../services/toast.service';
+import { generateCarSlug as buildCarSlug } from '../../utils/slug.util';
 
 @Component({
   selector: 'app-cars',
@@ -225,7 +226,9 @@ export class Cars implements OnInit {
     return this.wishlistedCarIds.has(carId);
   }
 
-
+  generateCarSlug(car: any): string {
+    return buildCarSlug(car);
+  }
 
 
 }

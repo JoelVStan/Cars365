@@ -76,6 +76,7 @@
         <h5>Car Basics</h5>
         <div class="row g-3">
           <div class="col-md-4">
+            <label class="form-label fw-semibold small text-muted">Brand</label>
             <input
               class="form-control fancy-input"
               placeholder="Brand"
@@ -84,6 +85,7 @@
           </div>
 
           <div class="col-md-4">
+            <label class="form-label fw-semibold small text-muted">Model</label>
             <input
               class="form-control fancy-input"
               placeholder="Model"
@@ -92,6 +94,7 @@
           </div>
 
           <div class="col-md-4">
+            <label class="form-label fw-semibold small text-muted">Make Year</label>
             <input
               type="number"
               class="form-control fancy-input year-input"
@@ -110,6 +113,7 @@
         <h5>Specifications</h5>
         <div class="row g-3">
           <div class="col-md-4">
+            <label class="form-label fw-semibold small text-muted">Car Type</label>
             <select class="form-select fancy-input" formControlName="type">
               <option value="">Car Type</option>
               @for (type of carTypes; track type) {
@@ -119,6 +123,7 @@
           </div>
 
           <div class="col-md-4">
+            <label class="form-label fw-semibold small text-muted">Fuel</label>
             <select class="form-select fancy-input" formControlName="fuelType">
               <option value="">Fuel</option>
               @for (fuel of fuelTypes; track fuel) {
@@ -128,6 +133,7 @@
           </div>
 
           <div class="col-md-4">
+            <label class="form-label fw-semibold small text-muted">Transmission</label>
             <select class="form-select fancy-input" formControlName="transmission">
               <option value="">Transmission</option>
               @for (t of transmissions; track t) {
@@ -135,6 +141,88 @@
               }
             </select>
           </div>
+        </div>
+      </div>
+
+      <!-- ADDITIONAL VEHICLE DETAILS -->
+      <div class="form-section">
+        <h5>Vehicle Details</h5>
+
+        <div class="row g-3">
+
+          <div class="col-md-4">
+            <label class="form-label fw-semibold small text-muted">Kms Driven</label>
+            <input
+              type="number"
+              class="form-control fancy-input"
+              placeholder="Kms Driven"
+              formControlName="kmsDriven"
+            >
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label fw-semibold small text-muted">Ownership</label>
+            <select
+              class="form-select fancy-input"
+              formControlName="ownership"
+            >
+              <option value="">Ownership</option>
+              <option [value]="1">1st Owner</option>
+              <option [value]="2">2nd Owner</option>
+              <option [value]="3">3rd Owner</option>
+              <option [value]="4">4th Owner+</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label fw-semibold small text-muted">Registration (KL-07)</label>
+            <input
+              class="form-control fancy-input"
+              placeholder="Registration Code (e.g. KL-07)"
+              formControlName="registrationCode"
+            >
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label small fw-semibold text-muted">Reg Month & Year</label>
+            <input
+              type="month"
+              class="form-control fancy-input"
+              formControlName="registrationYear"
+            >
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label small fw-semibold text-muted">Engine Capacity (cc)</label>
+            <input
+              type="number"
+              class="form-control fancy-input"
+              placeholder="Engine Capacity (cc)"
+              formControlName="engineCC"
+            >
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label small fw-semibold text-muted">Insurance Till</label>
+            <input
+              type="month"
+              class="form-control fancy-input"
+              formControlName="insuranceTill"
+            >
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label small fw-semibold text-muted">Spare Key Available?</label>
+            <select
+              class="form-select fancy-input"
+              formControlName="hasSpareKey"
+            >
+              <option value="">Spare Key Available?</option>
+              <option [value]="true">Yes</option>
+              <option [value]="false">No</option>
+            </select>
+          </div>
+
         </div>
       </div>
 
@@ -183,6 +271,89 @@
           formControlName="description"
         ></textarea>
       </div>
+
+      @if (isEditMode) {
+        <div class="form-section">
+          <h5>Existing Gallery</h5>
+
+          @if (existingImages.length === 0) {
+            <p class="text-muted small">No gallery images uploaded yet.</p>
+          }
+
+          <div
+            class="admin-gallery"
+            cdkDropList
+            (cdkDropListDropped)="onReorder($event)"
+          >
+            @for (img of existingImages; track img.id) {
+              <div class="admin-thumb" cdkDrag>
+
+                <img [src]="img.fullUrl" />
+
+                <!-- Primary badge -->
+                @if (img.isPrimary) {
+                  <span class="primary-badge">Primary</span>
+                }
+
+                <!-- Actions -->
+                <div class="thumb-actions">
+                  <button
+                    type="button"
+                    class="btn-icon star"
+                    [class.active]="img.isPrimary"
+                    (click)="setPrimary(img.id)"
+                    title="Set as primary"
+                  >
+                    <i class="bi bi-star-fill"></i>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="btn-icon delete"
+                    (click)="deleteImage(img.id)"
+                    title="Delete image"
+                  >
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+
+              </div>
+
+            }
+          </div>
+        </div>
+
+
+          <label class="gallery-upload-box">
+            <i class="bi bi-images"></i>
+            <span>Add multiple car images</span>
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              (change)="onGallerySelected($event)"
+            />
+          </label>
+
+          @if (galleryPreviews.length > 0) {
+            <div class="gallery-preview mt-3">
+              @for (img of galleryPreviews; track img) {
+                <img [src]="img" />
+              }
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-outline-primary mt-3"
+              [disabled]="isGalleryUploading"
+              (click)="uploadGallery()"
+            >
+              <i class="bi bi-cloud-upload"></i>
+              {{ isGalleryUploading ? 'Uploading...' : 'Upload Gallery Images' }}
+            </button>
+          }
+        
+      }
 
 
       <!-- SUBMIT -->

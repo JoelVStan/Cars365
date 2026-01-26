@@ -39,7 +39,7 @@ export const routes: Routes = [
     canActivate: [adminGuard]
   },
   {
-    path: 'cars/:id',
+    path: 'cars/:idSlug',
     component: CarDetails
   },
   {

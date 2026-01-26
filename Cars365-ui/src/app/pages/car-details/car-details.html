@@ -13,17 +13,129 @@
       <div class="col-lg-7">
 
         <div class="image-card position-relative">
+
+          <!-- Main Image -->
           <img
-            [src]="car.imageUrl"
+            [src]="selectedImage"
             class="img-fluid car-hero-img"
             alt="Car image"
           />
+
+          <!-- Arrows -->
+          @if (galleryImages.length > 1) {
+            <button class="nav-arrow left" (click)="prevImage()">
+              <i class="bi bi-chevron-left"></i>
+            </button>
+
+            <button class="nav-arrow right" (click)="nextImage()">
+              <i class="bi bi-chevron-right"></i>
+            </button>
+          }
 
           <!-- Trust badge -->
           <span class="badge trust-badge">
             Cars365 Guaranteed
           </span>
+
         </div>
+
+        <!-- Thumbnails -->
+        @if (galleryImages.length > 1) {
+          <div class="thumbnail-strip mt-3">
+            @for (img of galleryImages; track img.id; let i = $index) {
+              <img
+                [src]="img.fullUrl"
+                class="thumb"
+                [class.active]="i === currentIndex"
+                (click)="selectImage(i)"
+              />
+            }
+          </div>
+        }
+
+        <!-- Detailed Specs (Below Image) -->
+        <div class="detail-specs mt-3">
+
+          <div class="detail-item">
+            <i class="bi bi-speedometer2"></i>
+            <div>
+              <span class="label">Kms Driven</span>
+              <span class="value">{{ car.kmsDriven | number }} km</span>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <i class="bi bi-person-badge"></i>
+            <div>
+              <span class="label">Ownership</span>
+              <span class="value">
+                {{ car.ownership }}{{ getOwnershipSuffix(car.ownership) }} Owner
+              </span>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <i class="bi bi-credit-card-2-front"></i>
+            <div>
+              <span class="label">Registration</span>
+              <span class="value">{{ car.registrationCode }}</span>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <i class="bi bi-calendar-event"></i>
+            <div>
+              <span class="label">Make Year</span>
+              <span class="value">{{ car.year }}</span>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <i class="bi bi-calendar2-check"></i>
+            <div>
+              <span class="label">Registration Date</span>
+              <span class="value">
+                {{ car.registrationYear | date:'MMM yyyy' }}
+              </span>
+            </div>
+          </div>
+
+          @if (car.fuelType != 'Electric') {
+            <div class="detail-item">
+            <i class="bi bi-gear-wide-connected"></i>
+            <div>
+              <span class="label">Engine</span>
+              <span class="value">{{ car.engineCC }} cc</span>
+            </div>
+          </div>}
+          
+
+          <div class="detail-item">
+            <i class="bi bi-shield-check"></i>
+            <div>
+              <span class="label">Insurance Till</span>
+              <span class="value">
+                {{ insuranceDisplay(car.insuranceTill) }}
+              </span>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <i class="bi bi-key"></i>
+            <div>
+              <span class="label">Spare Key</span>
+              <span
+                class="value"
+                [class.text-success]="car.hasSpareKey"
+                [class.text-danger]="!car.hasSpareKey"
+              >
+                {{ car.hasSpareKey ? 'Available' : 'Not Available' }}
+              </span>
+            </div>
+          </div>
+
+        </div>
+
 
       </div>
 

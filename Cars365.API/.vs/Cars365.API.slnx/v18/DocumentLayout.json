@@ -3,12 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|c:\\users\\joelk\\documents\\my projects\\cars365\\cars365.api\\cars365.api\\controllers\\wishlistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|solutionrelative:cars365.api\\controllers\\wishlistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|c:\\users\\joelk\\documents\\my projects\\cars365\\cars365.api\\cars365.api\\models\\wishlist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|solutionrelative:cars365.api\\models\\wishlist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|c:\\users\\joelk\\documents\\my projects\\cars365\\cars365.api\\cars365.api\\controllers\\carscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|solutionrelative:cars365.api\\controllers\\carscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,27 +23,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "WishlistController.cs",
-              "DocumentMoniker": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Controllers\\WishlistController.cs",
-              "RelativeDocumentMoniker": "Cars365.API\\Controllers\\WishlistController.cs",
-              "ToolTip": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Controllers\\WishlistController.cs",
-              "RelativeToolTip": "Cars365.API\\Controllers\\WishlistController.cs",
-              "ViewState": "AgIAADUAAAAAAAAAAAAuwD4AAAARAAAAAAAAAA==",
+              "Title": "CarsController.cs",
+              "DocumentMoniker": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Controllers\\CarsController.cs",
+              "RelativeDocumentMoniker": "Cars365.API\\Controllers\\CarsController.cs",
+              "ToolTip": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Controllers\\CarsController.cs",
+              "RelativeToolTip": "Cars365.API\\Controllers\\CarsController.cs",
+              "ViewState": "AgIAAIwBAAAAAAAAAAAQwIwBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T07:57:18.192Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "WishList.cs",
-              "DocumentMoniker": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Models\\WishList.cs",
-              "RelativeDocumentMoniker": "Cars365.API\\Models\\WishList.cs",
-              "ToolTip": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Models\\WishList.cs",
-              "RelativeToolTip": "Cars365.API\\Models\\WishList.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T07:54:02.016Z",
+              "WhenOpened": "2026-01-26T15:57:12.195Z",
               "EditorCaption": ""
             }
           ]
