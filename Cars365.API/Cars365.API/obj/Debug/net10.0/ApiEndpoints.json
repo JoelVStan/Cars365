@@ -251,5 +251,47 @@
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cars365.API.Controllers.WishlistController",
+    "Method": "GetWishlist",
+    "RelativePath": "api/Wishlist",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cars365.API.Controllers.WishlistController",
+    "Method": "AddToWishlist",
+    "RelativePath": "api/Wishlist/{carId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "carId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cars365.API.Controllers.WishlistController",
+    "Method": "RemoveFromWishlist",
+    "RelativePath": "api/Wishlist/{carId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "carId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

@@ -27,6 +27,14 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/cars">Cars</a>
         </li>
+
+        @if (auth.isLoggedIn() && !auth.isAdmin()) {
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/wishlist">
+              <i class="bi bi-heart-fill text-danger"></i> Wishlist
+            </a>
+          </li>
+        }
         
 
          @if (!auth.isLoggedIn()) {

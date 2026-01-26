@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { WishlistService } from '../../services/wishlist.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-cars',
@@ -30,8 +32,10 @@ export class Cars implements OnInit {
 
   selectedSort: string = '';
   searchTerm = '';
+  wishlistedCarIds = new Set<number>();
 
-  constructor(private carsService: CarsService, private authService: AuthService) {}
+
+  constructor(private carsService: CarsService, public authService: AuthService, private wishlistService: WishlistService, private toast: ToastService) {}
 
   ngOnInit(): void {
     this.isAdmin = this.authService.isAdmin();
@@ -45,6 +49,9 @@ export class Cars implements OnInit {
       error: () => {
         this.loading = false;
       }
+    });
+    this.wishlistService.getAll().subscribe(wishlist => {
+      wishlist.forEach(w => this.wishlistedCarIds.add(w.carId || w.id));
     });
   }
 
@@ -178,6 +185,46 @@ export class Cars implements OnInit {
     this.searchTerm = '';
 
   }
+
+  toggleWishlist(carId: number) {
+    if (this.isWishlisted(carId)) {
+      // Remove from wishlist - update immediately
+      this.wishlistedCarIds.delete(carId);
+      
+      this.wishlistService.remove(carId).subscribe({
+        next: () => {
+          this.toast.success('Removed from wishlist');
+        },
+        error: (error) => {
+          console.error('Error removing from wishlist:', error);
+          // Revert if API call fails
+          this.wishlistedCarIds.add(carId);
+          this.toast.error('Failed to remove from wishlist');
+        }
+      });
+    } else {
+      // Add to wishlist - update immediately
+      this.wishlistedCarIds.add(carId);
+      
+      this.wishlistService.add(carId).subscribe({
+        next: () => {
+          this.toast.success('Added to wishlist');
+        },
+        error: (error) => {
+          console.error('Error adding to wishlist:', error);
+          // Revert if API call fails
+          this.wishlistedCarIds.delete(carId);
+          this.toast.error('Failed to add to wishlist');
+        }
+      });
+    }
+  }
+
+
+  isWishlisted(carId: number): boolean {
+    return this.wishlistedCarIds.has(carId);
+  }
+
 
 
 

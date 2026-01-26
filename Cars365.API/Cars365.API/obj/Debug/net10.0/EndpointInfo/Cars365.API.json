@@ -413,6 +413,62 @@
           }
         }
       }
+    },
+    "/api/Wishlist/{carId}": {
+      "post": {
+        "tags": [
+          "Wishlist"
+        ],
+        "parameters": [
+          {
+            "name": "carId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Wishlist"
+        ],
+        "parameters": [
+          {
+            "name": "carId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Wishlist": {
+      "get": {
+        "tags": [
+          "Wishlist"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -477,6 +533,9 @@
     },
     {
       "name": "Cars"
+    },
+    {
+      "name": "Wishlist"
     }
   ]
 }

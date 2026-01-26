@@ -1,118 +1,8 @@
 <div class="mb-5">
   <h2 class="mb-4 text-center fw-bold">
-  <i class="bi bi-car-front-fill text-primary"></i>
-    Explore Used Cars
+    <i class="bi bi-heart-fill text-danger"></i>
+    My Wishlist
   </h2>
-
-  <div class="filter-bar mb-4 shadow-sm bg-white">
-
-    <!-- ROW 1: SEARCH + SORT -->
-    <div class="row g-3 align-items-center filter-row-primary">
-
-      <!-- Search -->
-      <div class="col-md-8">
-        <div class="search-box">
-          <i class="bi bi-search"></i>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Search by brand or model"
-            [(ngModel)]="searchTerm"
-            (ngModelChange)="onSearchChange()"
-          />
-        </div>
-      </div>
-
-      <!-- Sort -->
-      <div class="col-md-4">
-        <select
-          class="form-select"
-          [(ngModel)]="selectedSort"
-          (ngModelChange)="onSortChange($event)"
-        >
-          <option value="">Sort: Default</option>
-          <option value="priceAsc">Price: Low → High</option>
-          <option value="priceDesc">Price: High → Low</option>
-          <option value="yearDesc">Cars Age: New → Old</option>
-          <option value="yearAsc">Cars Age: Old → New</option>
-        </select>
-      </div>
-
-    </div>
-
-    <hr class="my-3">
-
-    <!-- ROW 2: FILTERS -->
-    <div class="row g-3 align-items-end filter-row-secondary">
-
-      <!-- Fuel -->
-      <div class="col-md-2">
-        <label class="form-label small">Fuel</label>
-        <select class="form-select" [(ngModel)]="filters.fuelType" (change)="onFilterChange()">
-          <option value="">All</option>
-          <option>Petrol</option>
-          <option>Diesel</option>
-          <option>Electric</option>
-          <option>CNG</option>
-          <option>Hybrid</option>
-        </select>
-      </div>
-
-      <!-- Transmission -->
-      <div class="col-md-2">
-        <label class="form-label small">Transmission</label>
-        <select class="form-select" [(ngModel)]="filters.transmission" (change)="onFilterChange()">
-          <option value="">All</option>
-          <option>Manual</option>
-          <option>Automatic</option>
-        </select>
-      </div>
-
-      <!-- Type -->
-      <div class="col-md-2">
-        <label class="form-label small">Type</label>
-        <select class="form-select" [(ngModel)]="filters.type" (change)="onFilterChange()">
-          <option value="">All</option>
-          <option>Hatchback</option>
-          <option>Sedan</option>
-          <option>SUV</option>
-          <option>MUV</option>
-          <option>Coupe</option>
-        </select>
-      </div>
-
-      <!-- Price -->
-      <div class="col-md-4">
-        <label class="form-label small">Max Price</label>
-        <input
-          type="range"
-          class="form-range"
-          min="100000"
-          max="3000000"
-          step="50000"
-          [(ngModel)]="filters.maxPrice"
-          (input)="onFilterChange()"
-        />
-        <div class="small text-muted">
-          Up to ₹ {{ formatPrice(filters.maxPrice) }}
-        </div>
-      </div>
-
-      <!-- Clear -->
-      <div class="col-md-2 text-end">
-        <button
-          type="button"
-          class="btn btn-outline-secondary btn-sm w-75"
-          (click)="clearFilters()"
-        >
-          <i class="bi bi-x-circle"></i> Clear
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-
 
   @if (loading) {
     <div class="row g-4">
@@ -147,14 +37,14 @@
     </div>
   } @else {
 
-    @if (filteredCars.length === 0) {
+    @if (wishlistCars.length === 0) {
       <div class="alert alert-info text-center">
-        No cars available at the moment 🚗
+        Your wishlist is empty 💔
       </div>
     } @else {
 
       <div class="row g-4">
-        @for (car of filteredCars; track car.id) {
+        @for (car of wishlistCars; track car.id) {
 
           <div class="col-md-6 col-lg-4">
             <div class="card h-100 shadow border-0 car-card">
@@ -177,8 +67,7 @@
                   Cars365 Guaranteed
                 </span>
 
-                @if (authService.isLoggedIn() && !authService.isAdmin()) {
-                  <!-- Wishlist Button -->
+                <!-- Wishlist Button -->
                 <button
                   class="wishlist-btn"
                   (click)="toggleWishlist(car.id)"
@@ -188,7 +77,6 @@
                     [ngClass]="isWishlisted(car.id) ? 'bi-heart-fill text-danger' : 'bi-heart'"
                   ></i>
                 </button>
-                }
               </div>
 
               <!-- Body -->
@@ -227,7 +115,6 @@
                       [routerLink]="['/admin/edit', car.id]">
                       <i class="bi bi-pencil"></i> Edit
                     </button>
-
 
                     <button
                       class="btn btn-outline-danger btn-sm w-50"

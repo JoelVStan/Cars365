@@ -9,6 +9,7 @@ import { CarDetails } from './pages/car-details/car-details';
 import { Profile } from './pages/profile/profile';
 import { AdminDashboard } from './pages/admin-dashboard/admin-dashboard';
 import { Home } from './pages/home/home';
+import { WishList } from './pages/wish-list/wish-list';
 
 export const routes: Routes = [
   //{ path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -50,6 +51,10 @@ export const routes: Routes = [
     component: AdminDashboard,
     canActivate: [adminGuard]
   },
+  { path: 'wishlist', 
+    component: WishList 
+  },
+
 
   {
     path: '',

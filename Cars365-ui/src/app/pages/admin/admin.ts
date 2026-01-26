@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CarsService } from '../../services/car.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-admin',
@@ -41,7 +42,8 @@ export class Admin {
     private fb: FormBuilder,
     private carsService: CarsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toast: ToastService,
   ) {
     this.carForm = this.fb.group({
       brand: ['', Validators.required],
@@ -122,7 +124,7 @@ export class Admin {
   submit() {
     if (this.carForm.invalid || (!this.isEditMode && !this.selectedImageFile)) {
       this.carForm.markAllAsTouched();
-      alert('Please fill all fields');
+      this.toast.error('Please fill all fields');
       return;
     }
 
@@ -138,13 +140,13 @@ export class Admin {
     if (this.isEditMode && this.carId) {
       // ✅ UPDATE
       this.carsService.updateCar(this.carId, formData).subscribe(() => {
-        alert('Car updated successfully');
+        this.toast.warning('Car updated successfully');
         this.router.navigate(['/cars']);
       });
     } else {
       // ✅ ADD
       this.carsService.addCar(formData).subscribe(() => {
-        alert('Car added successfully');
+        this.toast.success('Car added successfully');
         this.router.navigate(['/cars']);
       });
     }
@@ -169,7 +171,7 @@ export class Admin {
       this.carForm.value;
 
     if (!brand || !model || !year || !fuelType || !transmission || !type) {
-      alert('Please fill Brand, Model, Year, Type, Fuel and Transmission first');
+      this.toast.error('Please fill Brand, Model, Year, Type, Fuel and Transmission first');
       return;
     }
 
@@ -223,7 +225,7 @@ export class Admin {
         this.carForm.get('model')?.invalid ||
         this.carForm.get('year')?.invalid
       ) {
-        alert('Please complete Image, Brand, Model and Year');
+        this.toast.error('Please complete Image, Brand, Model and Year');
         return;
       }
     }
@@ -235,7 +237,7 @@ export class Admin {
         this.carForm.get('transmission')?.invalid ||
         this.carForm.get('price')?.invalid
       ) {
-        alert('Please complete specifications and pricing');
+        this.toast.error('Please complete specifications and pricing');
         return;
       }
     }
