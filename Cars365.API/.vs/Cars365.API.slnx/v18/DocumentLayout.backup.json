@@ -3,8 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|c:\\users\\joelk\\documents\\my projects\\cars365\\cars365.api\\cars365.api\\controllers\\wishlistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|solutionrelative:cars365.api\\controllers\\wishlistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|c:\\users\\joelk\\documents\\my projects\\cars365\\cars365.api\\cars365.api\\controllers\\adminmigrationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|solutionrelative:cars365.api\\controllers\\adminmigrationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|c:\\users\\joelk\\documents\\my projects\\cars365\\cars365.api\\cars365.api\\dtos\\createcardto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|solutionrelative:cars365.api\\dtos\\createcardto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|c:\\users\\joelk\\documents\\my projects\\cars365\\cars365.api\\cars365.api\\models\\car.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|solutionrelative:cars365.api\\models\\car.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|c:\\users\\joelk\\documents\\my projects\\cars365\\cars365.api\\cars365.api\\controllers\\carscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|solutionrelative:cars365.api\\controllers\\carscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|c:\\users\\joelk\\documents\\my projects\\cars365\\cars365.api\\cars365.api\\dtos\\carimagedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|solutionrelative:cars365.api\\dtos\\carimagedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|c:\\users\\joelk\\documents\\my projects\\cars365\\cars365.api\\cars365.api\\dtos\\carresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|solutionrelative:cars365.api\\dtos\\carresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|c:\\users\\joelk\\documents\\my projects\\cars365\\cars365.api\\cars365.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|solutionrelative:cars365.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|c:\\users\\joelk\\documents\\my projects\\cars365\\cars365.api\\cars365.api\\controllers\\carbrandscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0918F1C4-84C2-25C0-70CB-6B797BCE9F31}|Cars365.API\\Cars365.API.csproj|solutionrelative:cars365.api\\controllers\\carbrandscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,23 +46,127 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "WishlistController.cs",
+              "DocumentMoniker": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Controllers\\WishlistController.cs",
+              "RelativeDocumentMoniker": "Cars365.API\\Controllers\\WishlistController.cs",
+              "ToolTip": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Controllers\\WishlistController.cs",
+              "RelativeToolTip": "Cars365.API\\Controllers\\WishlistController.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAgwEYAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-27T07:13:23.547Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AdminMigrationController.cs",
+              "DocumentMoniker": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Controllers\\AdminMigrationController.cs",
+              "RelativeDocumentMoniker": "Cars365.API\\Controllers\\AdminMigrationController.cs",
+              "ToolTip": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Controllers\\AdminMigrationController.cs",
+              "RelativeToolTip": "Cars365.API\\Controllers\\AdminMigrationController.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAnwB4AAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-27T07:13:20.878Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Car.cs",
+              "DocumentMoniker": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Models\\Car.cs",
+              "RelativeDocumentMoniker": "Cars365.API\\Models\\Car.cs",
+              "ToolTip": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Models\\Car.cs",
+              "RelativeToolTip": "Cars365.API\\Models\\Car.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-27T06:57:09.445Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
+              "Title": "CarImageDto.cs",
+              "DocumentMoniker": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\DTOs\\CarImageDto.cs",
+              "RelativeDocumentMoniker": "Cars365.API\\DTOs\\CarImageDto.cs",
+              "ToolTip": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\DTOs\\CarImageDto.cs",
+              "RelativeToolTip": "Cars365.API\\DTOs\\CarImageDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-27T06:44:26.706Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "CarResponseDto.cs",
+              "DocumentMoniker": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\DTOs\\CarResponseDto.cs",
+              "RelativeDocumentMoniker": "Cars365.API\\DTOs\\CarResponseDto.cs",
+              "ToolTip": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\DTOs\\CarResponseDto.cs",
+              "RelativeToolTip": "Cars365.API\\DTOs\\CarResponseDto.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAA6wCUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-27T05:59:49.149Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "CarsController.cs",
               "DocumentMoniker": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Controllers\\CarsController.cs",
               "RelativeDocumentMoniker": "Cars365.API\\Controllers\\CarsController.cs",
               "ToolTip": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Controllers\\CarsController.cs",
               "RelativeToolTip": "Cars365.API\\Controllers\\CarsController.cs",
-              "ViewState": "AgIAAIwBAAAAAAAAAAAQwKsBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAGsAAAAAAAAAAAAYwHgAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T15:57:12.195Z",
+              "WhenOpened": "2026-01-27T05:21:38.848Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CreateCarDto.cs",
+              "DocumentMoniker": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\DTOs\\CreateCarDto.cs",
+              "RelativeDocumentMoniker": "Cars365.API\\DTOs\\CreateCarDto.cs",
+              "ToolTip": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\DTOs\\CreateCarDto.cs",
+              "RelativeToolTip": "Cars365.API\\DTOs\\CreateCarDto.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAwwAcAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-27T05:21:13.37Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Program.cs",
+              "RelativeDocumentMoniker": "Cars365.API\\Program.cs",
+              "ToolTip": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Program.cs",
+              "RelativeToolTip": "Cars365.API\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-27T05:14:53.141Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CarBrandsController.cs",
+              "DocumentMoniker": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Controllers\\CarBrandsController.cs",
+              "RelativeDocumentMoniker": "Cars365.API\\Controllers\\CarBrandsController.cs",
+              "ToolTip": "C:\\Users\\joelk\\Documents\\My Projects\\Cars365\\Cars365.API\\Cars365.API\\Controllers\\CarBrandsController.cs",
+              "RelativeToolTip": "Cars365.API\\Controllers\\CarBrandsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-27T05:00:09.861Z",
               "EditorCaption": ""
             }
           ]

@@ -48,6 +48,69 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Cars365.API.Controllers.CarBrandsController",
+    "Method": "GetBrands",
+    "RelativePath": "api/brands",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cars365.API.Controllers.CarBrandsController",
+    "Method": "AddBrand",
+    "RelativePath": "api/brands",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "Cars365.API.DTOs.CreateBrandDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cars365.API.Controllers.CarBrandsController",
+    "Method": "GetModels",
+    "RelativePath": "api/brands/{brandId}/models",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "brandId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cars365.API.Controllers.CarBrandsController",
+    "Method": "AddModel",
+    "RelativePath": "api/brands/{brandId}/models",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "brandId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "Cars365.API.DTOs.CreateModelDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Cars365.API.Controllers.CarsController",
     "Method": "GetCars",
     "RelativePath": "api/Cars",
@@ -66,13 +129,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Brand",
-        "Type": "System.String",
+        "Name": "CarBrandId",
+        "Type": "System.Int32",
         "IsRequired": false
       },
       {
-        "Name": "Model",
-        "Type": "System.String",
+        "Name": "CarModelId",
+        "Type": "System.Int32",
         "IsRequired": false
       },
       {
@@ -86,11 +149,6 @@
         "IsRequired": false
       },
       {
-        "Name": "RegistrationYear",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
         "Name": "FuelType",
         "Type": "System.String",
         "IsRequired": false
@@ -98,6 +156,11 @@
       {
         "Name": "Transmission",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Price",
+        "Type": "System.Decimal",
         "IsRequired": false
       },
       {
@@ -116,6 +179,11 @@
         "IsRequired": false
       },
       {
+        "Name": "RegistrationYear",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
         "Name": "EngineCC",
         "Type": "System.Int32",
         "IsRequired": false
@@ -127,12 +195,7 @@
       },
       {
         "Name": "HasSpareKey",
-        "Type": "System.Nullable\u00601[[System.Boolean, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "Price",
-        "Type": "System.Decimal",
+        "Type": "System.Boolean",
         "IsRequired": false
       },
       {
@@ -141,13 +204,13 @@
         "IsRequired": false
       },
       {
-        "Name": "Image",
-        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "Name": "IsActive",
+        "Type": "System.Boolean",
         "IsRequired": false
       },
       {
-        "Name": "IsActive",
-        "Type": "System.Boolean",
+        "Name": "Image",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false
       }
     ],
@@ -241,13 +304,13 @@
         "IsRequired": true
       },
       {
-        "Name": "Brand",
-        "Type": "System.String",
+        "Name": "CarBrandId",
+        "Type": "System.Int32",
         "IsRequired": false
       },
       {
-        "Name": "Model",
-        "Type": "System.String",
+        "Name": "CarModelId",
+        "Type": "System.Int32",
         "IsRequired": false
       },
       {
@@ -261,11 +324,6 @@
         "IsRequired": false
       },
       {
-        "Name": "RegistrationYear",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
         "Name": "FuelType",
         "Type": "System.String",
         "IsRequired": false
@@ -273,6 +331,11 @@
       {
         "Name": "Transmission",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Price",
+        "Type": "System.Decimal",
         "IsRequired": false
       },
       {
@@ -291,6 +354,11 @@
         "IsRequired": false
       },
       {
+        "Name": "RegistrationYear",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
         "Name": "EngineCC",
         "Type": "System.Int32",
         "IsRequired": false
@@ -302,12 +370,7 @@
       },
       {
         "Name": "HasSpareKey",
-        "Type": "System.Nullable\u00601[[System.Boolean, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "Price",
-        "Type": "System.Decimal",
+        "Type": "System.Boolean",
         "IsRequired": false
       },
       {
@@ -316,13 +379,13 @@
         "IsRequired": false
       },
       {
-        "Name": "Image",
-        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "Name": "IsActive",
+        "Type": "System.Boolean",
         "IsRequired": false
       },
       {
-        "Name": "IsActive",
-        "Type": "System.Boolean",
+        "Name": "Image",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false
       }
     ],

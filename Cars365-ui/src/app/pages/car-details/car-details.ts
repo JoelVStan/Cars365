@@ -38,52 +38,43 @@ export class CarDetails {
       return;
     }
 
-    this.carsService.getCarById(+id).subscribe({
+    this.carsService.getCarById(id).subscribe({
       next: (res) => {
         const baseUrl = 'https://localhost:7193';
-        const fallbackImage =
-          res.imageUrl
-            ? `${baseUrl}${res.imageUrl}?t=${Date.now()}`
-            : 'https://via.placeholder.com/800x500?text=No+Image';
 
-        this.galleryImages = (res.images && res.images.length > 0)
-          ? [...res.images]
-              .sort((a: any, b: any) => a.sortOrder - b.sortOrder)
-              .map((img: any) => ({
-                ...img,
-                fullUrl: `${baseUrl}${img.imageUrl}?t=${Date.now()}`
-              }))
-          : [];
+        // ✅ Build gallery safely
+        if (res.images && res.images.length > 0) {
+          this.galleryImages = res.images
+            .slice() // clone
+            .sort((a: any, b: any) => {
+              if (a.isPrimary && !b.isPrimary) return -1;
+              if (!a.isPrimary && b.isPrimary) return 1;
+              return a.sortOrder - b.sortOrder;
+            })
+            .map((img: any) => ({
+              ...img,
+              fullUrl: `${baseUrl}${img.imageUrl}?t=${Date.now()}`
+            }));
 
-        // ✅ Selected image logic (bulletproof)
-        if (this.galleryImages.length > 0) {
-          this.selectedImage =
-            this.galleryImages.find(i => i.isPrimary)?.fullUrl ||
-            this.galleryImages[0].fullUrl;
-        } else {
-          // 🔹 Fallback to main image
-          this.selectedImage = fallbackImage;
-        }
-
-        this.currentIndex = this.galleryImages.findIndex(
-          i => i.fullUrl === this.selectedImage
-        );
-
-        // Safety
-        if (this.currentIndex === -1) {
+          // ✅ ALWAYS select by index
           this.currentIndex = 0;
+          this.selectedImage = this.galleryImages[0].fullUrl;
+        }
+        else {
+          // ✅ Fallback to thumbnail image
+          this.galleryImages = [];
+          this.currentIndex = 0;
+          this.selectedImage = `${baseUrl}${res.imageUrl}?t=${Date.now()}`;
         }
 
-        this.car = {
-          ...res
-        };
-
+        this.car = res;
         this.loading = false;
       },
       error: () => {
         this.router.navigate(['/cars']);
       }
     });
+
     
   }
 
@@ -124,6 +115,8 @@ export class CarDetails {
   }
 
   selectImage(index: number) {
+    if (!this.galleryImages.length) return;
+
     this.currentIndex = index;
     this.selectedImage = this.galleryImages[index].fullUrl;
   }

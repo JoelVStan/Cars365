@@ -33,11 +33,11 @@
     @if (currentStep === 1) {
       <!-- IMAGE UPLOAD HERO -->
       <div class="image-upload-box">
-
+        
         @if (!imagePreview && !isImageLoading) {
           <label class="upload-placeholder">
             <i class="bi bi-cloud-arrow-up"></i>
-            <span>Upload Car Image</span>
+            <span>Upload Car Thumbnail Image</span>
             <small>JPEG / PNG</small>
 
             <input
@@ -77,21 +77,31 @@
         <div class="row g-3">
           <div class="col-md-4">
             <label class="form-label fw-semibold small text-muted">Brand</label>
-            <input
-              class="form-control fancy-input"
-              placeholder="Brand"
-              formControlName="brand"
+            <select
+              class="form-select fancy-input"
+              formControlName="carBrandId"
             >
+              <option value="">Select Brand</option>
+              @for (b of brands; track b.id) {
+                <option [ngValue]="b.id">{{ b.name }}</option>
+              }
+            </select>
           </div>
 
           <div class="col-md-4">
             <label class="form-label fw-semibold small text-muted">Model</label>
-            <input
-              class="form-control fancy-input"
-              placeholder="Model"
-              formControlName="model"
+            <select
+              class="form-select fancy-input"
+              formControlName="carModelId"
+              [disabled]="!models.length"
             >
+              <option value="">Select Model</option>
+              @for (m of models; track m.id) {
+                <option [ngValue]="m.id">{{ m.name }}</option>
+              }
+            </select>
           </div>
+
 
           <div class="col-md-4">
             <label class="form-label fw-semibold small text-muted">Make Year</label>
@@ -326,7 +336,7 @@
 
           <label class="gallery-upload-box">
             <i class="bi bi-images"></i>
-            <span>Add multiple car images</span>
+            <span>Add car images</span>
             <input
               type="file"
               multiple
@@ -349,7 +359,7 @@
               (click)="uploadGallery()"
             >
               <i class="bi bi-cloud-upload"></i>
-              {{ isGalleryUploading ? 'Uploading...' : 'Upload Gallery Images' }}
+              {{ isGalleryUploading ? 'Uploading...' : 'Upload Gallery Image(s)' }}
             </button>
           }
         

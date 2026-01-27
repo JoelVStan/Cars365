@@ -30,9 +30,11 @@ namespace Cars365.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Brand")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("CarBrandId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CarModelId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -65,10 +67,6 @@ namespace Cars365.API.Migrations
                     b.Property<int>("KmsDriven")
                         .HasColumnType("int");
 
-                    b.Property<string>("Model")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Ownership")
                         .HasColumnType("int");
 
@@ -95,7 +93,35 @@ namespace Cars365.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CarBrandId");
+
+                    b.HasIndex("CarModelId");
+
                     b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("Cars365.API.Models.CarBrand", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("CarBrands");
                 });
 
             modelBuilder.Entity("Cars365.API.Models.CarImage", b =>
@@ -127,6 +153,35 @@ namespace Cars365.API.Migrations
                     b.HasIndex("CarId");
 
                     b.ToTable("CarImages");
+                });
+
+            modelBuilder.Entity("Cars365.API.Models.CarModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CarBrandId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarBrandId");
+
+                    b.HasIndex("Name", "CarBrandId")
+                        .IsUnique();
+
+                    b.ToTable("CarModels");
                 });
 
             modelBuilder.Entity("Cars365.API.Models.Wishlist", b =>
@@ -355,6 +410,23 @@ namespace Cars365.API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Cars365.API.Models.Car", b =>
+                {
+                    b.HasOne("Cars365.API.Models.CarBrand", "CarBrand")
+                        .WithMany()
+                        .HasForeignKey("CarBrandId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Cars365.API.Models.CarModel", "CarModel")
+                        .WithMany()
+                        .HasForeignKey("CarModelId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CarBrand");
+
+                    b.Navigation("CarModel");
+                });
+
             modelBuilder.Entity("Cars365.API.Models.CarImage", b =>
                 {
                     b.HasOne("Cars365.API.Models.Car", "Car")
@@ -364,6 +436,17 @@ namespace Cars365.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Car");
+                });
+
+            modelBuilder.Entity("Cars365.API.Models.CarModel", b =>
+                {
+                    b.HasOne("Cars365.API.Models.CarBrand", "Brand")
+                        .WithMany("Models")
+                        .HasForeignKey("CarBrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Brand");
                 });
 
             modelBuilder.Entity("Cars365.API.Models.Wishlist", b =>
@@ -431,6 +514,11 @@ namespace Cars365.API.Migrations
             modelBuilder.Entity("Cars365.API.Models.Car", b =>
                 {
                     b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("Cars365.API.Models.CarBrand", b =>
+                {
+                    b.Navigation("Models");
                 });
 #pragma warning restore 612, 618
         }

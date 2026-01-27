@@ -44,9 +44,27 @@ namespace Cars365.API.Controllers
         public async Task<IActionResult> GetCars()
         {
             var cars = await _context.Cars
-                .Where(c => !c.IsDeleted && c.IsActive)
-                .OrderByDescending(c => c.CreatedAt)
-                .ToListAsync();
+            .Include(c => c.CarBrand)
+            .Include(c => c.CarModel)
+            .Where(c => !c.IsDeleted && c.IsActive)
+            .OrderByDescending(c => c.CreatedAt)
+            .Select(c => new CarResponseDto
+            {
+                Id = c.Id,
+                CarBrandId = (int)c.CarBrandId,
+                Brand = c.CarBrand.Name,       // ✅ IMPORTANT
+                CarModelId = (int)c.CarModelId,
+                Model = c.CarModel.Name,       // ✅ IMPORTANT
+
+                ImageUrl = c.ImageUrl,
+                Year = c.Year,
+                Type = c.Type,
+                FuelType = c.FuelType,
+                Transmission = c.Transmission,
+                Price = c.Price,
+                IsActive = c.IsActive
+            })
+            .ToListAsync();
 
             return Ok(cars);
         }
@@ -57,49 +75,54 @@ namespace Cars365.API.Controllers
         public async Task<IActionResult> GetCar(int id)
         {
             var car = await _context.Cars
-            .Include(c => c.Images)
-            .Where(c => c.Id == id && !c.IsDeleted && c.IsActive)
-            .Select(c => new
-            {
-                c.Id,
-                c.Brand,
-                c.Model,
-                c.Type,
-                c.Year,
-                c.FuelType,
-                c.Transmission,
-                c.Price,
-                c.Description,
-                c.ImageUrl,
-                c.IsActive,
-                c.CreatedAt,
-
-                // 🔹 Vehicle details
-                c.KmsDriven,
-                c.Ownership,
-                c.RegistrationCode,
-                c.RegistrationYear,
-                c.EngineCC,
-                c.InsuranceTill,
-                c.HasSpareKey,
-
-                // 🔹 Images
-                Images = c.Images
-                    .OrderBy(i => i.SortOrder)
-                    .Select(i => new
-                    {
-                        i.Id,
-                        i.ImageUrl,
-                        i.IsPrimary,
-                        i.SortOrder
-                    })
-            })
-            .FirstOrDefaultAsync();
+            .Include(c => c.CarBrand)
+            .Include(c => c.CarModel)
+            .Include(c => c.Images)   // 🔥 REQUIRED
+            .FirstOrDefaultAsync(c => c.Id == id && !c.IsDeleted);
 
             if (car == null)
                 return NotFound();
 
-            return Ok(car);
+            var dto = new CarResponseDto
+            {
+                Id = car.Id,
+                CarBrandId = (int)car.CarBrandId,
+                Brand = car.CarBrand.Name,
+                CarModelId = (int)car.CarModelId,
+                Model = car.CarModel.Name,
+
+                ImageUrl = car.ImageUrl,
+
+                Year = car.Year,
+                Type = car.Type,
+                FuelType = car.FuelType,
+                Transmission = car.Transmission,
+                Price = car.Price,
+
+                KmsDriven = car.KmsDriven,
+                Ownership = car.Ownership,
+                RegistrationCode = car.RegistrationCode,
+                RegistrationYear = car.RegistrationYear,
+                EngineCC = car.EngineCC,
+                InsuranceTill = car.InsuranceTill,
+                HasSpareKey = car.HasSpareKey,
+
+                Description = car.Description,
+                IsActive = car.IsActive,
+
+                Images = car.Images
+                    .OrderBy(i => i.SortOrder)
+                    .Select(i => new CarImageDto
+                    {
+                        Id = i.Id,
+                        ImageUrl = i.ImageUrl,
+                        IsPrimary = i.IsPrimary,
+                        SortOrder = i.SortOrder
+                    })
+                    .ToList()
+            };
+
+            return Ok(dto);
         }
 
         // POST: api/cars
@@ -110,19 +133,22 @@ namespace Cars365.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (dto.Image == null || dto.Image.Length == 0)
-                return BadRequest("Image is required");
+            if (dto.Image == null)
+                return BadRequest("Thumbnail image is required");
 
-            // Ensure uploads folder exists
-            var uploadPath = Path.Combine(_env.WebRootPath, "uploads");
-            if (!Directory.Exists(uploadPath))
-                Directory.CreateDirectory(uploadPath);
+            var brandExists = await _context.CarBrands.AnyAsync(b => b.Id == dto.CarBrandId);
+            var modelExists = await _context.CarModels.AnyAsync(m => m.Id == dto.CarModelId);
 
-            // Create unique file name
-            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(dto.Image.FileName)}";
-            var filePath = Path.Combine(uploadPath, fileName);
+            if (!brandExists || !modelExists)
+                return BadRequest("Invalid brand or model");
 
             // Save image
+            var uploads = Path.Combine(_env.WebRootPath, "uploads");
+            Directory.CreateDirectory(uploads);
+
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(dto.Image.FileName)}";
+            var filePath = Path.Combine(uploads, fileName);
+
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await dto.Image.CopyToAsync(stream);
@@ -130,35 +156,67 @@ namespace Cars365.API.Controllers
 
             var car = new Car
             {
-                Brand = dto.Brand,
-                Model = dto.Model,
-                Type = dto.Type,
+                CarBrandId = dto.CarBrandId,
+                CarModelId = dto.CarModelId,
 
                 Year = dto.Year,
-                RegistrationYear = dto.RegistrationYear,
-
+                Type = dto.Type,
                 FuelType = dto.FuelType,
                 Transmission = dto.Transmission,
 
+                Price = dto.Price,
                 KmsDriven = dto.KmsDriven,
                 Ownership = dto.Ownership,
                 RegistrationCode = dto.RegistrationCode,
+                RegistrationYear = dto.RegistrationYear,
                 EngineCC = dto.EngineCC,
                 InsuranceTill = dto.InsuranceTill,
-                HasSpareKey = dto.HasSpareKey ?? false,
-
-                Price = dto.Price,
+                HasSpareKey = dto.HasSpareKey,
                 Description = dto.Description,
+
                 ImageUrl = $"/uploads/{fileName}",
-                IsActive = dto.IsActive,
+                IsActive = true,
                 CreatedAt = DateTime.UtcNow
             };
 
             _context.Cars.Add(car);
             await _context.SaveChangesAsync();
 
-            return Ok(car);
+            // 🔑 Load brand + model names safely
+            await _context.Entry(car).Reference(c => c.CarBrand).LoadAsync();
+            await _context.Entry(car).Reference(c => c.CarModel).LoadAsync();
+
+            var response = new CarResponseDto
+            {
+                Id = car.Id,
+                CarBrandId = (int)car.CarBrandId,
+                Brand = car.CarBrand.Name,
+                CarModelId = (int)car.CarModelId,
+                Model = car.CarModel.Name,
+
+                ImageUrl = car.ImageUrl,
+
+                Year = car.Year,
+                Type = car.Type,
+                FuelType = car.FuelType,
+                Transmission = car.Transmission,
+
+                Price = car.Price,
+                KmsDriven = car.KmsDriven,
+                Ownership = car.Ownership,
+                RegistrationCode = car.RegistrationCode,
+                RegistrationYear = car.RegistrationYear,
+                EngineCC = car.EngineCC,
+                InsuranceTill = car.InsuranceTill,
+                HasSpareKey = car.HasSpareKey,
+
+                Description = car.Description,
+                IsActive = car.IsActive
+            };
+
+            return Ok(response); // ✅ SAFE
         }
+
 
         // PUT: api/cars/{id}
         [HttpPut("{id}")]
@@ -166,26 +224,28 @@ namespace Cars365.API.Controllers
         public async Task<IActionResult> UpdateCar(int id, [FromForm] CreateCarDto dto)
         {
             var car = await _context.Cars.FindAsync(id);
+
             if (car == null)
                 return NotFound();
 
-            car.Brand = dto.Brand;
-            car.Model = dto.Model;
+            car.CarBrandId = dto.CarBrandId;
+            car.CarModelId = dto.CarModelId;
+
             car.Type = dto.Type;
             car.Year = dto.Year;
             car.FuelType = dto.FuelType;
             car.Transmission = dto.Transmission;
+
             car.Price = dto.Price;
-            car.Description = dto.Description;
-            car.IsActive = dto.IsActive;
-            car.Year = dto.Year;
-            car.RegistrationYear = dto.RegistrationYear;
             car.KmsDriven = dto.KmsDriven;
             car.Ownership = dto.Ownership;
             car.RegistrationCode = dto.RegistrationCode;
+            car.RegistrationYear = dto.RegistrationYear;
             car.EngineCC = dto.EngineCC;
             car.InsuranceTill = dto.InsuranceTill;
-            car.HasSpareKey = dto.HasSpareKey ?? false;
+            car.HasSpareKey = (bool)dto.HasSpareKey;
+            car.Description = dto.Description;
+
 
             // ✅ Update image ONLY if new one is uploaded
             if (dto.Image != null)
@@ -250,11 +310,24 @@ namespace Cars365.API.Controllers
         public async Task<IActionResult> GetAllCarsForAdmin()
         {
             var cars = await _context.Cars
-                .Where(c => !c.IsDeleted) // 👈 IMPORTANT
-                .OrderByDescending(c => c.CreatedAt)
-                .ToListAsync();
+            .Include(c => c.CarBrand)
+            .Include(c => c.CarModel)
+            .Where(c => !c.IsDeleted)
+            .OrderByDescending(c => c.CreatedAt)
+            .Select(c => new CarResponseDto
+            {
+                Id = c.Id,
+                CarBrandId = (int)c.CarBrandId,
+                Brand = c.CarBrand.Name,
+                CarModelId = (int)c.CarModelId,
+                Model = c.CarModel.Name,
+                Year = c.Year,
+                Price = c.Price,
+                IsActive = c.IsActive
+            })
+            .ToListAsync();
 
-            return Ok(cars);
+             return Ok(cars);
         }
 
         [HttpPost("{carId}/images")]

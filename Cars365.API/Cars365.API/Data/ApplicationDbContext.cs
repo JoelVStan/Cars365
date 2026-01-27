@@ -14,6 +14,9 @@ namespace Cars365.API.Data
         public DbSet<Car> Cars => Set<Car>();
         public DbSet<Wishlist> Wishlists => Set<Wishlist>();
         public DbSet<CarImage> CarImages => Set<CarImage>();
+        public DbSet<CarBrand> CarBrands => Set<CarBrand>();
+        public DbSet<CarModel> CarModels => Set<CarModel>();
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -28,6 +31,27 @@ namespace Cars365.API.Data
                 .WithMany(c => c.Images)
                 .HasForeignKey(ci => ci.CarId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<CarBrand>()
+                .HasIndex(b => b.Name)
+                .IsUnique();
+
+            builder.Entity<CarModel>()
+                .HasIndex(m => new { m.Name, m.CarBrandId })
+                .IsUnique();
+
+            builder.Entity<Car>()
+                .HasOne(c => c.CarBrand)
+                .WithMany()
+                .HasForeignKey(c => c.CarBrandId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Car>()
+                .HasOne(c => c.CarModel)
+                .WithMany()
+                .HasForeignKey(c => c.CarModelId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
+    
 }

@@ -4,6 +4,7 @@ import { CarsService } from '../../services/car.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { BrandService } from '../../services/brand.service';
 
 @Component({
   selector: 'app-admin',
@@ -25,6 +26,9 @@ export class Admin {
   galleryPreviews: string[] = [];
   isGalleryUploading = false;
   existingImages: any[] = [];
+
+  brands: any[] = [];
+  models: any[] = [];
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
@@ -50,10 +54,11 @@ export class Admin {
     private route: ActivatedRoute,
     private router: Router,
     private toast: ToastService,
+    private brandService: BrandService
   ) {
     this.carForm = this.fb.group({
-      brand: ['', Validators.required],
-      model: ['', Validators.required],
+      carBrandId: ['', Validators.required],
+      carModelId: ['', Validators.required],
       type: ['', Validators.required],
       year: ['', [Validators.required, Validators.min(1990)]],
 
@@ -76,6 +81,20 @@ export class Admin {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+    this.loadBrands();
+    // 🔹 Watch brand change → load models
+    this.carForm.get('carBrandId')?.valueChanges.subscribe(brandId => {
+      const id = Number(brandId); // ✅ FIX
+
+      this.carForm.patchValue({ carModelId: null });
+      this.models = [];
+
+      if (!id) return;
+
+      this.brandService.getModelsByBrand(id).subscribe(res => {
+        this.models = res;
+      });
+    });
 
     if (id) {
       this.carId = +id;
@@ -83,6 +102,16 @@ export class Admin {
       this.loadCarForEdit(this.carId);
     }
   }
+
+  loadBrands() {
+    this.brandService.getBrands().subscribe(res => {
+      this.brands = res;
+    });
+  }
+
+
+
+
 
   onReorder(event: CdkDragDrop<any[]>) {
     moveItemInArray(
@@ -103,9 +132,9 @@ export class Admin {
   loadCarForEdit(id: number) {
     this.carsService.getCarById(id).subscribe(car => {
 
+      // 🔹 Patch everything EXCEPT model first
       this.carForm.patchValue({
-        brand: car.brand,
-        model: car.model,
+        carBrandId: car.carBrandId,
         type: car.type,
         year: car.year,
         fuelType: car.fuelType,
@@ -121,6 +150,18 @@ export class Admin {
         hasSpareKey: car.hasSpareKey
       });
 
+      // 🔹 NOW load models for the selected brand
+      if (car.carBrandId) {
+        this.brandService.getModelsByBrand(car.carBrandId).subscribe(res => {
+          this.models = res;
+
+          // 🔹 Patch model ONLY after models are available
+          this.carForm.patchValue({
+            carModelId: car.carModelId
+          });
+        });
+      }
+
       this.carsService.getCarImages(id).subscribe(images => {
         this.existingImages = images.map(img => ({
           ...img,
@@ -128,11 +169,13 @@ export class Admin {
         }));
       });
 
+       
+
 
       this.imagePreview = `https://localhost:7193${car.imageUrl}?t=${Date.now()}`;
       this.hasExistingImage = true; // 👈 IMPORTANT
       this.currentStep = 1;
-      this.loadGalleryImages(this.carId!);
+      this.loadGalleryImages(id);
 
     });
     
@@ -202,6 +245,7 @@ export class Admin {
     if (this.selectedImageFile) {
       formData.append('image', this.selectedImageFile);
     }
+    
 
     if (this.isEditMode && this.carId) {
       this.carsService.updateCar(this.carId, formData).subscribe(() => {
@@ -232,44 +276,47 @@ export class Admin {
   }
 
   generateDescription() {
-    const { brand, model, year, fuelType, transmission, type } =
+    const { carBrandId, carModelId, year, fuelType, transmission, type } =
       this.carForm.value;
 
-    if (!brand || !model || !year || !fuelType || !transmission || !type) {
+    const brandName = this.brands.find(b => b.id === Number(carBrandId))?.name || '';
+    const modelName = this.models.find(m => m.id === Number(carModelId))?.name || '';
+
+    if (!brandName || !modelName || !year || !fuelType || !transmission || !type) {
       this.toast.error('Please fill Brand, Model, Year, Type, Fuel and Transmission first');
       return;
     }
 
     const templates = [
       // 1
-      `${year} ${brand} ${model} ${fuelType} ${transmission} in excellent condition. Well maintained with a smooth driving experience.`,
+      `${year} ${brandName} ${modelName} ${fuelType} ${transmission} in excellent condition. Well maintained with a smooth driving experience.`,
 
       // 2
-      `Premium ${type} – ${year} ${brand} ${model}. Reliable ${fuelType} engine with comfortable ${transmission.toLowerCase()} transmission.`,
+      `Premium ${type} – ${year} ${brandName} ${modelName}. Reliable ${fuelType} engine with comfortable ${transmission.toLowerCase()} transmission.`,
 
       // 3
-      `Well-kept ${year} ${brand} ${model}, ideal for city and highway drives. Clean interiors and dependable performance.`,
+      `Well-kept ${year} ${brandName} ${modelName}, ideal for city and highway drives. Clean interiors and dependable performance.`,
 
       // 4
-      `${year} ${brand} ${model} ${fuelType} variant. Carefully maintained, responsive handling, and ready for daily use.`,
+      `${year} ${brandName} ${modelName} ${fuelType} variant. Carefully maintained, responsive handling, and ready for daily use.`,
 
       // 5
-      `Spacious and comfortable ${type}. This ${year} ${brand} ${model} offers a smooth ${transmission.toLowerCase()} drive and strong road presence.`,
+      `Spacious and comfortable ${type}. This ${year} ${brandName} ${modelName} offers a smooth ${transmission.toLowerCase()} drive and strong road presence.`,
 
       // 6
-      `Single-owner–maintained ${year} ${brand} ${model}. Known for reliability, fuel efficiency, and low maintenance costs.`,
+      `Single-owner–maintained ${year} ${brandName} ${modelName}. Known for reliability, fuel efficiency, and low maintenance costs.`,
 
       // 7
-      `${brand} ${model} (${year}) in great overall condition. Suitable for both family use and long-distance travel.`,
+      `${brandName} ${modelName} (${year}) in great overall condition. Suitable for both family use and long-distance travel.`,
 
       // 8
-      `Clean and well-maintained ${year} ${brand} ${model} with ${fuelType} engine. Drives smoothly and feels solid on the road.`,
+      `Clean and well-maintained ${year} ${brandName} ${modelName} with ${fuelType} engine. Drives smoothly and feels solid on the road.`,
 
       // 9
-      `${type} with excellent ride quality. This ${year} ${brand} ${model} is a great balance of comfort, performance, and value.`,
+      `${type} with excellent ride quality. This ${year} ${brandName} ${modelName} is a great balance of comfort, performance, and value.`,
 
       // 10
-      `Value-for-money ${year} ${brand} ${model}. Comfortable seating, smooth ${transmission.toLowerCase()} transmission, and reliable ownership experience.`
+      `Value-for-money ${year} ${brandName} ${modelName}. Comfortable seating, smooth ${transmission.toLowerCase()} transmission, and reliable ownership experience.`
     ];
 
     const randomDescription =
@@ -356,13 +403,13 @@ export class Admin {
         this.galleryFiles = [];
         this.galleryPreviews = [];
         this.isGalleryUploading = false;
+        this.loadGalleryImages(this.carId!);
       },
       error: () => {
         this.toast.error('Failed to upload images');
         this.isGalleryUploading = false;
       }
     });
-    this.loadGalleryImages(this.carId);
   }
 
 

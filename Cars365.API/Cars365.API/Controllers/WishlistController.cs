@@ -66,20 +66,24 @@ namespace Cars365.API.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var wishlist = await _context.Wishlists
-                .Include(w => w.Car)
                 .Where(w => w.UserId == userId)
+                .Include(w => w.Car)
+                    .ThenInclude(c => c.CarBrand)
+                .Include(w => w.Car)
+                    .ThenInclude(c => c.CarModel)
                 .Select(w => new
                 {
-                    w.Car.Id,
-                    w.Car.Brand,
-                    w.Car.Model,
-                    w.Car.Price,
-                    w.Car.ImageUrl
+                    Id = w.Car.Id,
+                    Brand = w.Car.CarBrand.Name,
+                    Model = w.Car.CarModel.Name,
+                    Price = w.Car.Price,
+                    ImageUrl = w.Car.ImageUrl
                 })
                 .ToListAsync();
 
             return Ok(wishlist);
         }
+
 
     }
 }

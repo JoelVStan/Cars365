@@ -6,11 +6,6 @@ namespace Cars365.API.Models
     {
         public int Id { get; set; }
 
-        [Required]
-        public string Brand { get; set; } = string.Empty;
-
-        [Required]
-        public string Model { get; set; } = string.Empty;
 
         [Required]
         public string Type { get; set; } = string.Empty; // Hatchback, Sedan, SUV
@@ -40,6 +35,12 @@ namespace Cars365.API.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public ICollection<CarImage> Images { get; set; } = new List<CarImage>();
+        public int? CarBrandId { get; set; }
+        public CarBrand? CarBrand { get; set; }
+
+        public int? CarModelId { get; set; }
+        public CarModel? CarModel { get; set; }
+
 
 
     }
