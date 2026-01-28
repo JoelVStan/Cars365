@@ -8,7 +8,7 @@
     </h1>
 
     <p>
-      Quality-checked cars • Transparent pricing • Easy ownership
+      200+ quality checks • Transparent pricing • Easy ownership
     </p>
 
     <div class="hero-actions">
@@ -16,48 +16,266 @@
         Browse Cars
       </a>
 
-      <a routerLink="/cars" class="btn btn-outline-secondary btn-lg">
+      <a routerLink="/cars?deals=true" class="btn btn-outline-secondary btn-lg">
         View Deals
       </a>
     </div>
   </section>
 
-  <!-- TRUST -->
+  <!-- TRUST WITH NUMBERS -->
   <section class="trust">
     <div class="trust-item">
       <i class="bi bi-shield-check"></i>
-      <span>Verified Cars</span>
+      <span>
+        <strong>200+ Checks</strong><br />
+        Verified Cars
+      </span>
     </div>
 
     <div class="trust-item">
       <i class="bi bi-currency-rupee"></i>
-      <span>No Hidden Charges</span>
+      <span>
+        <strong>₹0 Hidden</strong><br />
+        Transparent Pricing
+      </span>
     </div>
 
     <div class="trust-item">
       <i class="bi bi-arrow-repeat"></i>
-      <span>Easy Transfer</span>
+      <span>
+        <strong>RC in 7 Days</strong><br />
+        Easy Transfer
+      </span>
     </div>
 
     <div class="trust-item">
       <i class="bi bi-headset"></i>
-      <span>Support</span>
+      <span>
+        <strong>Dedicated</strong><br />
+        Support Team
+      </span>
     </div>
   </section>
 
-  <!-- IMAGE STRIP -->
-  <section class="image-strip">
-    <img src="https://images.unsplash.com/photo-1748214547184-d994bfe53322" />
-    <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940" />
-    <img src="https://images.unsplash.com/photo-1761014586544-53fe5e1f1e25" />
+  @if (authService.isLoggedIn() && recentCars.length > 0) {
+    <section class="recent-cars">
+
+      <!-- HEADER -->
+      <div class="recent-header">
+        <h3 class="section-title mb-0">Recently Viewed Cars</h3>
+
+        <button
+          class="btn btn-sm btn-outline-danger"
+          (click)="clearRecent()"
+        >
+          <i class="bi bi-trash"></i> Clear
+        </button>
+      </div>
+
+      <!-- SCROLL WRAPPER -->
+      <div class="recent-wrapper">
+
+        @if (recentCars.length > 3) {
+          <!-- LEFT ARROW -->
+        <button class="scroll-btn left" (click)="scrollLeft()">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        }
+
+        <!-- SCROLL AREA -->
+        <div class="recent-scroll" #scrollContainer>
+          @for (car of recentCars; track car.id) {
+
+            <div class="card h-100 shadow border-0 car-card">
+
+              <!-- Image -->
+              <div class="position-relative">
+                <img
+                  [src]="getImageUrl(car.imageUrl)"
+                  class="card-img-top"
+                  alt="Car image"
+                />
+
+                <span class="badge bg-primary position-absolute bottom-0 start-0 m-2">
+                  Cars365 Guaranteed
+                </span>
+              </div>
+
+              <!-- Body -->
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h5 class="fw-semibold mb-0">
+                    {{ car.year }} {{ car.brand }} {{ car.model }}
+                  </h5>
+
+                  <span class="fw-bold text-primary fs-6">
+                    ₹ {{ formatPrice(car.price) }}
+                  </span>
+                </div>
+
+                <div class="d-flex gap-2">
+                  <span class="badge rounded-pill bg-light text-dark border">
+                    {{ car.fuelType }}
+                  </span>
+
+                  <span class="badge rounded-pill bg-light text-dark border">
+                    {{ car.transmission }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Footer -->
+              <div class="card-footer bg-white border-0 text-center mb-2">
+                <button
+                  class="btn btn-outline-primary btn-sm w-100"
+                  [routerLink]="['/cars', generateCarSlug(car)]"
+                >
+                  View Details
+                </button>
+              </div>
+
+            </div>
+
+          }
+        </div>
+
+        @if (recentCars.length > 3) {
+          <!-- RIGHT ARROW -->
+          <button class="scroll-btn right" (click)="scrollRight()">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        }
+
+      </div>
+
+    </section>
+    }
+
+
+
+
+  <!-- CATEGORY CARDS (REPLACED IMAGE STRIP) -->
+  <section class="categories">
+    <h3 class="section-title">Browse by Category</h3>
+
+    <div class="category-grid">
+
+      <a
+        [routerLink]="['/cars']"
+        [queryParams]="{ type: 'Hatchback' }"
+        class="category-card hatchback"
+      >
+        <i class="bi bi-car-front-fill"></i>
+        <h4>Hatchbacks</h4>
+        <p>Easy to drive • City friendly</p>
+      </a>
+
+      <a
+        [routerLink]="['/cars']"
+        [queryParams]="{ type: 'SUV' }"
+        class="category-card suv"
+      >
+        <i class="bi bi-truck-front-fill"></i>
+        <h4>SUVs</h4>
+        <p>Spacious • Powerful • Safe</p>
+      </a>
+
+      <a
+        [routerLink]="['/cars']"
+        [queryParams]="{ maxPrice: 500000 }"
+        class="category-card budget"
+      >
+        <i class="bi bi-cash-stack"></i>
+        <h4>Under ₹5 Lakh</h4>
+        <p>Best value deals</p>
+      </a>
+
+      <a
+        [routerLink]="['/cars']"
+        [queryParams]="{ transmission: 'Automatic' }"
+        class="category-card automatic"
+      >
+        <i class="bi bi-gear-fill"></i>
+        <h4>Automatic Cars</h4>
+        <p>Comfort without clutch</p>
+      </a>
+
+    </div>
   </section>
 
-  <!-- CTA -->
+
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works">
+    <h3 class="section-title">How Cars365 Works</h3>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step-number">1</span>
+        <h4>Choose Your Car</h4>
+        <p>Browse from verified cars across India</p>
+      </div>
+
+      <div class="step">
+        <span class="step-number">2</span>
+        <h4>Book & Inspect</h4>
+        <p>Book online and inspect before you buy</p>
+      </div>
+
+      <div class="step">
+        <span class="step-number">3</span>
+        <h4>RC Transfer</h4>
+        <p>Fast RC transfer and easy ownership</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CARS365 -->
+  <section class="why-cars365">
+    <h3 class="section-title">Why Cars365?</h3>
+
+    <div class="why-grid">
+      <div class="why-item">
+        <i class="bi bi-check-circle"></i>
+        <h4>Quality First</h4>
+        <p>Every car passes 200+ inspection checks</p>
+      </div>
+
+      <div class="why-item">
+        <i class="bi bi-eye"></i>
+        <h4>Full Transparency</h4>
+        <p>No hidden charges or surprise costs</p>
+      </div>
+
+      <div class="why-item">
+        <i class="bi bi-speedometer2"></i>
+        <h4>Quick Process</h4>
+        <p>Fast booking, delivery & RC transfer</p>
+      </div>
+
+      <div class="why-item">
+        <i class="bi bi-emoji-smile"></i>
+        <h4>Customer Friendly</h4>
+        <p>Support team with you at every step</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA WITH URGENCY -->
   <section class="cta">
     <h3>Find your next car today</h3>
-    <a routerLink="/cars" class="btn btn-dark btn-lg">
-      Explore Used Cars
-    </a>
+    <p>
+      Limited stock • High demand • Book before it's gone
+    </p>
+
+    <div class="cta-actions">
+      <a routerLink="/cars" class="btn btn-dark btn-lg">
+        Explore Used Cars
+      </a>
+      <a routerLink="/contact" class="btn btn-outline-light btn-lg">
+        Talk to Expert
+      </a>
+    </div>
   </section>
 
 </div>

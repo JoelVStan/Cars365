@@ -46,8 +46,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -71,8 +75,7 @@
               "RelativeToolTip": "Cars365.API\\Controllers\\AdminMigrationController.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAAAnwB4AAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T07:13:20.878Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-27T07:13:20.878Z"
             },
             {
               "$type": "Document",
@@ -84,12 +87,7 @@
               "RelativeToolTip": "Cars365.API\\Models\\Car.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T06:57:09.445Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+              "WhenOpened": "2026-01-27T06:57:09.445Z"
             },
             {
               "$type": "Document",
@@ -101,8 +99,7 @@
               "RelativeToolTip": "Cars365.API\\DTOs\\CarImageDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T06:44:26.706Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-27T06:44:26.706Z"
             },
             {
               "$type": "Document",
@@ -114,8 +111,7 @@
               "RelativeToolTip": "Cars365.API\\DTOs\\CarResponseDto.cs",
               "ViewState": "AgIAABcAAAAAAAAAAAA6wCUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T05:59:49.149Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-27T05:59:49.149Z"
             },
             {
               "$type": "Document",
@@ -127,8 +123,7 @@
               "RelativeToolTip": "Cars365.API\\Controllers\\CarsController.cs",
               "ViewState": "AgIAAGsAAAAAAAAAAAAYwHgAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T05:21:38.848Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-27T05:21:38.848Z"
             },
             {
               "$type": "Document",
@@ -140,8 +135,7 @@
               "RelativeToolTip": "Cars365.API\\DTOs\\CreateCarDto.cs",
               "ViewState": "AgIAABYAAAAAAAAAAAAwwAcAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T05:21:13.37Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-27T05:21:13.37Z"
             },
             {
               "$type": "Document",
@@ -153,8 +147,7 @@
               "RelativeToolTip": "Cars365.API\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T05:14:53.141Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-27T05:14:53.141Z"
             },
             {
               "$type": "Document",
@@ -166,8 +159,7 @@
               "RelativeToolTip": "Cars365.API\\Controllers\\CarBrandsController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T05:00:09.861Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-27T05:00:09.861Z"
             }
           ]
         }

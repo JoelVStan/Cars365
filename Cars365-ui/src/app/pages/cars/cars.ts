@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { WishlistService } from '../../services/wishlist.service';
 import { ToastService } from '../../services/toast.service';
 import { generateCarSlug as buildCarSlug } from '../../utils/slug.util';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-cars',
@@ -34,9 +35,12 @@ export class Cars implements OnInit {
   selectedSort: string = '';
   searchTerm = '';
   wishlistedCarIds = new Set<number>();
+  brands: string[] = [];
+  selectedBrand: string = '';
 
 
-  constructor(private carsService: CarsService, public authService: AuthService, private wishlistService: WishlistService, private toast: ToastService) {}
+
+  constructor(private carsService: CarsService, public authService: AuthService, private wishlistService: WishlistService, private toast: ToastService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.isAdmin = this.authService.isAdmin();
@@ -45,7 +49,27 @@ export class Cars implements OnInit {
       next: (res) => {
         this.allCars = [...res];        // original order
         this.filteredCars = [...res];  // working copy
+        this.brands = Array.from(
+        new Set(res.map((c: any) => c.brand).filter(Boolean))
+        ).sort();
         this.loading = false;
+
+        // Check for brand filter in query params
+        this.route.queryParams.subscribe(params => {
+          if (params['type']) {
+            this.filters.type = params['type'];
+          }
+
+          if (params['transmission']) {
+            this.filters.transmission = params['transmission'];
+          }
+
+          if (params['maxPrice']) {
+            this.filters.maxPrice = +params['maxPrice'];
+          }
+
+          this.filteredCars = this.applyFilters([...this.allCars]);
+        });
       },
       error: () => {
         this.loading = false;
@@ -147,6 +171,10 @@ export class Cars implements OnInit {
         }
       }
 
+      if (this.selectedBrand && car.brand !== this.selectedBrand) {
+        return false;
+      }
+
       if (this.filters.fuelType && car.fuelType !== this.filters.fuelType) {
         return false;
       }
@@ -184,6 +212,7 @@ export class Cars implements OnInit {
     this.filteredCars = [...this.allCars];
     this.selectedSort = '';
     this.searchTerm = '';
+    this.selectedBrand = '';
 
   }
 

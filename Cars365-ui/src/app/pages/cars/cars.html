@@ -6,11 +6,11 @@
 
   <div class="filter-bar mb-4 shadow-sm bg-white">
 
-    <!-- ROW 1: SEARCH + SORT -->
+    <!-- ROW 1: SEARCH + BRAND + SORT -->
     <div class="row g-3 align-items-center filter-row-primary">
 
       <!-- Search -->
-      <div class="col-md-8">
+      <div class="col-md-5">
         <div class="search-box">
           <i class="bi bi-search"></i>
           <input
@@ -21,6 +21,20 @@
             (ngModelChange)="onSearchChange()"
           />
         </div>
+      </div>
+
+      <!-- Brand -->
+      <div class="col-md-3">
+        <select
+          class="form-select"
+          [(ngModel)]="selectedBrand"
+          (change)="onFilterChange()"
+        >
+          <option value="">All Brands</option>
+          @for (brand of brands; track brand) {
+            <option [value]="brand">{{ brand }}</option>
+          }
+        </select>
       </div>
 
       <!-- Sort -->

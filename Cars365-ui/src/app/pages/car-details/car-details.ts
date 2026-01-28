@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CarsService } from '../../services/car.service';
+import { RecentlyViewedService } from '../../services/recently-viewed.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-car-details',
@@ -20,7 +22,9 @@ export class CarDetails {
   constructor(
     private route: ActivatedRoute,
     private carsService: CarsService,
-    private router: Router
+    private router: Router,
+    private recentlyViewedService: RecentlyViewedService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -69,14 +73,15 @@ export class CarDetails {
 
         this.car = res;
         this.loading = false;
+        if (this.authService.isLoggedIn()) {
+          this.recentlyViewedService.addCar(this.car);
+        }
       },
       error: () => {
         this.router.navigate(['/cars']);
       }
     });
-
-    
-  }
+}
 
   formatPriceToLakhs(price: number): string {
     return (price / 100000).toFixed(2) + ' Lacs';
