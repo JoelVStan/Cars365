@@ -176,3 +176,22 @@
 }
 
 
+.car-variant {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #292929; /* Bootstrap muted */
+  /* vertical-align: middle; */
+  margin-left: 4px;
+}
+
+.price-text {
+  white-space: nowrap;
+  flex-shrink: 0; /* 🔥 prevents price from wrapping */
+}
+
+.car-title {
+  max-width: calc(100% - 90px); /* reserve space for price */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

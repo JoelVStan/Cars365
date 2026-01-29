@@ -83,7 +83,7 @@
 .action-buttons button {
   border-radius: 10px;
 }
-.emi-box {
+.emi-boxer {
   font-size: 14px;
   color: #495057;
   margin-bottom: 16px;
@@ -225,4 +225,144 @@
 .thumb.active {
   opacity: 1;
   border-color: #5262f5;
+}
+.car-variant {
+  /* font-size: 2rem; */
+  font-weight: 400;
+  color: #292929; /* Bootstrap muted */
+  /* vertical-align: middle; */
+}
+
+.share-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.share-label {
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.share-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #f1f3f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.icon-btn i {
+  font-size: 16px;
+  color: #212529;
+}
+
+.icon-btn:hover {
+  transform: scale(1.1);
+  background: #e9ecef;
+}
+
+/* Platform colors */
+.icon-btn.whatsapp {
+  background: #25d366;
+}
+.icon-btn.whatsapp i {
+  color: white;
+}
+
+.icon-btn.telegram {
+  background: #229ed9;
+}
+.icon-btn.telegram i {
+  color: white;
+}
+
+.icon-btn.gmail {
+  background: #ea4335;
+}
+.icon-btn.gmail i {
+  color: white;
+}
+
+.emi-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  margin-bottom: 10px;
+}
+
+.emi-summary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.emi-box {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.emi-box.highlight {
+  grid-column: span 2;
+  background: linear-gradient(90deg, #e9f7ef, #f8fffb);
+  border: 1px solid #c3e6cb;
+}
+
+.emi-box .label {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.emi-box .value {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.emi-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #198754;
+}
+
+/* Page container */
+.car-details-page {
+  overflow: visible;
+}
+
+/* RIGHT COLUMN STICKY */
+.details-sticky {
+  position: sticky;
+  top: 80px; /* adjust if header height changes */
+}
+
+/* Prevent width shrink issues */
+.details-card {
+  width: 100%;
+}
+
+/* LEFT COLUMN SCROLLS NATURALLY */
+.col-lg-7 {
+  overflow: visible;
+}
+
+/* Mobile fallback (disable sticky) */
+@media (max-width: 991px) {
+  .details-sticky {
+    position: static;
+  }
 }

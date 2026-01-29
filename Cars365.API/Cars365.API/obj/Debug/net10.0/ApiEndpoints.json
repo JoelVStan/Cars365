@@ -144,6 +144,11 @@
         "IsRequired": false
       },
       {
+        "Name": "Variant",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
         "Name": "Year",
         "Type": "System.Int32",
         "IsRequired": false
@@ -315,6 +320,11 @@
       },
       {
         "Name": "Type",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Variant",
         "Type": "System.String",
         "IsRequired": false
       },

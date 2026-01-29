@@ -14,6 +14,7 @@ namespace Cars365.API.DTOs
         [Required]
         public string Type { get; set; } = string.Empty;
 
+        public string? Variant { get; set; }
         public int Year { get; set; }
 
         public string FuelType { get; set; } = string.Empty;

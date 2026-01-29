@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { WishlistService } from '../../services/wishlist.service';
 import { ToastService } from '../../services/toast.service';
 import { generateCarSlug as buildCarSlug } from '../../utils/slug.util';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-cars',
@@ -40,7 +40,7 @@ export class Cars implements OnInit {
 
 
 
-  constructor(private carsService: CarsService, public authService: AuthService, private wishlistService: WishlistService, private toast: ToastService, private route: ActivatedRoute) {}
+  constructor(private carsService: CarsService, public authService: AuthService, private wishlistService: WishlistService, private toast: ToastService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.isAdmin = this.authService.isAdmin();
@@ -56,6 +56,7 @@ export class Cars implements OnInit {
 
         // Check for brand filter in query params
         this.route.queryParams.subscribe(params => {
+
           if (params['type']) {
             this.filters.type = params['type'];
           }
@@ -64,19 +65,66 @@ export class Cars implements OnInit {
             this.filters.transmission = params['transmission'];
           }
 
+          if (params['fuelType']) {
+            this.filters.fuelType = params['fuelType'];
+          }
+
           if (params['maxPrice']) {
             this.filters.maxPrice = +params['maxPrice'];
           }
 
+          if (params['brand']) {
+            this.selectedBrand = params['brand'];
+          }
+
+          if (params['search']) {
+            this.searchTerm = params['search'];
+          }
+
           this.filteredCars = this.applyFilters([...this.allCars]);
         });
+
       },
       error: () => {
         this.loading = false;
-      }
+      } 
     });
     this.wishlistService.getAll().subscribe(wishlist => {
       wishlist.forEach(w => this.wishlistedCarIds.add(w.carId || w.id));
+    });
+  }
+
+  updateQueryParams() {
+    const queryParams: any = {};
+
+    if (this.filters.type) {
+      queryParams.type = this.filters.type;
+    }
+
+    if (this.filters.transmission) {
+      queryParams.transmission = this.filters.transmission;
+    }
+
+    if (this.filters.fuelType) {
+      queryParams.fuelType = this.filters.fuelType;
+    }
+
+    if (this.filters.maxPrice && this.filters.maxPrice < 3000000) {
+      queryParams.maxPrice = this.filters.maxPrice;
+    }
+
+    if (this.selectedBrand) {
+      queryParams.brand = this.selectedBrand;
+    }
+
+    if (this.searchTerm) {
+      queryParams.search = this.searchTerm;
+    }
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams,
+      queryParamsHandling: '' // replace params
     });
   }
 
@@ -121,6 +169,7 @@ export class Cars implements OnInit {
 
   onFilterChange() {
     this.filteredCars = this.applyFilters([...this.allCars]);
+    this.updateQueryParams();
   }
 
 
@@ -197,6 +246,7 @@ export class Cars implements OnInit {
 
   onSearchChange() {
     this.filteredCars = this.applyFilters([...this.allCars]);
+    this.updateQueryParams();
   }
 
 
@@ -213,6 +263,11 @@ export class Cars implements OnInit {
     this.selectedSort = '';
     this.searchTerm = '';
     this.selectedBrand = '';
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {}
+    });
 
   }
 

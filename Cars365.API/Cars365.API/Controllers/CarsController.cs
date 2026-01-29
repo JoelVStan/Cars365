@@ -55,6 +55,7 @@ namespace Cars365.API.Controllers
                 Brand = c.CarBrand.Name,       // ✅ IMPORTANT
                 CarModelId = (int)c.CarModelId,
                 Model = c.CarModel.Name,       // ✅ IMPORTANT
+                Variant = c.Variant,
 
                 ImageUrl = c.ImageUrl,
                 Year = c.Year,
@@ -90,6 +91,7 @@ namespace Cars365.API.Controllers
                 Brand = car.CarBrand.Name,
                 CarModelId = (int)car.CarModelId,
                 Model = car.CarModel.Name,
+                Variant = car.Variant,
 
                 ImageUrl = car.ImageUrl,
 
@@ -158,6 +160,7 @@ namespace Cars365.API.Controllers
             {
                 CarBrandId = dto.CarBrandId,
                 CarModelId = dto.CarModelId,
+                Variant = dto.Variant,
 
                 Year = dto.Year,
                 Type = dto.Type,
@@ -193,6 +196,7 @@ namespace Cars365.API.Controllers
                 Brand = car.CarBrand.Name,
                 CarModelId = (int)car.CarModelId,
                 Model = car.CarModel.Name,
+                Variant = car.Variant,
 
                 ImageUrl = car.ImageUrl,
 
@@ -230,6 +234,7 @@ namespace Cars365.API.Controllers
 
             car.CarBrandId = dto.CarBrandId;
             car.CarModelId = dto.CarModelId;
+            car.Variant = dto.Variant;
 
             car.Type = dto.Type;
             car.Year = dto.Year;

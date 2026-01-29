@@ -41,7 +41,7 @@ namespace Cars365.API.Models
         public int? CarModelId { get; set; }
         public CarModel? CarModel { get; set; }
 
-
+        public string? Variant { get; set; }
 
     }
 }

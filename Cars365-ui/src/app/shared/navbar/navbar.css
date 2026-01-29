@@ -6,3 +6,7 @@
 .toast.show {
   opacity: 1;
 }
+/* Height of navbar compensation */
+main {
+  padding-top: 70px;
+}

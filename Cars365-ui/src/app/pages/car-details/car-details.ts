@@ -4,10 +4,12 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CarsService } from '../../services/car.service';
 import { RecentlyViewedService } from '../../services/recently-viewed.service';
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-car-details',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './car-details.html',
   styleUrl: './car-details.css',
 })
@@ -24,7 +26,8 @@ export class CarDetails {
     private carsService: CarsService,
     private router: Router,
     private recentlyViewedService: RecentlyViewedService,
-    private authService: AuthService
+    public authService: AuthService,
+    private toast: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -137,6 +140,82 @@ export class CarDetails {
       this.selectImage(this.currentIndex + 1);
     }
   }
+
+  getShareUrl(): string {
+    return window.location.href;
+  }
+
+  getShareMessage(): string {
+    return `Check out this ${this.car.year} ${this.car.brand} ${this.car.model} on Cars365 🚗`;
+  }
+
+  copyLink() {
+    navigator.clipboard.writeText(this.getShareUrl());
+    this.toast.success('Link copied to clipboard');
+  }
+
+
+  shareWhatsApp() {
+    const text = encodeURIComponent(
+      `${this.getShareMessage()} ${this.getShareUrl()}`
+    );
+    window.open(`https://wa.me/?text=${text}`, '_blank');
+  }
+
+
+  shareTelegram() {
+    const text = encodeURIComponent(this.getShareMessage());
+    const url = encodeURIComponent(this.getShareUrl());
+    window.open(`https://t.me/share/url?url=${url}&text=${text}`, '_blank');
+  }
+
+
+  shareGmail() {
+    const subject = encodeURIComponent(this.getShareMessage());
+    const body = encodeURIComponent(this.getShareUrl());
+
+    window.open(
+      `https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`,
+      '_blank'
+    );
+  }
+
+  emi = {
+    downPayment: 0,
+    interestRate: 8.5,
+    tenureYears: 3
+  };
+
+  get loanAmount(): number {
+    return Math.max(this.car.price - this.emi.downPayment, 0);
+  }
+
+  get tenureMonths(): number {
+    return this.emi.tenureYears * 12;
+  }
+
+  get monthlyEmi(): number {
+    const P = this.loanAmount;
+    const r = this.emi.interestRate / 12 / 100;
+    const n = this.tenureMonths;
+
+    if (P <= 0 || r <= 0 || n <= 0) return 0;
+
+    return Math.round(
+      (P * r * Math.pow(1 + r, n)) /
+      (Math.pow(1 + r, n) - 1)
+    );
+  }
+
+  get totalPayable(): number {
+    return this.monthlyEmi * this.tenureMonths;
+  }
+
+  get totalInterest(): number {
+    return Math.max(this.totalPayable - this.loanAmount, 0);
+  }
+
+
 
 
 }

@@ -209,12 +209,31 @@
               <div class="card-body">
 
                 <!-- Title + Price -->
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <h5 class="fw-semibold mb-0">
-                    {{ car.year }} {{ car.brand }} {{ car.model }}
-                  </h5>
+                <div class="d-flex justify-content-between align-items-center mb-2 flex-nowrap">
+                  <h5 class="fw-semibold mb-0 car-title text-truncate">
+                    <!-- @if (
+                      ('' + car.year + car.brand + car.model).length > 22
+                    ) {
+                      {{ car.year }} {{ car.model }}
+                    } @else {
+                      {{ car.year }} {{ car.brand }} {{ car.model }}
+                    } -->
+                      {{ car.year }} {{ car.brand }} {{ car.model }}
 
-                  <span class="fw-bold text-primary fs-6">
+                    @if (car.variant) {
+                      <span
+                        class="car-variant"
+                        [title]="car.variant"
+                      >
+                        {{
+                          car.variant.length > 15
+                            ? car.variant.slice(0, 15) + '...'
+                            : car.variant
+                        }}
+                      </span>
+                    }
+                  </h5>
+                  <span class="fw-bold text-primary fs-6 price-text">
                     ₹ {{ formatPrice(car.price) }}
                   </span>
                 </div>

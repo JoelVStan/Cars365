@@ -61,6 +61,7 @@ export class Admin {
       carModelId: ['', Validators.required],
       type: ['', Validators.required],
       year: ['', [Validators.required, Validators.min(1990)]],
+      variant: [''],
 
       fuelType: ['', Validators.required],
       transmission: ['', Validators.required],
@@ -137,6 +138,7 @@ export class Admin {
         carBrandId: car.carBrandId,
         type: car.type,
         year: car.year,
+        variant: car.variant,
         fuelType: car.fuelType,
         transmission: car.transmission,
         price: car.price,
