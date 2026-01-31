@@ -2,14 +2,15 @@ import { Routes } from '@angular/router';
 import { Login } from './pages/login/login';
 import { Register } from './pages/register/register';
 import { Cars } from './pages/cars/cars';
-import { Admin } from './pages/admin/admin';
+import { Admin } from './pages/admin/add-car/admin';
 import { adminGuard } from './guards/admin.guard';
 import { guestGuard } from './guards/guest.guard';
 import { CarDetails } from './pages/car-details/car-details';
 import { Profile } from './pages/profile/profile';
-import { AdminDashboard } from './pages/admin-dashboard/admin-dashboard';
+import { AdminDashboard } from './pages/admin/admin-dashboard/admin-dashboard';
 import { Home } from './pages/home/home';
 import { WishList } from './pages/wish-list/wish-list';
+import { TestDrives } from './pages/admin/test-drives/test-drives';
 
 export const routes: Routes = [
   //{ path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -53,6 +54,12 @@ export const routes: Routes = [
   },
   { path: 'wishlist', 
     component: WishList 
+  },
+
+  {
+    path: 'admin/test-drives',
+    component: TestDrives,
+    canActivate: [adminGuard]
   },
 
 

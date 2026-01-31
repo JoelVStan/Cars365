@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -22,7 +22,8 @@ export class Login {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -52,7 +53,8 @@ export class Login {
           // ✅ Wait 2 seconds, then redirect
           setTimeout(() => {
             this.showToast = false;
-            this.router.navigate(['/']);
+            this.router.navigateByUrl(this.returnUrl);
+            // this.router.navigate(['/']);
           }, 1000);
         },
         error: () => {
@@ -60,6 +62,13 @@ export class Login {
           this.isProcessing = false;
         },
       });
+  }
+
+  returnUrl: string = '/';
+
+  ngOnInit() {
+    this.returnUrl =
+      this.route.snapshot.queryParamMap.get('returnUrl') || '/';
   }
 
   

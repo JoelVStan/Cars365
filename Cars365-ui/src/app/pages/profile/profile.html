@@ -19,7 +19,140 @@
           />
         </div>
 
-        <!-- TOGGLE BUTTON -->
+        <!-- PROFILE FORM -->
+        <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+
+          <div class="mb-3">
+            <label class="form-label">Full Name</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="fullName"
+              placeholder="Your name"
+            />
+
+            @if (profileForm.get('fullName')?.touched && profileForm.get('fullName')?.invalid) {
+              <div class="text-danger small mt-1">
+                @if (profileForm.get('fullName')?.errors?.['required']) {
+                  Full name is required
+                }
+                @if (profileForm.get('fullName')?.errors?.['minlength']) {
+                  Minimum 3 characters required
+                }
+              </div>
+            }
+          </div>
+
+
+          <div class="mb-3">
+            <label class="form-label">Phone Number</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="phoneNumber"
+              placeholder="10-digit mobile number"
+            />
+
+            @if (profileForm.get('phoneNumber')?.touched && profileForm.get('phoneNumber')?.invalid) {
+              <div class="text-danger small mt-1">
+                @if (profileForm.get('phoneNumber')?.errors?.['required']) {
+                  Phone number is required
+                }
+                @if (profileForm.get('phoneNumber')?.errors?.['pattern']) {
+                  Enter a valid 10-digit mobile number
+                }
+              </div>
+            }
+          </div>
+
+
+          <div class="mb-3">
+            <label class="form-label">Address</label>
+            <textarea
+              class="form-control"
+              rows="3"
+              formControlName="address"
+              placeholder="Your address"
+            ></textarea>
+
+            @if (profileForm.get('address')?.errors?.['maxlength']) {
+              <div class="text-danger small mt-1">
+                Address cannot exceed 300 characters
+              </div>
+            }
+          </div>
+
+
+          <button
+            class="btn btn-primary w-100 mb-3"
+            [disabled]="profileForm.invalid"
+          >
+            Save Profile
+          </button>
+
+
+        </form>
+
+        
+
+        @if (!authService.isAdmin()) {
+          <hr class="my-4" />
+          <h5 class="mb-3">
+            <i class="bi bi-car-front"></i>
+            My Test Drives
+          </h5>
+
+          @if (loadingTestDrives) {
+            <div class="spinner-border text-primary"></div>
+          }
+
+          @if (!loadingTestDrives && testDrives.length === 0) {
+            <p class="text-muted">
+              You haven’t requested any test drives yet.
+            </p>
+          }
+
+          @if (testDrives.length > 0) {
+            <div class="test-drive-list">
+
+              @for (td of testDrives; track td.id) {
+                <div class="test-drive-card">
+
+                  <div class="d-flex justify-content-between">
+                    <strong>{{ td.carTitle }}</strong>
+
+                    <span class="badge"
+                          [ngClass]="{
+                            'bg-warning': td.status === 'Pending',
+                            'bg-success': td.status === 'Approved',
+                            'bg-danger': td.status === 'Rejected',
+                            'bg-secondary': td.status === 'Completed'
+                          }">
+                      {{ td.status }}
+                    </span>
+                  </div>
+
+                  <div class="small text-muted mt-1">
+                    📅 {{ td.preferredDate | date:'mediumDate' }}  
+                    ⏰ {{ td.timeSlot }}
+                  </div>
+
+                  <div class="small text-muted mt-1">
+                    Requested on {{ td.createdAt | date:'mediumDate' }}
+                  </div>
+
+                </div>
+              }
+
+            </div>
+          }
+        }
+        
+
+
+        <hr />
+
+        <!-- TOGGLE PASSWORD -->
         <button
           type="button"
           class="btn btn-outline-primary btn-sm mb-3"

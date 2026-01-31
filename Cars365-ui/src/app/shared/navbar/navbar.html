@@ -1,7 +1,7 @@
-<nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top shadow">
+<!-- <nav class="navbar navbar-expand-lg bg-white fixed-top shadow">
   <div class="container">
-    <a class="navbar-brand" routerLink="/">
-      <i class="bi bi-car-front-fill"></i> Cars365
+    <a class="navbar-brand text-primary fw-bold" routerLink="/">
+      <i class="bi bi-car-front-fill text-danger"></i> Cars365
     </a>
 
     <button
@@ -14,23 +14,24 @@
     </button>
 
     @if (auth.isLoggedIn()) {
-      <li class="nav-item">
-        <span class="nav-link text-info">
-          <span class="text-light">Hello,</span>
+      <div class="d-none d-lg-block ms-3">
+        <span class="text-dark">
+          <span class="fw-semibold">Hello,</span>
           {{ auth.getUserEmail() }}
         </span>
-      </li>
+      </div>
     }
+
 
     <div class="collapse navbar-collapse" id="carsNavbar">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/cars">Cars</a>
+          <a class="nav-link text-primary" routerLink="/cars">Cars</a>
         </li>
 
         @if (auth.isLoggedIn() && !auth.isAdmin()) {
           <li class="nav-item">
-            <a class="nav-link" routerLink="/wishlist">
+            <a class="nav-link text-primary" routerLink="/wishlist">
               <i class="bi bi-heart-fill text-danger"></i> Wishlist
             </a>
           </li>
@@ -39,21 +40,13 @@
 
          @if (!auth.isLoggedIn()) {
           <li class="nav-item mt-1 ms-2">
-            <a class="btn btn-outline-light btn-sm" routerLink="/login">Login</a>
+            <a class="btn btn-outline-primary btn-sm" routerLink="/login">Login</a>
           </li>
         }
 
         @if (auth.isAdmin()) {
           <li class="nav-item">
-            <a class="nav-link" routerLink="/admin">
-              <i class="bi bi-plus-circle"></i> Add Car
-            </a>
-          </li>
-        }
-
-        @if (auth.isAdmin()) {
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/admin/dashboard">
+            <a class="nav-link text-primary" routerLink="/admin/dashboard">
               <i class="bi bi-speedometer2"></i> Dashboard
             </a>
           </li>
@@ -64,7 +57,7 @@
 
         @if (auth.isLoggedIn()) {
           <li class="nav-item">
-            <a class="nav-link" routerLink="/profile">
+            <a class="nav-link text-primary" routerLink="/profile">
               <i class="bi bi-person"></i> Profile
             </a>
           </li>
@@ -84,7 +77,97 @@
   </div>
 </nav>
 
-<!-- Toast -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+  <div
+    class="toast align-items-center text-bg-success border-0"
+    [class.show]="showToast"
+  >
+    <div class="d-flex">
+      <div class="toast-body">
+        {{ toastMessage }}
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<nav class="navbar navbar-expand-lg fixed-top shadow-lg">
+  <div class="container">
+    <a class="navbar-brand text-primary" routerLink="/">
+      <i class="bi bi-car-front-fill text-danger"></i> Cars365
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#carsNavbar"
+      aria-controls="carsNavbar"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- User Greeting (visible when logged in) -->
+     @if (auth.isLoggedIn()) {
+      <div class="d-none d-lg-block ms-3">
+        <div class="user-greeting">
+          <span class="fw-semibold">Hello,</span> {{ auth.getDisplayName() }}
+        </div>
+      </div>
+    }
+
+    <div class="collapse navbar-collapse" id="carsNavbar">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link text-primary" routerLink="/cars">
+            <i class="bi bi-car-front nav-icon"></i>Cars
+          </a>
+        </li>
+
+        @if (auth.isLoggedIn() && !auth.isAdmin()) {
+        <li class="nav-item">
+          <a class="nav-link text-primary" routerLink="/wishlist">
+            <i class="bi bi-heart-fill text-danger nav-icon"></i>Wishlist
+          </a>
+        </li>
+        }
+
+        @if (!auth.isLoggedIn()) {
+          <li class="nav-item mt-1 ms-2">
+            <a class="btn btn-outline-primary btn-sm" routerLink="/login">Login</a>
+          </li>
+        }
+
+        @if (auth.isAdmin()) {
+        <li class="nav-item">
+          <a class="nav-link text-primary" routerLink="/admin/dashboard">
+            <i class="bi bi-speedometer2 nav-icon"></i>Admin Dashboard
+          </a>
+        </li>
+      }
+
+      @if (auth.isLoggedIn()) {
+        <li class="nav-item">
+          <a class="nav-link text-primary" routerLink="/profile">
+            <i class="bi bi-person nav-icon"></i>Profile
+          </a>
+        </li>
+      }
+
+      @if (auth.isLoggedIn()) {
+        <li class="nav-item mt-1 ms-2">
+          <a class="btn btn-danger btn-sm" (click)="onLogout()" style="cursor: pointer;">
+            <i class="bi bi-box-arrow-right me-1"></i>Logout
+          </a>
+        </li>
+      }
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Toast Notification -->
 <div class="toast-container position-fixed top-0 end-0 p-3">
   <div
     class="toast align-items-center text-bg-success border-0"
@@ -97,3 +180,5 @@
     </div>
   </div>
 </div>
+
+

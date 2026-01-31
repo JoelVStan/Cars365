@@ -1,6 +1,7 @@
 ﻿using Cars365.API.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace Cars365.API.Data
 {
@@ -16,6 +17,10 @@ namespace Cars365.API.Data
         public DbSet<CarImage> CarImages => Set<CarImage>();
         public DbSet<CarBrand> CarBrands => Set<CarBrand>();
         public DbSet<CarModel> CarModels => Set<CarModel>();
+        public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<TestDriveRequest> TestDriveRequests => Set<TestDriveRequest>();
+
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -51,6 +56,13 @@ namespace Cars365.API.Data
                 .WithMany()
                 .HasForeignKey(c => c.CarModelId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<TestDriveRequest>()
+                .HasOne(t => t.Car)
+                .WithMany()
+                .HasForeignKey(t => t.CarId)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
     

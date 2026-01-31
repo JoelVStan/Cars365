@@ -6,6 +6,7 @@ import { RecentlyViewedService } from '../../services/recently-viewed.service';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
 import { FormsModule } from '@angular/forms';
+import { TestDriveService } from '../../services/test-drive.service';
 
 @Component({
   selector: 'app-car-details',
@@ -21,13 +22,23 @@ export class CarDetails {
   galleryImages: any[] = [];
   currentIndex = 0;
 
+  testDrive = {
+    preferredDate: '',
+    timeSlot: ''
+  };
+
+  existingRequest: any = null;
+  loadingTestDrive = true;
+
+
   constructor(
     private route: ActivatedRoute,
     private carsService: CarsService,
-    private router: Router,
+    public router: Router,
     private recentlyViewedService: RecentlyViewedService,
     public authService: AuthService,
-    private toast: ToastService
+    private toast: ToastService,
+    private testDriveService: TestDriveService
   ) {}
 
   ngOnInit(): void {
@@ -79,12 +90,33 @@ export class CarDetails {
         if (this.authService.isLoggedIn()) {
           this.recentlyViewedService.addCar(this.car);
         }
+        this.testDriveService.getMyRequests().subscribe((res: any) => {
+          this.existingRequest = res.find(
+            (r: any) => r.carId === this.car.id
+          );
+          this.loadingTestDrive = false;
+        });
       },
       error: () => {
         this.router.navigate(['/cars']);
       }
     });
-}
+  }
+
+  requestTestDrive() {
+    if (!this.testDrive.preferredDate || !this.testDrive.timeSlot) {
+      this.toast.error('Please select date and time');
+      return;
+    }
+
+    this.testDriveService
+      .request(this.car.id, this.testDrive)
+      .subscribe(() => {
+        this.toast.success('Test drive requested');
+        this.existingRequest = { status: 'Pending' };
+      });
+  }
+
 
   formatPriceToLakhs(price: number): string {
     return (price / 100000).toFixed(2) + ' Lacs';
@@ -215,6 +247,12 @@ export class CarDetails {
     return Math.max(this.totalPayable - this.loanAmount, 0);
   }
 
+  goToLogin() {
+    const returnUrl = this.router.url; // current car details URL
+    this.router.navigate(['/login'], {
+      queryParams: { returnUrl }
+    });
+  }
 
 
 

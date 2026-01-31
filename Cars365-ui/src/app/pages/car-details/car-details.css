@@ -133,7 +133,7 @@
   border-radius: 16px;
   padding: 18px;
   padding-bottom: 10px;
-  padding-top: 10px;
+  padding-top: 15px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
@@ -365,4 +365,22 @@
   .details-sticky {
     position: static;
   }
+}
+
+.blur-text {
+  filter: blur(4px);
+  user-select: none;
+  pointer-events: none;
+}
+
+.login-hint {
+  display: flex;
+  font-size: 13px;
+  color: #6c757d;
+  margin-top: 1px;
+}
+.test-drive-card {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 14px;
 }

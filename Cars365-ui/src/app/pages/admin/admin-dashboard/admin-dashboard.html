@@ -69,7 +69,25 @@
 
 <hr class="my-4" />
 
-<h5 class="mb-3">Manage Cars</h5>
+<div class="mb-3 d-flex justify-content-start align-items-center">
+  <h5 class="me-3">Manage Cars</h5>
+
+  <button
+    class="btn btn-outline-success"
+    routerLink="/admin"
+  >
+    <i class="bi bi-plus-circle"></i> Add Car
+  </button>
+
+  <button
+    class="btn btn-outline-success ms-2"
+    routerLink="/admin/test-drives"
+  >
+    <i class="bi bi-sign-turn-left-fill"></i> Manage Test Drives
+  </button>
+
+</div>
+
 
 <table class="table table-hover align-middle">
   <thead>

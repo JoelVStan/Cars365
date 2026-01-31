@@ -25,4 +25,5 @@ export class Navbar {
       this.router.navigate(['/login'], { replaceUrl: true });
     }, 1000);
   }
+  
 }

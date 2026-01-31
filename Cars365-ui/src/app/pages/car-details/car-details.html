@@ -53,6 +53,18 @@
           </div>
         }
 
+        @if (!authService.isLoggedIn()) {
+          <div class="detail-specs mt-3">
+            
+              <small
+                class="login-hint text-primary"
+                role="button"
+                (click)="goToLogin()"
+              >
+                Login to view full details
+              </small>
+          </div>
+        }
         <!-- Detailed Specs (Below Image) -->
         <div class="detail-specs mt-3 mb-3">
 
@@ -60,7 +72,12 @@
             <i class="bi bi-speedometer2"></i>
             <div>
               <span class="label">Kms Driven</span>
-              <span class="value">{{ car.kmsDriven | number }} km</span>
+              <span
+                class="value"
+                [class.blur-text]="!authService.isLoggedIn()"
+              >
+                {{ car.kmsDriven | number }} km
+              </span>
             </div>
           </div>
 
@@ -78,7 +95,7 @@
             <i class="bi bi-credit-card-2-front"></i>
             <div>
               <span class="label">Registration</span>
-              <span class="value">{{ car.registrationCode }}</span>
+              <span class="value" [class.blur-text]="!authService.isLoggedIn()">{{ car.registrationCode }}</span>
             </div>
           </div>
 
@@ -94,7 +111,7 @@
             <i class="bi bi-calendar2-check"></i>
             <div>
               <span class="label">Registration Date</span>
-              <span class="value">
+              <span class="value" [class.blur-text]="!authService.isLoggedIn()">
                 {{ car.registrationYear | date:'MMM yyyy' }}
               </span>
             </div>
@@ -114,7 +131,7 @@
             <i class="bi bi-shield-check"></i>
             <div>
               <span class="label">Insurance Till</span>
-              <span class="value">
+              <span class="value" [class.blur-text]="!authService.isLoggedIn()">
                 {{ insuranceDisplay(car.insuranceTill) }}
               </span>
             </div>
@@ -136,89 +153,101 @@
 
         </div>
 
-        @if (authService.isLoggedIn()) {
                   <!-- EMI CALCULATOR -->
          @if (car.price > 300000) {
           <div class="emi-card mt-4">
 
-          <h6 class="mb-3">
-            <i class="bi bi-calculator me-1"></i>
-            EMI Calculator
+          <h6 class="mb-3 d-flex justify-content-between align-items-center">
+            <span>
+              <i class="bi bi-calculator me-1"></i>
+              EMI Calculator
+            </span>
+            @if (!authService.isLoggedIn()) {
+              <small
+                class="login-hint text-primary"
+                role="button"
+                (click)="goToLogin()"
+              >
+                Login to view
+              </small>
+            }
           </h6>
 
-          <!-- INPUTS -->
-          <div class="row g-3">
+          <div [class.blur-text]="!authService.isLoggedIn()">
+              <!-- INPUTS -->
+            <div class="row g-3">
 
-            <!-- Down Payment -->
-            <div class="col-md-4">
-              <label class="small text-muted">Down Payment (₹)</label>
-              <input
-                type="number"
-                class="form-control fancy-input"
-                [value]="emi.downPayment"
-                (input)="emi.downPayment = $any($event.target).valueAsNumber || 0"
-              />
+              <!-- Down Payment -->
+              <div class="col-md-4">
+                <label class="small text-muted">Down Payment (₹)</label>
+                <input
+                  type="number"
+                  class="form-control fancy-input"
+                  [value]="emi.downPayment"
+                  (input)="emi.downPayment = $any($event.target).valueAsNumber || 0"
+                />
+              </div>
+
+              <!-- Interest -->
+              <div class="col-md-4">
+                <label class="small text-muted">Interest Rate (%)</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  class="form-control fancy-input"
+                  [value]="emi.interestRate"
+                  (input)="emi.interestRate = $any($event.target).valueAsNumber || 0"
+                />
+              </div>
+
+              <!-- Tenure -->
+              <div class="col-md-4">
+                <label class="small text-muted">Loan Tenure</label>
+                <select
+                  class="form-select fancy-input"
+                  [ngModel]="emi.tenureYears"
+                  (ngModelChange)="emi.tenureYears = $event"
+                >
+                  <option [ngValue]="3">3 Years</option>
+                  <option [ngValue]="4">4 Years</option>
+                  <option [ngValue]="5">5 Years</option>
+                  <option [ngValue]="6">6 Years</option>
+                  <option [ngValue]="7">7 Years</option>
+                </select>
+              </div>
+
             </div>
 
-            <!-- Interest -->
-            <div class="col-md-4">
-              <label class="small text-muted">Interest Rate (%)</label>
-              <input
-                type="number"
-                step="0.1"
-                class="form-control fancy-input"
-                [value]="emi.interestRate"
-                (input)="emi.interestRate = $any($event.target).valueAsNumber || 0"
-              />
+            <!-- RESULT SUMMARY -->
+            <div class="emi-summary mt-4">
+
+              <div class="emi-box">
+                <span class="label">Principal Amount</span>
+                <span class="value">₹ {{ loanAmount | number }}</span>
+              </div>
+
+              <div class="emi-box">
+                <span class="label">Total Interest</span>
+                <span class="value text-danger">
+                  ₹ {{ totalInterest | number }}
+                </span>
+              </div>
+
+              <div class="emi-box highlight">
+                <span class="label">Monthly EMI</span>
+                <span class="emi-value">
+                  ₹ {{ monthlyEmi | number }}
+                </span>
+              </div>
+
+              <div class="emi-box">
+                <span class="label">Total Payable</span>
+                <span class="value text-success">
+                  ₹ {{ totalPayable | number }}
+                </span>
+              </div>
+
             </div>
-
-            <!-- Tenure -->
-            <div class="col-md-4">
-              <label class="small text-muted">Loan Tenure</label>
-              <select
-                class="form-select fancy-input"
-                [ngModel]="emi.tenureYears"
-                (ngModelChange)="emi.tenureYears = $event"
-              >
-                <option [ngValue]="3">3 Years</option>
-                <option [ngValue]="4">4 Years</option>
-                <option [ngValue]="5">5 Years</option>
-                <option [ngValue]="6">6 Years</option>
-                <option [ngValue]="7">7 Years</option>
-              </select>
-            </div>
-
-          </div>
-
-          <!-- RESULT SUMMARY -->
-          <div class="emi-summary mt-4">
-
-            <div class="emi-box">
-              <span class="label">Principal Amount</span>
-              <span class="value">₹ {{ loanAmount | number }}</span>
-            </div>
-
-            <div class="emi-box">
-              <span class="label">Total Interest</span>
-              <span class="value text-danger">
-                ₹ {{ totalInterest | number }}
-              </span>
-            </div>
-
-            <div class="emi-box highlight">
-              <span class="label">Monthly EMI</span>
-              <span class="emi-value">
-                ₹ {{ monthlyEmi | number }}
-              </span>
-            </div>
-
-            <div class="emi-box">
-              <span class="label">Total Payable</span>
-              <span class="value text-success">
-                ₹ {{ totalPayable | number }}
-              </span>
-            </div>
-
           </div>
 
         </div>
@@ -233,7 +262,23 @@
          </div>
           
          }
-        }
+        
+        <!-- @else {
+          <div class="emi-card mt-4">
+
+          <h6 class="mb-1">
+            <i class="bi bi-calculator me-1"></i>
+            EMI Calculator
+            <p
+              class="login-hint text-primary"
+              role="button"
+              (click)="goToLogin()"
+            >
+              Login to view
+          </p>
+          </h6>
+         </div>
+        } -->
 
         
 
@@ -275,6 +320,62 @@
                 }
 
             </div>
+
+            @if(!authService.isAdmin()){
+              <div class="test-drive-card mt-4">
+
+                <h6>
+                  <i class="bi bi-car-front me-1"></i>
+                  Book a Test Drive
+                </h6>
+
+                @if (!authService.isLoggedIn()) {
+                  <button class="btn btn-outline-primary w-100"
+                          routerLink="/login"
+                          [queryParams]="{ returnUrl: router.url }">
+                    Login to Book Test Drive
+                  </button>
+                }
+
+                @else if (existingRequest) {
+                  <span class="badge w-100 py-2"
+                        [ngClass]="{
+                          'bg-warning': existingRequest.status === 'Pending',
+                          'bg-success': existingRequest.status === 'Approved',
+                          'bg-danger': existingRequest.status === 'Rejected',
+                          'bg-secondary': existingRequest.status === 'Completed'
+                        }">
+                    {{ existingRequest.status }}
+                  </span>
+                }
+
+                @else {
+                  <div class="mt-2">
+                    <label class="small">Preferred Date</label>
+                    <input type="date"
+                          class="form-control mb-2"
+                          [(ngModel)]="testDrive.preferredDate" />
+
+                    <label class="small">Time Slot</label>
+                    <select class="form-select mb-3"
+                            [(ngModel)]="testDrive.timeSlot">
+                      <option value="">Select</option>
+                      <option>10 AM – 12 PM</option>
+                      <option>12 PM – 2 PM</option>
+                      <option>2 PM – 4 PM</option>
+                      <option>4 PM – 6 PM</option>
+                    </select>
+
+                    <button class="btn btn-primary w-100"
+                            (click)="requestTestDrive()">
+                      Request Test Drive
+                    </button>
+                  </div>
+                }
+
+              </div>
+            }
+
 
 
           <!-- Specs -->
