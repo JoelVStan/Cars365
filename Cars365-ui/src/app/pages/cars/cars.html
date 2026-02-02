@@ -168,7 +168,7 @@
     } @else {
 
       <div class="row g-4">
-        @for (car of filteredCars; track car.id) {
+        @for (car of visibleCars; track car.id) {
 
           <div class="col-md-6 col-lg-4">
             <div class="card h-100 shadow border-0 car-card">
@@ -283,6 +283,15 @@
 
         }
       </div>
+      @if (visibleCount < filteredCars.length) {
+        <div class="text-center mt-4">
+          <button
+            class="btn btn-outline-primary px-4"
+            (click)="loadMore()">
+            Load More Cars
+          </button>
+        </div>
+      }
 
     }
   }

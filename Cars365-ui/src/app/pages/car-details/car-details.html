@@ -345,33 +345,20 @@
                           'bg-danger': existingRequest.status === 'Rejected',
                           'bg-secondary': existingRequest.status === 'Completed'
                         }">
-                    {{ existingRequest.status }}
+                    {{ existingRequest.status }} {{ existingRequest.status === 'Rejected' && existingRequest.adminComment ? '- ' + existingRequest.adminComment : '' }}
                   </span>
                 }
 
                 @else {
-                  <div class="mt-2">
-                    <label class="small">Preferred Date</label>
-                    <input type="date"
-                          class="form-control mb-2"
-                          [(ngModel)]="testDrive.preferredDate" />
-
-                    <label class="small">Time Slot</label>
-                    <select class="form-select mb-3"
-                            [(ngModel)]="testDrive.timeSlot">
-                      <option value="">Select</option>
-                      <option>10 AM – 12 PM</option>
-                      <option>12 PM – 2 PM</option>
-                      <option>2 PM – 4 PM</option>
-                      <option>4 PM – 6 PM</option>
-                    </select>
-
-                    <button class="btn btn-primary w-100"
-                            (click)="requestTestDrive()">
-                      Request Test Drive
-                    </button>
-                  </div>
+                  <button
+                    class="btn btn-primary w-100"
+                    [disabled]="existingRequest"
+                    data-bs-toggle="modal"
+                    data-bs-target="#testDriveModal">
+                    Book Test Drive
+                  </button>
                 }
+
 
               </div>
             }
@@ -474,4 +461,56 @@
 
     </div>
   </div>
+
+    <div class="modal fade" id="testDriveModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="bi bi-car-front me-1"></i>
+            Book Test Drive
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="mb-3">
+            <label class="form-label small">Preferred Date</label>
+            <input type="date"
+                  class="form-control"
+                  [(ngModel)]="testDrive.preferredDate" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small">Time Slot</label>
+            <select class="form-select"
+                    [(ngModel)]="testDrive.timeSlot">
+              <option value="">Select</option>
+              <option>10 AM – 12 PM</option>
+              <option>12 PM – 2 PM</option>
+              <option>2 PM – 4 PM</option>
+              <option>4 PM – 6 PM</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary"
+                  data-bs-dismiss="modal">
+            Cancel
+          </button>
+
+          <button class="btn btn-primary"
+                  (click)="confirmTestDrive()">
+            Confirm Booking
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 }

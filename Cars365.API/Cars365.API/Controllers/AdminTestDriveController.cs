@@ -100,17 +100,25 @@ namespace Cars365.API.Controllers
         }
 
         [HttpPut("{id}/reject")]
-        public async Task<IActionResult> Reject(int id, [FromBody] string adminComment)
+        public async Task<IActionResult> Reject(int id, [FromBody] RejectTestDriveDto dto)
         {
             var testDrive = await _context.TestDriveRequests.FindAsync(id);
             if (testDrive == null) return NotFound();
 
             testDrive.Status = "Rejected";
-            testDrive.AdminComment = adminComment;
+            testDrive.AdminComment = dto.AdminComment;
+            //testDrive.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
-            return Ok();
+
+            return Ok(new
+            {
+                testDrive.Id,
+                testDrive.Status,
+                testDrive.AdminComment
+            });
         }
+
 
         [HttpPut("{id}/complete")]
         public async Task<IActionResult> Complete(int id)

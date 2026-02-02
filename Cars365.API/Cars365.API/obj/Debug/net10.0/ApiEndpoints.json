@@ -66,8 +66,8 @@
         "IsRequired": true
       },
       {
-        "Name": "adminComment",
-        "Type": "System.String",
+        "Name": "dto",
+        "Type": "Cars365.API.DTOs.RejectTestDriveDto",
         "IsRequired": true
       }
     ],

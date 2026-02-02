@@ -400,3 +400,75 @@
     display: none;
   }
 }
+
+/* FULL SCREEN LOADER */
+.home-loader {
+  position: fixed;
+  inset: 0;
+  background: #192b53; /* dark premium */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* CONTENT */
+.loader-content {
+  text-align: center;
+  color: #fff;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.loader-content i {
+  font-size: 3.5rem;
+  color: #ef4444; /* Cars365 red */
+  animation: carBounce 1.4s infinite;
+}
+
+.loader-content h2 {
+  margin-top: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.loader-content p {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* LOADING BAR */
+.loader-bar {
+  width: 160px;
+  height: 4px;
+  background: rgba(255,255,255,0.2);
+  margin: 14px auto 0;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.loader-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: #ef4444;
+  animation: loadingBar 1.2s infinite ease-in-out;
+}
+
+/* ANIMATIONS */
+@keyframes loadingBar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
+}
+
+@keyframes carBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+

@@ -4,3 +4,10 @@
   padding: 14px;
   margin-bottom: 12px;
 }
+
+@media (min-width: 992px) {
+  .profile-sticky {
+    position: sticky;
+    top: 90px;
+  }
+}

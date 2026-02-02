@@ -17,6 +17,8 @@ export class Home implements OnInit {
   apiBaseUrl = 'https://localhost:7193'; 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
+  loading = true;
+
   constructor(
     public authService: AuthService,
     private recentService: RecentlyViewedService
@@ -26,6 +28,10 @@ export class Home implements OnInit {
     if (this.authService.isLoggedIn()) {
       this.recentCars = this.recentService.getCars();
     }
+
+    setTimeout(() => {
+      this.loading = false;
+    }, 1200); // 600–1000ms feels best
   }
 
   formatPrice(price: number): string {

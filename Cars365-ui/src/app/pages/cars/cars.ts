@@ -38,7 +38,8 @@ export class Cars implements OnInit {
   brands: string[] = [];
   selectedBrand: string = '';
 
-
+  pageSize = 9;        // cars per load
+  visibleCount = 9;   // currently visible cars
 
   constructor(private carsService: CarsService, public authService: AuthService, private wishlistService: WishlistService, private toast: ToastService, private route: ActivatedRoute, private router: Router) {}
 
@@ -93,6 +94,11 @@ export class Cars implements OnInit {
       wishlist.forEach(w => this.wishlistedCarIds.add(w.carId || w.id));
     });
   }
+
+  get visibleCars() {
+    return this.filteredCars.slice(0, this.visibleCount);
+  }
+
 
   updateQueryParams() {
     const queryParams: any = {};
@@ -169,6 +175,7 @@ export class Cars implements OnInit {
 
   onFilterChange() {
     this.filteredCars = this.applyFilters([...this.allCars]);
+    this.visibleCount = this.pageSize;
     this.updateQueryParams();
   }
 
@@ -203,6 +210,7 @@ export class Cars implements OnInit {
         (a, b) => a.year - b.year
       );
     }
+    this.visibleCount = this.pageSize;
   }
 
   applyFilters(cars: any[]) {
@@ -246,9 +254,13 @@ export class Cars implements OnInit {
 
   onSearchChange() {
     this.filteredCars = this.applyFilters([...this.allCars]);
+    this.visibleCount = this.pageSize;
     this.updateQueryParams();
   }
 
+  loadMore() {
+    this.visibleCount += this.pageSize;
+  }
 
   clearFilters() {
     this.filters = {
@@ -263,6 +275,7 @@ export class Cars implements OnInit {
     this.selectedSort = '';
     this.searchTerm = '';
     this.selectedBrand = '';
+    this.visibleCount = this.pageSize;
 
     this.router.navigate([], {
       relativeTo: this.route,

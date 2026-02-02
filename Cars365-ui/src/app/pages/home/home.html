@@ -1,3 +1,15 @@
+@if (loading) {
+  <div class="home-loader">
+    <div class="loader-content">
+      <i class="bi bi-car-front-fill"></i>
+      <h2>Cars365</h2>
+      <p>Finding trusted cars for you…</p>
+      <div class="loader-bar"></div>
+    </div>
+  </div>
+}
+
+@if (!loading) {
 <div class="home-wrapper">
 
   <!-- HERO -->
@@ -282,3 +294,4 @@
   </section>
 
 </div>
+}

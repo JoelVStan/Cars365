@@ -29,8 +29,11 @@ export class TestDriveService {
   }
 
   reject(id: number, comment: string) {
-    return this.http.put(`${this.adminapi}/${id}/reject`, { comment });
+    return this.http.put(`${this.adminapi}/${id}/reject`, {
+      adminComment: comment
+    });
   }
+
 
   complete(id: number) {
     return this.http.put(`${this.adminapi}/${id}/complete`, {});

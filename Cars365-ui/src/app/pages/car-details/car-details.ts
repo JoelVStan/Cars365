@@ -30,7 +30,6 @@ export class CarDetails {
   existingRequest: any = null;
   loadingTestDrive = true;
 
-
   constructor(
     private route: ActivatedRoute,
     private carsService: CarsService,
@@ -90,16 +89,21 @@ export class CarDetails {
         if (this.authService.isLoggedIn()) {
           this.recentlyViewedService.addCar(this.car);
         }
-        this.testDriveService.getMyRequests().subscribe((res: any) => {
-          this.existingRequest = res.find(
-            (r: any) => r.carId === this.car.id
-          );
-          this.loadingTestDrive = false;
-        });
+        this.loadTestDriveStatus();
       },
       error: () => {
         this.router.navigate(['/cars']);
       }
+    });
+  }
+
+  loadTestDriveStatus() {
+    if (!this.authService.isLoggedIn()) return;
+
+    this.testDriveService.getMyRequests().subscribe((res: any) => {
+      this.existingRequest =
+        res.find((r: { car: { id: any; }; }) => r.car?.id === this.car.id) || null;
+      this.loadingTestDrive = false;
     });
   }
 
@@ -113,9 +117,39 @@ export class CarDetails {
       .request(this.car.id, this.testDrive)
       .subscribe(() => {
         this.toast.success('Test drive requested');
-        this.existingRequest = { status: 'Pending' };
+        this.loadTestDriveStatus(); // ✅ reload from backend
       });
+
   }
+
+  confirmTestDrive() {
+  if (!this.testDrive.preferredDate || !this.testDrive.timeSlot) {
+    this.toast.error('Please select date and time');
+    return;
+  }
+
+  this.testDriveService
+    .request(this.car.id, this.testDrive)
+    .subscribe(() => {
+      this.toast.success('Test drive requested');
+
+      this.existingRequest = {
+        status: 'Pending'
+      };
+
+      // reset form
+      this.testDrive = {
+        preferredDate: '',
+        timeSlot: ''
+      };
+
+      // close modal (Bootstrap way)
+      const modalEl = document.getElementById('testDriveModal');
+      const modal = (window as any).bootstrap.Modal.getInstance(modalEl);
+      modal?.hide();
+    });
+}
+
 
 
   formatPriceToLakhs(price: number): string {

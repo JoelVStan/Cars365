@@ -1,7 +1,8 @@
-<div class="row justify-content-center">
-  <div class="col-md-6 col-lg-5">
+<div class="row g-4">
 
-    <div class="card shadow-sm">
+  <!-- LEFT: PROFILE -->
+  <div class="col-lg-5">
+    <div class="card shadow-sm h-100 profile-sticky">
       <div class="card-body">
 
         <h4 class="mb-4">
@@ -11,25 +12,18 @@
         <!-- EMAIL -->
         <div class="mb-3">
           <label class="form-label">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            [value]="email"
-            disabled
-          />
+          <input type="email" class="form-control" [value]="email" disabled />
         </div>
 
         <!-- PROFILE FORM -->
         <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
 
+          <!-- Full Name -->
           <div class="mb-3">
             <label class="form-label">Full Name</label>
-            <input
-              type="text"
-              class="form-control"
-              formControlName="fullName"
-              placeholder="Your name"
-            />
+            <input type="text" class="form-control"
+                   formControlName="fullName"
+                   placeholder="Your name" />
 
             @if (profileForm.get('fullName')?.touched && profileForm.get('fullName')?.invalid) {
               <div class="text-danger small mt-1">
@@ -43,64 +37,80 @@
             }
           </div>
 
-
+          <!-- Phone -->
           <div class="mb-3">
             <label class="form-label">Phone Number</label>
-            <input
-              type="text"
-              class="form-control"
-              formControlName="phoneNumber"
-              placeholder="10-digit mobile number"
-            />
-
-            @if (profileForm.get('phoneNumber')?.touched && profileForm.get('phoneNumber')?.invalid) {
-              <div class="text-danger small mt-1">
-                @if (profileForm.get('phoneNumber')?.errors?.['required']) {
-                  Phone number is required
-                }
-                @if (profileForm.get('phoneNumber')?.errors?.['pattern']) {
-                  Enter a valid 10-digit mobile number
-                }
-              </div>
-            }
+            <input type="text" class="form-control"
+                   formControlName="phoneNumber"
+                   placeholder="10-digit mobile number" />
           </div>
 
-
+          <!-- Address -->
           <div class="mb-3">
             <label class="form-label">Address</label>
-            <textarea
-              class="form-control"
-              rows="3"
-              formControlName="address"
-              placeholder="Your address"
-            ></textarea>
-
-            @if (profileForm.get('address')?.errors?.['maxlength']) {
-              <div class="text-danger small mt-1">
-                Address cannot exceed 300 characters
-              </div>
-            }
+            <textarea class="form-control"
+                      rows="3"
+                      formControlName="address"></textarea>
           </div>
 
-
-          <button
-            class="btn btn-primary w-100 mb-3"
-            [disabled]="profileForm.invalid"
-          >
+          <button class="btn btn-primary w-100 mb-3"
+                  [disabled]="profileForm.invalid">
             Save Profile
           </button>
 
-
         </form>
 
-        
+        <hr />
 
-        @if (!authService.isAdmin()) {
-          <hr class="my-4" />
-          <h5 class="mb-3">
-            <i class="bi bi-car-front"></i>
-            My Test Drives
-          </h5>
+        <!-- PASSWORD -->
+        <button class="btn btn-outline-primary btn-sm mb-3"
+                (click)="toggleChangePassword()">
+          <i class="bi bi-key"></i>
+          {{ showChangePassword ? 'Cancel Password Change' : 'Change Password' }}
+        </button>
+
+        @if (message) {
+          <div class="alert alert-success">{{ message }}</div>
+        }
+
+        @if (error) {
+          <div class="alert alert-danger">{{ error }}</div>
+        }
+
+        @if (showChangePassword) {
+          <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+
+            <div class="mb-3">
+              <label class="form-label">Current Password</label>
+              <input type="password" class="form-control"
+                     formControlName="currentPassword" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">New Password</label>
+              <input type="password" class="form-control"
+                     formControlName="newPassword" />
+            </div>
+
+            <button class="btn btn-primary w-100">
+              Update Password
+            </button>
+          </form>
+        }
+
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: TEST DRIVES -->
+  @if (!authService.isAdmin()) {
+    <div class="col-lg-7">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+
+          <h4 class="mb-3">
+            <i class="bi bi-car-front"></i> My Test Drives
+          </h4>
 
           @if (loadingTestDrives) {
             <div class="spinner-border text-primary"></div>
@@ -113,98 +123,46 @@
           }
 
           @if (testDrives.length > 0) {
-            <div class="test-drive-list">
+            @for (td of testDrives; track td.id) {
+              <div class="border rounded p-3 mb-3">
 
-              @for (td of testDrives; track td.id) {
-                <div class="test-drive-card">
+                <div class="d-flex justify-content-between align-items-start">
+                  <strong>
+                    {{ td.car.year }} {{ td.car.brand }} {{ td.car.model }}
+                    @if (td.car.variant) {
+                      <span class="text-muted small ms-1">
+                        {{ td.car.variant }}
+                      </span>
+                    }
+                  </strong>
 
-                  <div class="d-flex justify-content-between">
-                    <strong>{{ td.carTitle }}</strong>
-
-                    <span class="badge"
-                          [ngClass]="{
-                            'bg-warning': td.status === 'Pending',
-                            'bg-success': td.status === 'Approved',
-                            'bg-danger': td.status === 'Rejected',
-                            'bg-secondary': td.status === 'Completed'
-                          }">
-                      {{ td.status }}
-                    </span>
-                  </div>
-
-                  <div class="small text-muted mt-1">
-                    📅 {{ td.preferredDate | date:'mediumDate' }}  
-                    ⏰ {{ td.timeSlot }}
-                  </div>
-
-                  <div class="small text-muted mt-1">
-                    Requested on {{ td.createdAt | date:'mediumDate' }}
-                  </div>
-
+                  <span class="badge"
+                        [ngClass]="{
+                          'bg-warning': td.status === 'Pending',
+                          'bg-success': td.status === 'Approved',
+                          'bg-danger': td.status === 'Rejected',
+                          'bg-secondary': td.status === 'Completed'
+                        }">
+                    {{ td.status }}
+                  </span>
                 </div>
-              }
 
-            </div>
+                <div class="small text-muted mt-2">
+                  📅 {{ td.preferredDate | date:'mediumDate' }}
+                  ⏰ {{ td.timeSlot }}
+                </div>
+
+                <div class="small text-muted">
+                  Requested on {{ td.createdAt | date:'mediumDate' }}
+                </div>
+
+              </div>
+            }
           }
-        }
-        
 
-
-        <hr />
-
-        <!-- TOGGLE PASSWORD -->
-        <button
-          type="button"
-          class="btn btn-outline-primary btn-sm mb-3"
-          (click)="toggleChangePassword()"
-        >
-          <i class="bi bi-key"></i>
-          {{ showChangePassword ? 'Cancel Password Change' : 'Change Password' }}
-        </button>
-
-        <!-- MESSAGES -->
-        @if (message) {
-          <div class="alert alert-success">{{ message }}</div>
-        }
-
-        @if (error) {
-          <div class="alert alert-danger">{{ error }}</div>
-        }
-
-        <!-- CHANGE PASSWORD FORM -->
-        @if (showChangePassword) {
-          <form
-            [formGroup]="passwordForm"
-            (ngSubmit)="changePassword()"
-          >
-
-            <div class="mb-3">
-              <label class="form-label">Current Password</label>
-              <input
-                type="password"
-                class="form-control"
-                formControlName="currentPassword"
-              />
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">New Password</label>
-              <input
-                type="password"
-                class="form-control"
-                formControlName="newPassword"
-              />
-            </div>
-
-            <button class="btn btn-primary w-100">
-              Update Password
-            </button>
-
-          </form>
-        }
-
+        </div>
       </div>
     </div>
+  }
 
-  </div>
 </div>
