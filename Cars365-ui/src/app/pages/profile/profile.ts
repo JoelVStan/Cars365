@@ -74,6 +74,13 @@ export class Profile implements OnInit {
     });
   }
 
+  get isProfileIncomplete(): boolean {
+    const { fullName, phoneNumber, address } = this.profileForm.value;
+
+    return !fullName || !phoneNumber || !address;
+  }
+
+
   /* ---------- PROFILE ---------- */
 
   loadProfile() {

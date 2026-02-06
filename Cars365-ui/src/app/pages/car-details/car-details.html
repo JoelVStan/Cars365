@@ -350,14 +350,27 @@
                 }
 
                 @else {
-                  <button
-                    class="btn btn-primary w-100"
-                    [disabled]="existingRequest"
-                    data-bs-toggle="modal"
-                    data-bs-target="#testDriveModal">
-                    Book Test Drive
-                  </button>
+
+                  @if (!isProfileComplete) {
+                    <button
+                      class="btn btn-primary w-100"
+                      data-bs-toggle="modal"
+                      data-bs-target="#completeProfileModal">
+                      Book Test Drive
+                    </button>
+                  }
+
+                  @else {
+                    <button
+                      class="btn btn-primary w-100"
+                      data-bs-toggle="modal"
+                      data-bs-target="#testDriveModal">
+                      Book Test Drive
+                    </button>
+                  }
+
                 }
+
 
 
               </div>
@@ -512,5 +525,47 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="completeProfileModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="bi bi-exclamation-circle text-warning me-2"></i>
+            Complete Your Profile
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <p class="mb-2">
+            To book a test drive, please complete your profile details.
+          </p>
+
+          <ul class="small text-muted mb-0">
+            <li>Full Name</li>
+            <li>Phone Number</li>
+            <li>Address</li>
+          </ul>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary"
+                  data-bs-dismiss="modal">
+            Cancel
+          </button>
+
+          <a class="btn btn-primary"
+            routerLink="/profile"
+            data-bs-dismiss="modal">
+            Go to Profile
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 
 }

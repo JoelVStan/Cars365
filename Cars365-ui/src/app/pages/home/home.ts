@@ -31,7 +31,7 @@ export class Home implements OnInit {
 
     setTimeout(() => {
       this.loading = false;
-    }, 1200); // 600–1000ms feels best
+    }, 800); // 600–1000ms feels best
   }
 
   formatPrice(price: number): string {

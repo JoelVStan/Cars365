@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
 import { FormsModule } from '@angular/forms';
 import { TestDriveService } from '../../services/test-drive.service';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-car-details',
@@ -30,6 +31,9 @@ export class CarDetails {
   existingRequest: any = null;
   loadingTestDrive = true;
 
+  isProfileComplete = false;
+
+
   constructor(
     private route: ActivatedRoute,
     private carsService: CarsService,
@@ -37,7 +41,8 @@ export class CarDetails {
     private recentlyViewedService: RecentlyViewedService,
     public authService: AuthService,
     private toast: ToastService,
-    private testDriveService: TestDriveService
+    private testDriveService: TestDriveService,
+    private profileService: ProfileService
   ) {}
 
   ngOnInit(): void {
@@ -95,6 +100,15 @@ export class CarDetails {
         this.router.navigate(['/cars']);
       }
     });
+
+    this.profileService.getProfile().subscribe(profile => {
+      this.isProfileComplete = !!(
+        profile?.fullName &&
+        profile?.phoneNumber &&
+        profile?.address
+      );
+    });
+
   }
 
   loadTestDriveStatus() {
@@ -287,7 +301,6 @@ export class CarDetails {
       queryParams: { returnUrl }
     });
   }
-
 
 
 }
