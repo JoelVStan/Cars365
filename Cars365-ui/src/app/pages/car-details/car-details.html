@@ -338,15 +338,26 @@
                 }
 
                 @else if (existingRequest) {
-                  <span class="badge w-100 py-2"
-                        [ngClass]="{
-                          'bg-warning': existingRequest.status === 'Pending',
-                          'bg-success': existingRequest.status === 'Approved',
-                          'bg-danger': existingRequest.status === 'Rejected',
-                          'bg-secondary': existingRequest.status === 'Completed'
-                        }">
-                    {{ existingRequest.status }} {{ existingRequest.status === 'Rejected' && existingRequest.adminComment ? '- ' + existingRequest.adminComment : '' }}
-                  </span>
+                  <div class="d-grid gap-2">
+                    <span class="badge w-100 py-2"
+                          [ngClass]="{
+                            'bg-warning': existingRequest.status === 'Pending',
+                            'bg-success': existingRequest.status === 'Approved',
+                            'bg-danger': existingRequest.status === 'Rejected',
+                            'bg-secondary': existingRequest.status === 'Completed',
+                            'bg-dark': existingRequest.status === 'Cancelled'
+                          }">
+                      {{ existingRequest.status }}
+                      {{ existingRequest.status === 'Rejected' && existingRequest.adminComment ? '- ' + existingRequest.adminComment : '' }}
+                    </span>
+
+                    @if (canCancelTestDrive()) {
+                      <button class="btn btn-outline-danger btn-sm w-100"
+                              (click)="cancelTestDrive()">
+                        Cancel Test Drive
+                      </button>
+                    }
+                  </div>
                 }
 
                 @else {

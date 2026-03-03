@@ -302,5 +302,28 @@ export class CarDetails {
     });
   }
 
+  canCancelTestDrive(): boolean {
+    return (
+      !!this.existingRequest &&
+      (this.existingRequest.status === 'Pending' ||
+        this.existingRequest.status === 'Approved')
+    );
+  }
+
+  cancelTestDrive() {
+    if (!this.existingRequest?.id) return;
+
+    this.testDriveService.cancel(this.existingRequest.id).subscribe({
+      next: () => {
+        this.toast.success('Test drive booking cancelled');
+        this.loadTestDriveStatus(); // reload latest state from backend
+      },
+      error: (err) => {
+        this.toast.error(
+          err?.error?.message || 'Unable to cancel test drive booking'
+        );
+      }
+    });
+  }
 
 }

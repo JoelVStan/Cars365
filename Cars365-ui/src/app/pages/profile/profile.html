@@ -149,7 +149,8 @@
                           'bg-warning': td.status === 'Pending',
                           'bg-success': td.status === 'Approved',
                           'bg-danger': td.status === 'Rejected',
-                          'bg-secondary': td.status === 'Completed'
+                          'bg-secondary': td.status === 'Completed',
+                          'bg-dark': td.status === 'Cancelled'
                         }">
                     {{ td.status }}
                   </span>
@@ -163,6 +164,15 @@
                 <div class="small text-muted">
                   Requested on {{ td.createdAt | date:'mediumDate' }}
                 </div>
+
+                @if (td.status === 'Pending' || td.status === 'Approved') {
+                  <div class="mt-2">
+                    <button class="btn btn-sm btn-outline-danger"
+                            (click)="cancelTestDrive(td.id)">
+                      Cancel
+                    </button>
+                  </div>
+                }
 
               </div>
             }

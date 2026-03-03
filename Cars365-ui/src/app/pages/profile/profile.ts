@@ -154,4 +154,16 @@ export class Profile implements OnInit {
       }
     });
   }
+
+  cancelTestDrive(id: number) {
+    this.testDriveService.cancel(id).subscribe({
+      next: () => {
+        this.loadTestDrives();
+      },
+      error: () => {
+        // optionally show toast if ToastService is already wired in this component
+        alert('Unable to cancel test drive');
+      }
+    });
+  }
 }

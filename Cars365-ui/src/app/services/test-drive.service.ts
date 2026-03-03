@@ -38,4 +38,8 @@ export class TestDriveService {
   complete(id: number) {
     return this.http.put(`${this.adminapi}/${id}/complete`, {});
   }
+
+  cancel(id: number) {
+    return this.http.put(`${this.api}/${id}/cancel`, {});
+  }
 }

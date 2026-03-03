@@ -112,5 +112,41 @@ namespace Cars365.API.Controllers
             return Ok(testDrives);
         }
 
+        [HttpPut("{id}/cancel")]
+        public async Task<IActionResult> CancelMyTestDrive(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+                return Unauthorized();
+
+            var testDrive = await _context.TestDriveRequests.FindAsync(id);
+
+            if (testDrive == null)
+                return NotFound("Test drive request not found");
+
+            // User can cancel only their own request
+            if (testDrive.UserId != userId)
+                return Forbid();
+
+            // Allow cancellation only in Pending / Approved
+            if (testDrive.Status != "Pending" && testDrive.Status != "Approved")
+            {
+                return BadRequest("Only pending or approved test drives can be cancelled");
+            }
+
+            testDrive.Status = "Cancelled";
+            testDrive.AdminComment = "Cancelled by user";
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                testDrive.Id,
+                testDrive.Status,
+                testDrive.AdminComment
+            });
+        }
+
     }
 }
