@@ -195,3 +195,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.compare-bar {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  padding: 10px 0;
+  z-index: 999;
+}

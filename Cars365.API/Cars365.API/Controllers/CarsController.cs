@@ -504,7 +504,71 @@ namespace Cars365.API.Controllers
             return Ok();
         }
 
+        // GET: api/cars/compare?ids=1,2,3
+        [HttpGet("compare")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CompareCars([FromQuery] string ids)
+        {
+            if (string.IsNullOrWhiteSpace(ids))
+                return BadRequest("Please provide ids query param. Example: ?ids=1,2,3");
 
+            var carIds = ids
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => int.TryParse(x, out var id) ? id : 0)
+                .Where(id => id > 0)
+                .Distinct()
+                .Take(3)
+                .ToList();
+
+            if (carIds.Count < 2)
+                return BadRequest("Please provide at least 2 valid car ids");
+
+            var cars = await _context.Cars
+                .Include(c => c.CarBrand)
+                .Include(c => c.CarModel)
+                .Include(c => c.Images)
+                .Where(c => carIds.Contains(c.Id) && !c.IsDeleted && c.IsActive)
+                .Select(c => new CarResponseDto
+                {
+                    Id = c.Id,
+                    CarBrandId = (int)c.CarBrandId!,
+                    Brand = c.CarBrand!.Name,
+                    CarModelId = (int)c.CarModelId!,
+                    Model = c.CarModel!.Name,
+                    Variant = c.Variant,
+                    Type = c.Type,
+                    Year = c.Year,
+                    FuelType = c.FuelType,
+                    Transmission = c.Transmission,
+                    Price = c.Price,
+                    KmsDriven = c.KmsDriven,
+                    Ownership = c.Ownership,
+                    RegistrationCode = c.RegistrationCode,
+                    RegistrationYear = c.RegistrationYear,
+                    EngineCC = c.EngineCC,
+                    InsuranceTill = c.InsuranceTill,
+                    HasSpareKey = c.HasSpareKey,
+                    Description = c.Description,
+                    IsActive = c.IsActive,
+                    CreatedAt = c.CreatedAt,
+                    ImageUrl = c.Images
+                        .Where(i => i.IsPrimary)
+                        .Select(i => i.ImageUrl)
+                        .FirstOrDefault() ?? c.ImageUrl
+                })
+                .ToListAsync();
+
+            // Keep same order as input ids
+            var ordered = carIds
+                .Select(id => cars.FirstOrDefault(c => c.Id == id))
+                .Where(c => c != null)
+                .ToList();
+
+            if (ordered.Count < 2)
+                return BadRequest("At least 2 active cars are required for comparison");
+
+            return Ok(ordered);
+        }
 
     }
 }

@@ -81,6 +81,10 @@ export class CarsService {
     );
   }
 
+  getCompareCars(ids: number[]) {
+    const query = ids.join(',');
+    return this.http.get<any[]>(`${this.apiUrl}/compare?ids=${query}`);
+  }
 
 
 }

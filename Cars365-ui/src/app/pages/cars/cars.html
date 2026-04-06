@@ -272,10 +272,19 @@
                     </button>
                   </div>
                 } @else {
-                  <button class="btn btn-outline-primary btn-sm w-100" [routerLink]="['/cars', generateCarSlug(car)]">
-                    View Details
-                  </button>
-                }
+                    <div class="d-flex gap-2">
+                      <button class="btn btn-outline-primary btn-sm w-100"
+                              [routerLink]="['/cars', generateCarSlug(car)]">
+                        View Details
+                      </button>
+
+                      <button class="btn btn-outline-dark btn-sm"
+                              [ngClass]="isCompared(car.id) ? 'active' : ''"
+                              (click)="toggleCompare(car.id)">
+                        {{ isCompared(car.id) ? 'Added' : 'Compare' }}
+                      </button>
+                    </div>
+                  }
               </div>
 
             </div>
@@ -283,6 +292,7 @@
 
         }
       </div>
+      
       @if (visibleCount < filteredCars.length) {
         <div class="text-center mt-4">
           <button
@@ -290,6 +300,21 @@
             (click)="loadMore()">
             Load More Cars
           </button>
+        </div>
+      }
+
+      @if (compareCarIds.size > 0) {
+        <div class="compare-bar shadow">
+          <div class="container d-flex justify-content-between align-items-center">
+            <span>
+              {{ compareCarIds.size }} car(s) selected
+            </span>
+            <button class="btn btn-primary btn-sm"
+                    [disabled]="compareCarIds.size < 2"
+                    (click)="goToCompare()">
+              Compare Now
+            </button>
+          </div>
         </div>
       }
 

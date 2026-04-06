@@ -41,6 +41,9 @@ export class Cars implements OnInit {
   pageSize = 9;        // cars per load
   visibleCount = 9;   // currently visible cars
 
+  compareCarIds = new Set<number>();
+  maxCompare = 3;
+
   constructor(private carsService: CarsService, public authService: AuthService, private wishlistService: WishlistService, private toast: ToastService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
@@ -327,6 +330,33 @@ export class Cars implements OnInit {
     return buildCarSlug(car);
   }
 
+  toggleCompare(carId: number) {
+    if (this.compareCarIds.has(carId)) {
+      this.compareCarIds.delete(carId);
+      return;
+    }
+
+    if (this.compareCarIds.size >= this.maxCompare) {
+      this.toast.error('You can compare up to 3 cars only');
+      return;
+    }
+
+    this.compareCarIds.add(carId);
+  }
+
+  isCompared(carId: number): boolean {
+    return this.compareCarIds.has(carId);
+  }
+
+  goToCompare() {
+    if (this.compareCarIds.size < 2) {
+      this.toast.error('Select at least 2 cars to compare');
+      return;
+    }
+
+    const ids = Array.from(this.compareCarIds).join(',');
+    this.router.navigate(['/compare'], { queryParams: { ids } });
+  }
 
 
 }

@@ -11,6 +11,7 @@ import { AdminDashboard } from './pages/admin/admin-dashboard/admin-dashboard';
 import { Home } from './pages/home/home';
 import { WishList } from './pages/wish-list/wish-list';
 import { TestDrives } from './pages/admin/test-drives/test-drives';
+import { CompareCars } from './pages/compare-cars/compare-cars';
 
 export const routes: Routes = [
   //{ path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -60,6 +61,11 @@ export const routes: Routes = [
     path: 'admin/test-drives',
     component: TestDrives,
     canActivate: [adminGuard]
+  },
+
+  {
+    path: 'compare',
+    component: CompareCars
   },
 
 

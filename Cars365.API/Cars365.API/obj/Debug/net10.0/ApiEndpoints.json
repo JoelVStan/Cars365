@@ -519,6 +519,22 @@
   },
   {
     "ContainingType": "Cars365.API.Controllers.CarsController",
+    "Method": "CompareCars",
+    "RelativePath": "api/Cars/compare",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ids",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cars365.API.Controllers.CarsController",
     "Method": "GetDashboardStats",
     "RelativePath": "api/Cars/dashboard-stats",
     "HttpMethod": "GET",

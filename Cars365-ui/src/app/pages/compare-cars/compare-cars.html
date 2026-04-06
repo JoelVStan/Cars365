@@ -1,0 +1,51 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Compare Cars</h3>
+    <a routerLink="/cars" class="btn btn-outline-secondary btn-sm">Back to Cars</a>
+  </div>
+
+  @if (loading) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary"></div>
+    </div>
+  } @else if (cars.length < 2) {
+    <div class="alert alert-info">
+      Select at least 2 cars to compare.
+    </div>
+  } @else {
+    <div class="table-responsive">
+      <table class="table table-bordered align-middle compare-table">
+        <thead>
+          <tr>
+            <th style="min-width: 180px;">Specification</th>
+            @for (car of cars; track car.id) {
+              <th class="text-center" style="min-width: 250px;">
+                <img [src]="getImageUrl(car.imageUrl)" class="img-fluid rounded mb-2 compare-img" alt="car" />
+                <div class="fw-semibold">{{ car.year }} {{ car.brand }} {{ car.model }}</div>
+                @if (car.variant) {
+                  <small class="text-muted">{{ car.variant }}</small>
+                }
+                <div class="mt-2">
+                  <button class="btn btn-sm btn-outline-danger" (click)="removeCar(car.id)">
+                    Remove
+                  </button>
+                </div>
+              </th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th>Price</th> @for (car of cars; track car.id) { <td>₹ {{ formatPrice(car.price) }}</td> }</tr>
+          <tr><th>Type</th> @for (car of cars; track car.id) { <td>{{ car.type }}</td> }</tr>
+          <tr><th>Fuel Type</th> @for (car of cars; track car.id) { <td>{{ car.fuelType }}</td> }</tr>
+          <tr><th>Transmission</th> @for (car of cars; track car.id) { <td>{{ car.transmission }}</td> }</tr>
+          <tr><th>KMs Driven</th> @for (car of cars; track car.id) { <td>{{ car.kmsDriven | number }} km</td> }</tr>
+          <tr><th>Ownership</th> @for (car of cars; track car.id) { <td>{{ car.ownership }}</td> }</tr>
+          <tr><th>Engine</th> @for (car of cars; track car.id) { <td>{{ car.engineCC }} cc</td> }</tr>
+          <tr><th>Registration</th> @for (car of cars; track car.id) { <td>{{ car.registrationCode }}</td> }</tr>
+          <tr><th>Spare Key</th> @for (car of cars; track car.id) { <td>{{ car.hasSpareKey ? 'Yes' : 'No' }}</td> }</tr>
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
