@@ -27,6 +27,7 @@ export class AuthService {
   saveToken(token: string) {
     localStorage.setItem('token', token);
     this.loadDisplayName();
+    this.startAutoLogoutTimer(token); // 👈 add this
   }
 
   getToken(): string | null {
@@ -41,7 +42,26 @@ export class AuthService {
 
 
   isLoggedIn(): boolean {
-    return !!this.getToken();
+    const token = this.getToken();
+    if (!token) return false;
+
+    // Check if token is expired
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const expiry = payload['exp']; // exp is in seconds
+      const now = Math.floor(Date.now() / 1000); // current time in seconds
+
+      if (expiry < now) {
+        // Token expired — clean up and return false
+        this.logout();
+        return false;
+      }
+
+      return true;
+    } catch (e) {
+      this.logout();
+      return false;
+    }
   }
 
   getUserRole(): string | null {
@@ -92,6 +112,37 @@ export class AuthService {
     localStorage.setItem('displayName', name);
   }
 
+  private tokenExpiryTimer: any;
 
+
+  startAutoLogoutTimer(token: string) {
+    // Clear any existing timer
+    if (this.tokenExpiryTimer) {
+      clearTimeout(this.tokenExpiryTimer);
+    }
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const expiry = payload['exp']; // seconds
+      const now = Math.floor(Date.now() / 1000);
+      const timeLeftMs = (expiry - now) * 1000; // convert to milliseconds
+
+      if (timeLeftMs <= 0) {
+        this.logout();
+        return;
+      }
+
+      console.log(`Auto logout in ${timeLeftMs / 1000} seconds`); // for testing
+
+      this.tokenExpiryTimer = setTimeout(() => {
+        this.logout();
+        // Redirect to login
+        window.location.href = '/login';
+      }, timeLeftMs);
+
+    } catch (e) {
+      this.logout();
+    }
+  }
 
 }
