@@ -19,6 +19,8 @@ export class Login {
   toastMessage = '';
   isProcessing = false;
 
+  showPassword = false;
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,

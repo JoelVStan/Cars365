@@ -47,12 +47,21 @@
           <!-- Password -->
           <div class="mb-3">
             <label class="form-label">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              formControlName="password"
-              placeholder="Enter password"
-            />
+            <div class="input-group">
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                class="form-control"
+                formControlName="password"
+                placeholder="Enter password"
+              />
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="showPassword = !showPassword"
+              >
+                <i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i>
+              </button>
+            </div>
             @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
               <div class="text-danger small">
                 Password must be at least 6 characters

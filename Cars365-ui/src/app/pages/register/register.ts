@@ -14,6 +14,7 @@ export class Register {
   registerForm;
   errorMessage = '';
   successMessage = '';
+  showPassword = false;
 
   constructor(
     private fb: FormBuilder,

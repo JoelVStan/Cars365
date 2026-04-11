@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
+import { ToastService } from "./toast.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService {
   displayName$ = this.displayNameSubject.asObservable();
 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private toastService: ToastService) {}
 
   login(data: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, data);
@@ -113,12 +114,16 @@ export class AuthService {
   }
 
   private tokenExpiryTimer: any;
+  private warningTimer: any;
 
 
   startAutoLogoutTimer(token: string) {
     // Clear any existing timer
     if (this.tokenExpiryTimer) {
       clearTimeout(this.tokenExpiryTimer);
+    }
+    if (this.warningTimer) {
+      clearTimeout(this.warningTimer);
     }
 
     try {
@@ -132,9 +137,18 @@ export class AuthService {
         return;
       }
 
+      // Show warning 30 seconds before logout
+      const warningTimeMs = 30000;
+      if (timeLeftMs > warningTimeMs) {
+        this.warningTimer = setTimeout(() => {
+          this.toastService.warning('Your session will expire in 30 seconds.');
+        }, timeLeftMs - warningTimeMs);
+      }
+
       console.log(`Auto logout in ${timeLeftMs / 1000} seconds`); // for testing
 
       this.tokenExpiryTimer = setTimeout(() => {
+        this.toastService.error('Your session has expired.');
         this.logout();
         // Redirect to login
         window.location.href = '/login';

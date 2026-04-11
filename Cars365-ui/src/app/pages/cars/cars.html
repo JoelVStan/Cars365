@@ -162,11 +162,20 @@
   } @else {
 
     @if (filteredCars.length === 0) {
-      <div class="alert alert-info text-center">
+      <!-- <div class="alert alert-info text-center">
         No cars available at the moment 🚗
+      </div> -->
+      <div class="alert alert-info text-center">
+        <p>No cars found matching your filters 🚗</p>
+        <button class="btn btn-outline-primary btn-sm" (click)="clearFilters()">
+          Clear Filters
+        </button>
       </div>
     } @else {
 
+      <p class="text-muted small mb-3">
+        Showing {{ visibleCars.length }} of {{ filteredCars.length }} cars
+      </p>
       <div class="row g-4">
         @for (car of visibleCars; track car.id) {
 
