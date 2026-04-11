@@ -43,5 +43,8 @@ namespace Cars365.API.Models
 
         public string? Variant { get; set; }
 
+        public decimal? PreviousPrice { get; set; }
+        public DateTime? PriceUpdatedAt { get; set; }
+
     }
 }

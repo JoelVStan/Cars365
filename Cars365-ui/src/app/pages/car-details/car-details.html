@@ -305,8 +305,25 @@
 
             <div class="sticky-price-card">
 
-                <div class="price-box mb-2">
+                <!-- Price Dropped Badge -->
+                @if (isPriceDropped()) {
+                  <span class="badge bg-danger mb-2">
+                    🔥 Price Dropped
+                  </span>
+                }
+
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <!-- Current Price -->
+                  <div class="price-box">
                     ₹ {{ formatPriceToLakhs(car.price) }}
+                  </div>
+                
+                  <!-- Previous Price (strikethrough) -->
+                  @if (showStrikethrough()) {
+                    <div class="previous-price">
+                      ₹ {{ formatPriceToLakhs(car.previousPrice) }}
+                    </div>
+                  }
                 </div>
 
                 @if (car.price > 300000) {

@@ -204,3 +204,8 @@
   padding: 10px 0;
   z-index: 999;
 }
+.prev-price-card {
+  text-decoration: line-through;
+  color: #adb5bd;
+  font-size: 1rem;
+}

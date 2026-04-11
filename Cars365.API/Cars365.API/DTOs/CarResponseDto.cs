@@ -36,6 +36,7 @@
         public string? ImageUrl { get; set; }
         public List<CarImageDto> Images { get; set; } = new();
 
-
+        public decimal? PreviousPrice { get; set; }
+        public DateTime? PriceUpdatedAt { get; set; }
     }
 }

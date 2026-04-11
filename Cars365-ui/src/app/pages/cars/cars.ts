@@ -331,6 +331,10 @@ export class Cars implements OnInit {
   }
 
   toggleCompare(carId: number) {
+    if (!this.authService.isLoggedIn()) {
+      this.toast.error('Please login to compare cars');
+      return;
+    }
     if (this.compareCarIds.has(carId)) {
       this.compareCarIds.delete(carId);
       return;
@@ -358,5 +362,15 @@ export class Cars implements OnInit {
     this.router.navigate(['/compare'], { queryParams: { ids } });
   }
 
+  isPriceDropped(car: any): boolean {
+    if (!car.previousPrice || !car.priceUpdatedAt) return false;
+    if (car.price >= car.previousPrice) return false;
+
+    const updatedAt = new Date(car.priceUpdatedAt);
+    const now = new Date();
+    const diffDays = (now.getTime() - updatedAt.getTime()) / (1000 * 60 * 60 * 24);
+
+    return diffDays <= 7;
+  }
 
 }

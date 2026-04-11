@@ -63,6 +63,8 @@ namespace Cars365.API.Controllers
                 FuelType = c.FuelType,
                 Transmission = c.Transmission,
                 Price = c.Price,
+                PreviousPrice = c.PreviousPrice,
+                PriceUpdatedAt = c.PriceUpdatedAt,
                 IsActive = c.IsActive
             })
             .ToListAsync();
@@ -100,7 +102,8 @@ namespace Cars365.API.Controllers
                 FuelType = car.FuelType,
                 Transmission = car.Transmission,
                 Price = car.Price,
-
+                PreviousPrice = car.PreviousPrice,
+                PriceUpdatedAt = car.PriceUpdatedAt,
                 KmsDriven = car.KmsDriven,
                 Ownership = car.Ownership,
                 RegistrationCode = car.RegistrationCode,
@@ -241,6 +244,12 @@ namespace Cars365.API.Controllers
             car.FuelType = dto.FuelType;
             car.Transmission = dto.Transmission;
 
+            // Only track price change if price is different
+            if (car.Price != dto.Price)
+            {
+                car.PreviousPrice = car.Price;  // save old price
+                car.PriceUpdatedAt = DateTime.UtcNow;
+            }
             car.Price = dto.Price;
             car.KmsDriven = dto.KmsDriven;
             car.Ownership = dto.Ownership;

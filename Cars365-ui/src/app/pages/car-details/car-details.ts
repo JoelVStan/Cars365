@@ -326,4 +326,24 @@ export class CarDetails {
     });
   }
 
+  isPriceDropped(): boolean {
+    if (!this.car.previousPrice || !this.car.priceUpdatedAt) return false;
+
+    // Only show if new price is LOWER than previous
+    if (this.car.price >= this.car.previousPrice) return false;
+
+    // Check if price was updated within last 7 days
+    const updatedAt = new Date(this.car.priceUpdatedAt);
+    const now = new Date();
+    const diffDays = (now.getTime() - updatedAt.getTime()) / (1000 * 60 * 60 * 24);
+
+    return diffDays <= 7;
+  }
+
+  showStrikethrough(): boolean {
+    if (!this.car.previousPrice) return false;
+    // Only show strikethrough if new price is lower
+    return this.car.price < this.car.previousPrice;
+  }
+
 }

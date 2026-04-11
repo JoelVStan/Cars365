@@ -190,11 +190,17 @@
                   alt="Car image"
                 />
 
-                <!-- Car Type -->
-                <span class="badge bg-success position-absolute top-0 end-0 m-2">
-                  {{ car.type }}
-                </span>
-
+                <div class="position-absolute top-0 end-0 m-2 d-flex gap-2">
+                  @if (isPriceDropped(car)) {
+                    <span class="badge bg-danger d-flex align-items-center">
+                    🔥 Price Dropped
+                    </span>
+                  }
+                  <!-- Car Type -->
+                  <span class="badge bg-success d-flex align-items-center">
+                    {{ car.type }}
+                  </span>
+                </div>
                 <!-- Cars365 Guaranteed -->
                 <span class="badge bg-primary position-absolute bottom-0 start-0 m-2">
                   Cars365 Guaranteed
@@ -242,9 +248,16 @@
                       </span>
                     }
                   </h5>
-                  <span class="fw-bold text-primary fs-6 price-text">
-                    ₹ {{ formatPrice(car.price) }}
-                  </span>
+                  <div class="d-flex align-items-center gap-2 price-text">
+                    @if (isPriceDropped(car)) {
+                      <span class="prev-price-card">
+                        ₹ {{ formatPrice(car.previousPrice) }}
+                      </span>
+                    }
+                    <span class="fw-bold text-primary fs-6">
+                      ₹ {{ formatPrice(car.price) }}
+                    </span>
+                  </div>
                 </div>
 
                 <!-- Fuel & Transmission Pills -->
@@ -287,11 +300,13 @@
                         View Details
                       </button>
 
-                      <button class="btn btn-outline-dark btn-sm"
-                              [ngClass]="isCompared(car.id) ? 'active' : ''"
-                              (click)="toggleCompare(car.id)">
-                        {{ isCompared(car.id) ? 'Added' : 'Compare' }}
-                      </button>
+                      @if(authService.isLoggedIn()) {
+                        <button class="btn btn-outline-dark btn-sm"
+                                [ngClass]="isCompared(car.id) ? 'active' : ''"
+                                (click)="toggleCompare(car.id)">
+                          {{ isCompared(car.id) ? 'Added' : 'Compare' }}
+                        </button>
+                      }
                     </div>
                   }
               </div>

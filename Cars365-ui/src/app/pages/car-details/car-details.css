@@ -384,3 +384,11 @@
   padding: 16px;
   border-radius: 14px;
 }
+
+.previous-price {
+  text-decoration: line-through;
+  color: #adb5bd;
+  font-size: 20px;
+  margin-bottom: 2px;
+  margin-top: 6px;
+}
