@@ -16,8 +16,8 @@
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Environment Setup](#environment-setup)
+<!-- - [Getting Started](#getting-started)
+- [Environment Setup](#environment-setup) -->
 - [API Endpoints](#api-endpoints)
 - [Screenshots](#screenshots)
 - [Author](#author)
@@ -68,7 +68,7 @@ The project was built as a full-stack learning project covering real-world conce
 
 | Technology      | Purpose                            |
 | --------------- | ---------------------------------- |
-| Angular 19      | Frontend framework                 |
+| Angular 20      | Frontend framework                 |
 | Bootstrap 5     | UI styling and components          |
 | Bootstrap Icons | Icon library                       |
 | Angular CDK     | Drag and drop for image reordering |
@@ -79,7 +79,7 @@ The project was built as a full-stack learning project covering real-world conce
 
 | Technology                | Purpose               |
 | ------------------------- | --------------------- |
-| ASP.NET Core 8 Web API    | REST API              |
+| ASP.NET Core 10 Web API   | REST API              |
 | Entity Framework Core     | ORM / Database access |
 | SQL Server                | Database              |
 | ASP.NET Core Identity     | User management       |
@@ -283,7 +283,7 @@ App will run at: `http://localhost:4200`
 
 ## 📸 Screenshots
 
-> Add your screenshots inside a `screenshots/` folder in the root of the project.
+<!-- > Add your screenshots inside a `screenshots/` folder in the root of the project. -->
 
 ### 🏠 Home Page
 
